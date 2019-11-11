@@ -1,12 +1,58 @@
 package view;
 
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.Component;
+import javax.swing.Box;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import java.awt.Dimension;
 
-public class ListingsView {
+@SuppressWarnings("serial")
+public class ListingsView extends JFrame{
 
-	protected Shell shell;
-
+	JLabel title = new JLabel("RentalPropertyMS" + "\u2122");
+	JPanel topButtonPanel = new JPanel();
+    JPanel bottomButtonPanel = new JPanel();
+    JPanel topTitlePanel = new JPanel();
+    JPanel mainPanel = new JPanel();
+	
+	public DefaultListModel<String> model = new DefaultListModel<>();
+    public JList<String> textBox = new JList<>(model);
+    
+    public JButton searchButton = new JButton("Search");
+    public JButton emailButton = new JButton("email Landlord");
+	
+	public ListingsView() {
+		this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        this.setTitle("Property Listings");
+        this.setBackground(Color.WHITE);
+        this.setSize(850, 600);
+        this.setResizable(false);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		getContentPane().setLayout(new BorderLayout());
+		
+		
+		
+		setVisible(false);
+	}
+	
+	public void errorMessage(String error){
+        JOptionPane.showMessageDialog(this, error);
+    }
+	public void addListener(ActionListener a) {
+		searchButton.addActionListener(a);
+		emailButton.addActionListener(a);
+	}
 	/**
 	 * Launch the application.
 	 * @param args
@@ -14,35 +60,9 @@ public class ListingsView {
 	public static void main(String[] args) {
 		try {
 			ListingsView window = new ListingsView();
-			window.open();
+			window.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	/**
-	 * Open the window.
-	 */
-	public void open() {
-		Display display = Display.getDefault();
-		createContents();
-		shell.open();
-		shell.layout();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-	}
-
-	/**
-	 * Create contents of the window.
-	 */
-	protected void createContents() {
-		shell = new Shell();
-		shell.setSize(450, 300);
-		shell.setText("SWT Application");
-
-	}
-
 }
