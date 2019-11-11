@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -176,6 +177,15 @@ public class SearchCriteriaView extends JFrame{
     }
 	public void addSubmitListener(ActionListener a) {
 		submitButton.addActionListener(a);
+	}
+	public void addHouseDropdownListener(ItemListener a) {
+        houseDropdown.addItemListener(a);
+    }
+	public void addQuadDropdownListener(ItemListener a) {
+		quadDropdown.addItemListener(a);
+	}
+	public void addfurnishDropdownListener(ItemListener a) {
+		furnishedDropdown.addItemListener(a);
 	}
 	
 	/**
