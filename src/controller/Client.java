@@ -52,7 +52,8 @@ public class Client {
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);
 //		c.loginView.setVisible(true);
-		c.searchView.setVisible(true);		//TODO comment this
+//		c.searchView.setVisible(true);		//TODO comment this
+		c.listings.setVisible(true);		//TODO comment this
 	}
 	
 }

@@ -4,6 +4,8 @@ import java.awt.geom.QuadCurve2D;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class PropertyDatabaseController {
 
@@ -88,7 +90,6 @@ public class PropertyDatabaseController {
                 result += toString(id, type, bedsResult, bathsResult, quadResult, furnishedResult) + "\n";
             }
 //			result = result.substring(0, result.length() -1);
-			
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,6 +97,31 @@ public class PropertyDatabaseController {
 		}
 		
 		return "error";
+	}
+	
+	public String listAll() {
+		String query = "SELECT * FROM `properties`";
+		
+		try{
+            Statement stmt = myConn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            String list = "";
+            while(rs.next()){
+            	int id = rs.getInt("id");
+                String type = rs.getString("type");
+                int bedsResult = rs.getInt("bedrooms");
+                int bathsResult = rs.getInt("bathrooms");
+                String quadResult= rs.getString("quadrant");
+                boolean furnishedResult= rs.getBoolean("furnished");
+                int landlordId = rs.getInt("landlordID");
+                list += toString(id, type, bedsResult, bathsResult, quadResult, furnishedResult) + "\n";
+            }
+            list = list.substring(0, list.length() -1);
+            return list;
+        }catch(SQLException e){
+            e.printStackTrace();
+        }
+        return "something went wrong";
 	}
 	
 	private String toString(int id, String type, int bedsResult, int bathsResult, String quadResult, boolean furnished) {
@@ -111,5 +137,7 @@ public class PropertyDatabaseController {
 	                ", city quadrant: " + quadResult +
 	                ", furnished: " + fur;
 	}
+
+	
 	
 }

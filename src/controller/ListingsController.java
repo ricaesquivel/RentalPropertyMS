@@ -36,10 +36,19 @@ public class ListingsController {
 		public void actionPerformed(ActionEvent event) {
 			try {
 				
+				if(event.getSource() == listings.updateButton) {
+					listings.model.clear();
+					String result = database.listAll();
+					String arr[] = result.split("\n");
+					for (String string : arr) {
+						listings.addElementTextBox(string);
+					}
+				} 
 				if(event.getSource() == listings.searchButton) {
 					searchView.setVisible(true);
 				} 
 				else if(event.getSource() == searchView.submitButton) {
+					listings.model.clear();
 					String bedrooms = searchView.getBedrooms();
 					String bathrooms = searchView.getBathrooms();
 					int beds = Integer.MAX_VALUE; int baths = Integer.MAX_VALUE;
@@ -57,11 +66,18 @@ public class ListingsController {
                     }
 					
 					String result = database.searchProperty(houseTypeChoice, furnishChoice, quadChoice, beds, baths);
+					if(result.equals("") || result.contentEquals("\n")) {
+						searchView.errorMessage("No results, try changing filters");
+						return;
+					}
+						
 					String[] arr = result.split("\n");
 					for (String string : arr) {
-						searchView.errorMessage(string);
+//						searchView.errorMessage(string);
 						listings.addElementTextBox(string);
 					}
+					searchView.clearText();
+					searchView.setVisible(false);
 				}
 				
 			} catch (Exception e2) {
@@ -98,6 +114,13 @@ public class ListingsController {
             	if(e.getStateChange() == ItemEvent.SELECTED) {
             		furnishChoice = (String)e.getItem();
             	}
+            }
+        });
+		searchView.addCloseListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                searchView.clearText();
+                searchView.setVisible(false);
             }
         });
 	}

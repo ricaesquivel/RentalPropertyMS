@@ -14,6 +14,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
+import java.awt.event.WindowAdapter;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -120,7 +121,7 @@ public class SearchCriteriaView extends JFrame{
 		
 		this.setTitle("Enter Search Criteria");
    	 	this.setSize(700, 500);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setResizable(false);
         this.setBackground(Color.WHITE);
         this.setLocationRelativeTo(null);
@@ -165,7 +166,9 @@ public class SearchCriteriaView extends JFrame{
         
 		setVisible(false);
 	}
-	
+	public void addCloseListener(WindowAdapter a){
+        this.addWindowListener(a);
+    }
 	public String getBedrooms() {
     	return bedroomField.getText();
     }
@@ -199,5 +202,13 @@ public class SearchCriteriaView extends JFrame{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void clearText() {
+		bedroomField.setText(null);
+		bathroomField.setText(null);
+		quadDropdown.setSelectedIndex(0);
+		houseDropdown.setSelectedIndex(0);
+		furnishedDropdown.setSelectedIndex(0);
 	}
 }
