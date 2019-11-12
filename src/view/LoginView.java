@@ -50,24 +50,33 @@ public class LoginView extends JFrame {
 		SelectUserLabel.setHorizontalAlignment(JLabel.CENTER);
         topTitle.add("Center", SelectUserLabel);
 		
+        setButtonFontSize(20);
         submitButton.setEnabled(false);
         submitPanel.add(submitButton);
 		buttonPanel.setLayout(new FlowLayout());
-		landlordButton.setPreferredSize(new Dimension(100, 100));
+		landlordButton.setPreferredSize(new Dimension(150, 100));
 		buttonPanel.add(landlordButton);
-		renterButton.setPreferredSize(new Dimension(100, 100));
+		renterButton.setPreferredSize(new Dimension(150, 100));
 		buttonPanel.add(renterButton);
-		regRenterButton.setPreferredSize(new Dimension(100, 100));
+		regRenterButton.setPreferredSize(new Dimension(150, 100));
 		buttonPanel.add(regRenterButton);
-		managerButton.setPreferredSize(new Dimension(100, 100));
+		managerButton.setPreferredSize(new Dimension(150, 100));
 		buttonPanel.add(managerButton);
+		
 		
 		getContentPane().add("Center", buttonPanel);
         getContentPane().add("North", topTitle);
-//        getContentPane().add("South", submitPanel);
         
         setVisible(false);
 	}
+	
+	public void setButtonFontSize(int fontSize){
+		managerButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
+		regRenterButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
+        renterButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
+        submitButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
+        landlordButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
+    }
 	
 	public void addUserTypeListener(ActionListener a){
         managerButton.addActionListener(a);

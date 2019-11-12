@@ -5,7 +5,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -28,9 +32,11 @@ public class LoginPasswordView extends JFrame {
     
     private JPanel loginPanel = new JPanel();
     private JPanel buttonPanel = new JPanel();
+    private JPanel backButtonPanel = new JPanel();
     private JPanel userLabelPanel = new JPanel();
     private JPanel passLabelPanel = new JPanel();
     public JButton loginButton = new JButton("Login");
+    public JButton backButton = new JButton("<< Back");
     private final Component verticalStrut = Box.createVerticalStrut(79);
     private final Component verticalStrut_1 = Box.createVerticalStrut(71);
     private final Component horizontalStrut = Box.createHorizontalStrut(101);
@@ -50,13 +56,25 @@ public class LoginPasswordView extends JFrame {
          userName.setFont(new Font("Sans", Font.PLAIN, 20));
          password.setFont(new Font("Sans", Font.PLAIN, 20));
          loginButton.setFont(new Font("Sans", Font.BOLD, 20));
+         backButton.setFont(new Font("Sans", Font.BOLD, 20));
          
          nameLabel.setBackground(Color.WHITE);
          loginPanel.setBackground(Color.WHITE);        
          
+         backButton.setContentAreaFilled(false);			//all this is for button style
+         backButton.setBorderPainted(false);
+         backButton.setForeground(Color.BLACK);
+         backButton.setBackground(Color.WHITE);
+         Border line = new LineBorder(Color.WHITE);
+         Border margin = new EmptyBorder(5, 15, 5, 15);
+         Border compound = new CompoundBorder(line, margin);
+         backButton.setBorder(compound);
          loginButton.setBorder(new EmptyBorder(10, 10, 10, 10));
+         backButton.setBorder(new EmptyBorder(10, 10, 10, 10));
          buttonPanel.setLayout(new FlowLayout());
+         backButtonPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
          buttonPanel.setBackground(Color.WHITE);
+         backButtonPanel.add(backButton);
          buttonPanel.add(loginButton);
          
          userLabelPanel.setLayout(new FlowLayout());
@@ -76,7 +94,7 @@ public class LoginPasswordView extends JFrame {
          loginPanel.add(buttonPanel);
 
          getContentPane().add("Center", loginPanel);
-         getContentPane().add(verticalStrut, BorderLayout.NORTH);
+         getContentPane().add(backButtonPanel, BorderLayout.NORTH);
          getContentPane().add(verticalStrut_1, BorderLayout.SOUTH);
          getContentPane().add(horizontalStrut, BorderLayout.WEST);
          getContentPane().add(horizontalStrut_1, BorderLayout.EAST);
@@ -85,7 +103,8 @@ public class LoginPasswordView extends JFrame {
     }
     
     public void addLoginListener(ActionListener a){
-        loginButton.addActionListener(a);
+    	loginButton.addActionListener(a);
+        backButton.addActionListener(a);
     }
     public String getUserName() {
         return userName.getText();
@@ -108,6 +127,11 @@ public class LoginPasswordView extends JFrame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void clearText() {
+		userName.setText(null);
+		password.setText(null);
 	}
 
 }

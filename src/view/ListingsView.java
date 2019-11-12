@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
@@ -95,6 +96,9 @@ public class ListingsView extends JFrame{
         
 		setVisible(false);
 	}
+	public void addCloseListener(WindowAdapter a){
+        this.addWindowListener(a);
+    }
 	public void buttonState(boolean state) {
 		emailButton.setEnabled(false);
 	}

@@ -12,6 +12,7 @@ public class ListingsController {
 	
 	private ListingsView listings;
 	private MyListener listener;
+	private LoginView login;
 	private SearchCriteriaView searchView;
 	private PropertyDatabaseController database;
 	
@@ -25,6 +26,7 @@ public class ListingsController {
 		database = c.propertyDatabase;
 		listings = c.listings;
         searchView = c.searchView;
+        login = c.loginView;
         
         listener = new MyListener();
         addListeners();
@@ -73,7 +75,6 @@ public class ListingsController {
 						
 					String[] arr = result.split("\n");
 					for (String string : arr) {
-//						searchView.errorMessage(string);
 						listings.addElementTextBox(string);
 					}
 					searchView.clearText();
@@ -121,6 +122,14 @@ public class ListingsController {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 searchView.clearText();
                 searchView.setVisible(false);
+            }
+        });
+		listings.addCloseListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                searchView.clearText();
+                listings.setVisible(false);
+                login.setVisible(true);
             }
         });
 	}

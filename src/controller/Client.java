@@ -36,6 +36,7 @@ public class Client {
 		Client c = new Client(); 
 		
 		PropertyDatabaseController propertyDatabase = new PropertyDatabaseController(c.myConn); 
+		UserDatabaseController userDatabase = new UserDatabaseController(c.myConn);
 		
 		LoginView view = new LoginView();
 		LoginPasswordView passwordView = new LoginPasswordView();
@@ -44,6 +45,7 @@ public class Client {
 		SearchCriteriaView searchView = new SearchCriteriaView();
 		
 		c.propertyDatabase = propertyDatabase;
+		c.userDatabase = userDatabase;
 		c.loginView = view;
 		c.passwordView = passwordView;
 		c.searchView = searchView;
@@ -51,9 +53,9 @@ public class Client {
 		
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);
-//		c.loginView.setVisible(true);
+		c.loginView.setVisible(true);
 //		c.searchView.setVisible(true);		//TODO comment this
-		c.listings.setVisible(true);		//TODO comment this
+//		c.listings.setVisible(true);		//TODO comment this
 	}
 	
 }

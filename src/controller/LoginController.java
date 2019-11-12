@@ -7,6 +7,7 @@ import view.*;
 public class LoginController {
 	
 	private MyListener listener;
+	private ListingsView listings;
 	private LoginView view;
 	private LoginPasswordView passwordView;
 	private UserDatabaseController database;
@@ -17,6 +18,7 @@ public class LoginController {
         loginType = LoginEnum.DEFAULT;
         
         view = c.loginView;
+        listings = c.listings;
         passwordView = c.passwordView;
         database = c.userDatabase;
         listener = new MyListener();
@@ -46,7 +48,8 @@ public class LoginController {
 					passwordView.setVisible(true);
 				}
 				else if(event.getSource() == view.renterButton) {
-					
+					listings.setVisible(true);
+					view.setVisible(false);
 				}
 				else if(event.getSource() == view.regRenterButton) {
 					loginType = LoginEnum.REG_RENTER;
@@ -60,10 +63,19 @@ public class LoginController {
 					if(username.equals("") || pass.equals("")){
                         System.out.println("error");
                         passwordView.errorMessage("Please Enter Username and Password");
+                        return;
                     }
 					if(!database.validateUser(username, pass, loginType)) {
-						
+						passwordView.errorMessage("username or password incorrect, please try again");
+						return;
 					}
+					passwordView.errorMessage("SUCCESS");
+					//TODO else: give the appropriate GUI for who ever logged in
+				}
+				else if(event.getSource() == passwordView.backButton) {
+					passwordView.setVisible(false);
+					passwordView.clearText();
+					view.setVisible(true);
 				}
 				
 			} catch (Exception e) {

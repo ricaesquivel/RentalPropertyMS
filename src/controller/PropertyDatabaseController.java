@@ -1,6 +1,5 @@
 package controller;
 
-import java.awt.geom.QuadCurve2D;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,10 +22,11 @@ public class PropertyDatabaseController {
     }
 	
 	public String searchProperty(String houseTypeChoice, String furnishChoice, String quadChoice, int beds, int baths) {
+		
 		String result = ""; byte furnishedByte = 0; String bedString = ""; String bathString = "";
 		
 		try {
-			query = "SELECT * FROM `properties` WHERE";// `type` = ?";// AND `furnished` = ? AND `quadrant` = ? AND";
+			query = "SELECT * FROM `properties` WHERE";
 
 			//-----------------------------------------------------------------------for house type
 			if(!houseTypeChoice.equals("") && !houseTypeChoice.contains("choose")) {
@@ -138,6 +138,4 @@ public class PropertyDatabaseController {
 	                ", furnished: " + fur;
 	}
 
-	
-	
 }
