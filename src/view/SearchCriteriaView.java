@@ -29,7 +29,7 @@ import javax.swing.border.BevelBorder;
 @SuppressWarnings("serial")
 public class SearchCriteriaView extends JFrame{
 	
-	String[] houseTypes = {"--choose one--", "Apartment","Attached House", "Detached House","Bungalow","Townhouse","Mansion"};
+	String[] houseTypes = {"--choose one--", "apartment","attached house", "detached house","bungalow","townhome","mansion"};
 	DefaultComboBoxModel<String> comboModel1 = new DefaultComboBoxModel<String>(houseTypes);
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public JComboBox houseDropdown = new JComboBox(comboModel1);

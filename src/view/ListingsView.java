@@ -5,6 +5,9 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -28,7 +31,7 @@ public class ListingsView extends JFrame{
 	public DefaultListModel<String> model = new DefaultListModel<>();
     public JList<String> textBox = new JList<>(model);
     
-    public JButton searchButton = new JButton("Search");
+    public JButton searchButton = new JButton("Search Filter");
     public JButton emailButton = new JButton("email Landlord");
 	
 	public ListingsView() {
@@ -41,11 +44,20 @@ public class ListingsView extends JFrame{
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		
+		textBox.setFont(new Font("Sans", Font.PLAIN, 16));
+        textBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        JScrollPane scrollText = new JScrollPane(textBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
-		
+        buttonState(false);
+        
 		setVisible(false);
 	}
-	
+	public void buttonState(boolean state) {
+		emailButton.setEnabled(false);
+	}
+	public void addElementTextBox(String value){
+        model.addElement(value);
+    }
 	public void errorMessage(String error){
         JOptionPane.showMessageDialog(this, error);
     }

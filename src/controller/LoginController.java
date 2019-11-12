@@ -18,7 +18,7 @@ public class LoginController {
         
         view = c.loginView;
         passwordView = c.passwordView;
-        
+        database = c.userDatabase;
         listener = new MyListener();
         addListeners();
 	}
