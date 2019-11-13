@@ -63,7 +63,7 @@ public class LandlordAddView extends JFrame{
     private final Component horizontalStrut_1 = Box.createHorizontalStrut(100);
     private final Component vertStrut = Box.createVerticalStrut(10);
     private final Component vertStrut2 = Box.createVerticalStrut(10);
-    public JButton submitButton = new JButton("Submit");
+    public JButton submitButton = new JButton("Add");
     private JPanel submitPanel = new JPanel();
     
     private void labels() {
