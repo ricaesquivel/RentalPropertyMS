@@ -1,0 +1,44 @@
+[
+	{
+		"username" : "abn8t",
+		"password" : "1111",
+		"email" : "anvet@gmail.com",
+		"name" : "Avnet Bill",
+		"usertype" : "landlord"
+	},
+	{
+		"username" : "benDover",
+		"password" : "8002",
+		"email" : "ben@gmail.com",
+		"name" : "Ben Dover",
+		"usertype" : "landlord"
+	},
+	{
+		"username" : "melbin",
+		"password" : "2019",
+		"email" : "melvin@gmail.com",
+		"name" : "Melvin Wang",
+		"usertype" : "regrenter"
+	},
+	{
+		"username" : "rahman",
+		"password" : "5870",
+		"email" : "admin@rental.com",
+		"name" : "Admin",
+		"usertype" : "manager"
+	},
+	{
+		"username" : "timmyt",
+		"password" : "1234",
+		"email" : "timmy@turner.ca",
+		"name" : "Timmy Turner",
+		"usertype" : "regrenter"
+	},
+	{
+		"username" : "yahugh",
+		"password" : "2008",
+		"email" : "hugh@hotmail.com",
+		"name" : "Hugh Mungus",
+		"usertype" : "landlord"
+	}
+]

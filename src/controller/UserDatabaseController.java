@@ -49,5 +49,41 @@ public class UserDatabaseController {
 		
 		return false;
 	}
-	
+
+	public String listUsers(String type) {
+		
+		String query = "SELECT * FROM `users` WHERE `usertype` = ?";
+		String result = "";
+		
+		try {
+			preStmt = myConn.prepareStatement(query);
+			preStmt.setString(1, type);
+            ResultSet rs = preStmt.executeQuery();
+            
+            while(rs.next()){
+            	String username = rs.getString("username");
+            	String password = rs.getString("password");
+            	String email = rs.getString("email");
+            	String name = rs.getString("name");
+                String userType = rs.getString("usertype");
+//                result += toString(username, password, email, name) + "\n";
+                result += username +"~"+  password +"~"+  email +"~"+  name +"~"+  userType +"~"+ "\n";
+            }
+            result = result.substring(0, result.length() -1);
+            return result;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in list all landlords");
+		}
+		return "critical error";
+	}
+
+	private String toString(String username, String password, String email, String name) {
+		
+		return "name: " + name + ", email: " + email +
+                ", username: " + username + 
+                ", password: " + password;
+	}
+
 }

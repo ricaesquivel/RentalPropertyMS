@@ -6,8 +6,12 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,7 +28,7 @@ import java.awt.Dimension;
 @SuppressWarnings("serial")
 public class ManagerView extends JFrame{
 
-	JLabel title = new JLabel("Manager Page" + "\u2122");
+	JLabel title = new JLabel("Manager Portal");
 	JPanel topButtonPanel = new JPanel();
     JPanel bottomButtonPanel = new JPanel();
     JPanel topTitlePanel = new JPanel();
@@ -33,13 +37,18 @@ public class ManagerView extends JFrame{
     JPanel titlePanel = new JPanel();
 
     JPanel southPanel = new JPanel();
-	
-	public DefaultListModel<String> model = new DefaultListModel<>();
-    public JList<String> textBox = new JList<>(model);
     
-    public JButton listLandlordBtn = new JButton("List landlords");
-    public JButton listRentersBtn = new JButton("List Renters");
-    public JButton updateButton = new JButton("Clear Filters and Update");
+    String[] headers = {"col1", "col2"};
+    String[][] data = {{"col1 row1", "col2 row1"},
+    					{"col1 row2", "col2 row2"}
+    };
+	
+    public DefaultTableModel model = new DefaultTableModel(data, headers);
+    public JTable textBox = new JTable(model);
+    
+    public JButton listLandlordBtn = new JButton("Retrieve landlords");
+    public JButton listRentersBtn = new JButton("Retrieve RegRenters");
+    public JButton listPropertiesBtn = new JButton("Retrieve Properties");
 
     public JButton requestSummary = new JButton("Create Summary");
 	
@@ -54,15 +63,14 @@ public class ManagerView extends JFrame{
         setButtonFontSize(20);
         topButtonPanel.add(listLandlordBtn);
         topButtonPanel.add(listRentersBtn);
-        topButtonPanel.add(updateButton);
+        topButtonPanel.add(listPropertiesBtn);
         topButtonPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
 
         southPanel.setLayout(new FlowLayout());
         southPanel.add(requestSummary);
         southPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
 
-        
-        title.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 26));
+        title.setFont(new Font("Arial", Font.BOLD, 26));
         title.setForeground(Color.WHITE);
         northPanel.setLayout(new BorderLayout());
         titlePanel.setBackground(Color.BLACK);
@@ -75,7 +83,7 @@ public class ManagerView extends JFrame{
 	private void setButtonFontSize(int fontSize) {
 		listLandlordBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
 		listRentersBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
-        updateButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
+        listPropertiesBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
         requestSummary.setFont(new Font("Sans", Font.PLAIN, fontSize));
 	}
 
@@ -85,14 +93,14 @@ public class ManagerView extends JFrame{
         this.setLocationRelativeTo(null);
         this.setTitle("Property Listings");
         this.setBackground(Color.WHITE);
-        this.setSize(850, 600);
+        this.setSize(1020, 600);
         this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		
 		textBox.setFont(new Font("Sans", Font.PLAIN, 16));
         textBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane scrollText = new JScrollPane(textBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollText = new JScrollPane(textBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		
         styler();
         buttonState(false);
@@ -105,7 +113,42 @@ public class ManagerView extends JFrame{
         add("North", northPanel);
         add("Center", mainPanel);
         
+        autoColWidth();
 		setVisible(false);
+	}
+	
+	public void autoColWidth() {
+		for (int column = 0; column < textBox.getColumnCount(); column++)
+		{
+		    TableColumn tableColumn = textBox.getColumnModel().getColumn(column);
+		    int preferredWidth = tableColumn.getMinWidth();
+		    int maxWidth = tableColumn.getMaxWidth();
+		 
+		    for (int row = 0; row < textBox.getRowCount(); row++)
+		    {
+		        TableCellRenderer cellRenderer = textBox.getCellRenderer(row, column);
+		        Component c = textBox.prepareRenderer(cellRenderer, row, column);
+		        int width = c.getPreferredSize().width + textBox.getIntercellSpacing().width;
+		        preferredWidth = Math.max(preferredWidth, width);
+		 
+		        if (preferredWidth >= maxWidth)
+		        {
+		            preferredWidth = maxWidth;
+		            break;
+		        }
+		    }
+		 
+		    tableColumn.setPreferredWidth( preferredWidth );
+		}
+		textBox.getTableHeader().setReorderingAllowed(false);
+	}
+	
+	public void clear() {
+		model.setColumnCount(0);
+		model.setRowCount(0);
+	}
+	public void setCols(String[] cols) {
+		model.setColumnIdentifiers(cols);
 	}
 	public void addCloseListener(WindowAdapter a){
         this.addWindowListener(a);
@@ -113,8 +156,8 @@ public class ManagerView extends JFrame{
 	public void buttonState(boolean state) {
 		listRentersBtn.setEnabled(true);
 	}
-	public void addElementTextBox(String value){
-        model.addElement(value);
+	public void addElementTextBox(String[] value){
+        model.addRow(value);
     }
 	public void errorMessage(String error){
         JOptionPane.showMessageDialog(this, error);
@@ -122,7 +165,7 @@ public class ManagerView extends JFrame{
 	public void addListener(ActionListener a) {
 		listLandlordBtn.addActionListener(a);
 		listRentersBtn.addActionListener(a);
-		updateButton.addActionListener(a);
+		listPropertiesBtn.addActionListener(a);
 	}
 	/**
 	 * Launch the application.

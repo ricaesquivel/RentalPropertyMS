@@ -16,6 +16,7 @@ public class Client {
 	LoginPasswordView passwordView;
 	SearchCriteriaView searchView;
 	ListingsView listings;
+	ManagerView managerView;
 	
 	private Connection myConn;
 	PropertyDatabaseController propertyDatabase;
@@ -40,12 +41,14 @@ public class Client {
 		
 		LoginView view = new LoginView();
 		LoginPasswordView passwordView = new LoginPasswordView();
+		ManagerView managerView = new ManagerView();
 		
 		ListingsView listings = new ListingsView();
 		SearchCriteriaView searchView = new SearchCriteriaView();
 		
 		c.propertyDatabase = propertyDatabase;
 		c.userDatabase = userDatabase;
+		c.managerView = managerView;
 		c.loginView = view;
 		c.passwordView = passwordView;
 		c.searchView = searchView;
@@ -53,6 +56,7 @@ public class Client {
 		
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);
+		ManagerController managerController = new ManagerController(c);
 		c.loginView.setVisible(true);
 //		c.searchView.setVisible(true);		//TODO comment this
 //		c.listings.setVisible(true);		//TODO comment this

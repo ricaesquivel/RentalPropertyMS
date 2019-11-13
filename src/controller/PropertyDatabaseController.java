@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
 
 public class PropertyDatabaseController {
 
@@ -21,12 +22,12 @@ public class PropertyDatabaseController {
         }
     }
 	
-	public String searchProperty(String houseTypeChoice, String furnishChoice, String quadChoice, int beds, int baths) {
+	public String searchProperty(String houseTypeChoice, String furnishChoice, String quadChoice, int beds, int baths, String state) {
 		
 		String result = ""; byte furnishedByte = 0; String bedString = ""; String bathString = "";
 		
 		try {
-			query = "SELECT * FROM `properties` WHERE";
+			query = "SELECT * FROM `properties` WHERE `state` = ? AND";
 
 			//-----------------------------------------------------------------------for house type
 			if(!houseTypeChoice.equals("") && !houseTypeChoice.contains("choose")) {
@@ -71,11 +72,12 @@ public class PropertyDatabaseController {
 			}
 			
 			preStmt = myConn.prepareStatement(query);
-			preStmt.setString(1, houseTypeChoice);
-			preStmt.setString(2, quadChoice);
-			preStmt.setString(3, furnishChoice);
-			preStmt.setString(4, bedString);
-			preStmt.setString(5, bathString);
+			preStmt.setString(1, state);
+			preStmt.setString(2, houseTypeChoice);
+			preStmt.setString(3, quadChoice);
+			preStmt.setString(4, furnishChoice);
+			preStmt.setString(5, bedString);
+			preStmt.setString(6, bathString);
 			
 			ResultSet rs = preStmt.executeQuery();
 			
@@ -87,9 +89,11 @@ public class PropertyDatabaseController {
                 String quadResult= rs.getString("quadrant");
                 boolean furnishedResult= rs.getBoolean("furnished");
                 int landlordId = rs.getInt("landlordID");
-                result += toString(id, type, bedsResult, bathsResult, quadResult, furnishedResult) + "\n";
+//                result += toString(id, type, bedsResult, bathsResult, quadResult, furnishedResult) + "\n";
+                result += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ "\n";
             }
-//			result = result.substring(0, result.length() -1);
+			if(!result.equals(""))
+				result = result.substring(0, result.length() -1);
 			return result;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,13 +103,15 @@ public class PropertyDatabaseController {
 		return "error";
 	}
 	
-	public String listAll() {
-		String query = "SELECT * FROM `properties`";
+	public String listAll(String state) {
+		String query = "SELECT * FROM `properties` WHERE `state` = ? ORDER BY id ASC";
 		
 		try{
-            Statement stmt = myConn.createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+			preStmt = myConn.prepareStatement(query);
+			preStmt.setString(1, state);
+			ResultSet rs = preStmt.executeQuery();
             String list = "";
+            
             while(rs.next()){
             	int id = rs.getInt("id");
                 String type = rs.getString("type");
@@ -114,7 +120,8 @@ public class PropertyDatabaseController {
                 String quadResult= rs.getString("quadrant");
                 boolean furnishedResult= rs.getBoolean("furnished");
                 int landlordId = rs.getInt("landlordID");
-                list += toString(id, type, bedsResult, bathsResult, quadResult, furnishedResult) + "\n";
+//                list += toString(id, type, bedsResult, bathsResult, quadResult, furnishedResult) + "\n";
+                list += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ "\n";
             }
             list = list.substring(0, list.length() -1);
             return list;
@@ -122,6 +129,41 @@ public class PropertyDatabaseController {
             e.printStackTrace();
         }
         return "something went wrong";
+	}
+	
+	public String listPropertiesAndLandlords() {
+		
+		String query = "SELECT *, name, email " +
+						"FROM `properties`, `landlords`" +
+						"WHERE landlordID = landlords.id" +
+						" ORDER BY properties.id ASC";
+		String result = "";
+		
+		try {
+			preStmt = myConn.prepareStatement(query);
+            ResultSet rs = preStmt.executeQuery();
+            
+            while(rs.next()){
+            	int id = rs.getInt("id");
+                String type = rs.getString("type");
+                int bedsResult = rs.getInt("bedrooms");
+                int bathsResult = rs.getInt("bathrooms");
+                String quadResult= rs.getString("quadrant");
+                boolean furnishedResult= rs.getBoolean("furnished");
+                int landlordId = rs.getInt("landlordID");
+                String state = rs.getString("state");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                result += id +"~"+  type +"~"+  bedsResult +"~"+  bathsResult +"~"+  quadResult +"~"+  furnishedResult +"~"+ state + "~" + name +"~"+ email +"~"+ "\n";
+            }
+            result = result.substring(0, result.length() -1);
+            return result;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in list all landlords");
+		}
+		return "critical error";
 	}
 	
 	private String toString(int id, String type, int bedsResult, int bathsResult, String quadResult, boolean furnished) {

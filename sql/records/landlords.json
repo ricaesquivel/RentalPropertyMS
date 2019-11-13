@@ -1,0 +1,20 @@
+[
+	{
+		"id" : 1001,
+		"name" : "Ben Dover",
+		"email" : "ben@gmail.com",
+		"landlordusername" : "benDover"
+	},
+	{
+		"id" : 1002,
+		"name" : "Hugh Mungus",
+		"email" : "hugh@hotmail.com",
+		"landlordusername" : "yahugh"
+	},
+	{
+		"id" : 1003,
+		"name" : "Avnet Bill",
+		"email" : "avnet@gmail.com",
+		"landlordusername" : "abn8t"
+	}
+]

@@ -39,18 +39,21 @@ public class ListingsController {
 			try {
 				
 				if(event.getSource() == listings.updateButton) {
-					listings.model.clear();
-					String result = database.listAll();
+					listings.clear();
+					listings.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished"});
+					String result = database.listAll("active");
 					String arr[] = result.split("\n");
 					for (String string : arr) {
-						listings.addElementTextBox(string);
+						String[] row = string.split("~");
+						listings.addElementTextBox(row);
 					}
+					listings.autoColWidth();
 				} 
 				if(event.getSource() == listings.searchButton) {
 					searchView.setVisible(true);
 				} 
 				else if(event.getSource() == searchView.submitButton) {
-					listings.model.clear();
+					listings.clear();
 					String bedrooms = searchView.getBedrooms();
 					String bathrooms = searchView.getBathrooms();
 					int beds = Integer.MAX_VALUE; int baths = Integer.MAX_VALUE;
@@ -67,16 +70,18 @@ public class ListingsController {
                         return;
                     }
 					
-					String result = database.searchProperty(houseTypeChoice, furnishChoice, quadChoice, beds, baths);
+					String result = database.searchProperty(houseTypeChoice, furnishChoice, quadChoice, beds, baths ,"active");
 					if(result.equals("") || result.contentEquals("\n")) {
 						searchView.errorMessage("No results, try changing filters");
 						return;
 					}
-						
+					listings.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished"});
 					String[] arr = result.split("\n");
 					for (String string : arr) {
-						listings.addElementTextBox(string);
+						String[] row = string.split("~");
+						listings.addElementTextBox(row);
 					}
+					listings.autoColWidth();
 					searchView.clearText();
 					searchView.setVisible(false);
 				}

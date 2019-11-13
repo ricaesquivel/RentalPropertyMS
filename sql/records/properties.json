@@ -1,0 +1,72 @@
+[
+	{
+		"id" : 1,
+		"type" : "apartment",
+		"bedrooms" : 3,
+		"bathrooms" : 1,
+		"quadrant" : "SE",
+		"furnished" : 0,
+		"landlordID" : 1003,
+		"state" : "active"
+	},
+	{
+		"id" : 2,
+		"type" : "attached house",
+		"bedrooms" : 4,
+		"bathrooms" : 1,
+		"quadrant" : "NE",
+		"furnished" : 1,
+		"landlordID" : 1002,
+		"state" : "active"
+	},
+	{
+		"id" : 3,
+		"type" : "detached house",
+		"bedrooms" : 3,
+		"bathrooms" : 2,
+		"quadrant" : "NW",
+		"furnished" : 0,
+		"landlordID" : 1001,
+		"state" : "cancelled"
+	},
+	{
+		"id" : 4,
+		"type" : "bungalow",
+		"bedrooms" : 2,
+		"bathrooms" : 1,
+		"quadrant" : "NE",
+		"furnished" : 1,
+		"landlordID" : 1003,
+		"state" : "suspended"
+	},
+	{
+		"id" : 5,
+		"type" : "townhome",
+		"bedrooms" : 2,
+		"bathrooms" : 2,
+		"quadrant" : "SE",
+		"furnished" : 0,
+		"landlordID" : 1001,
+		"state" : "active"
+	},
+	{
+		"id" : 6,
+		"type" : "mansion",
+		"bedrooms" : 10,
+		"bathrooms" : 5,
+		"quadrant" : "SW",
+		"furnished" : 1,
+		"landlordID" : 1002,
+		"state" : "active"
+	},
+	{
+		"id" : 7,
+		"type" : "mansion",
+		"bedrooms" : 30,
+		"bathrooms" : 22,
+		"quadrant" : "NW",
+		"furnished" : 0,
+		"landlordID" : 1002,
+		"state" : "rented"
+	}
+]

@@ -6,8 +6,12 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,8 +36,13 @@ public class ListingsView extends JFrame{
     JPanel northPanel = new JPanel();
     JPanel titlePanel = new JPanel();
 	
-	public DefaultListModel<String> model = new DefaultListModel<>();
-    public JList<String> textBox = new JList<>(model);
+    String[] headers = {"col1", "col2"};
+    String[][] data = {{"col1 row1", "col2 row1"},
+    					{"col1 row2", "col2 row2"}
+    };
+	
+    public DefaultTableModel model = new DefaultTableModel(data, headers);
+    public JTable textBox = new JTable(model);
     
     public JButton searchButton = new JButton("Search Filter");
     public JButton emailButton = new JButton("Email Landlord");
@@ -102,8 +111,8 @@ public class ListingsView extends JFrame{
 	public void buttonState(boolean state) {
 		emailButton.setEnabled(false);
 	}
-	public void addElementTextBox(String value){
-        model.addElement(value);
+	public void addElementTextBox(String[] value){
+        model.addRow(value);
     }
 	public void errorMessage(String error){
         JOptionPane.showMessageDialog(this, error);
@@ -112,6 +121,39 @@ public class ListingsView extends JFrame{
 		searchButton.addActionListener(a);
 		emailButton.addActionListener(a);
 		updateButton.addActionListener(a);
+	}
+	public void autoColWidth() {
+		for (int column = 0; column < textBox.getColumnCount(); column++)
+		{
+		    TableColumn tableColumn = textBox.getColumnModel().getColumn(column);
+		    int preferredWidth = tableColumn.getMinWidth();
+		    int maxWidth = tableColumn.getMaxWidth();
+		 
+		    for (int row = 0; row < textBox.getRowCount(); row++)
+		    {
+		        TableCellRenderer cellRenderer = textBox.getCellRenderer(row, column);
+		        Component c = textBox.prepareRenderer(cellRenderer, row, column);
+		        int width = c.getPreferredSize().width + textBox.getIntercellSpacing().width;
+		        preferredWidth = Math.max(preferredWidth, width);
+		 
+		        if (preferredWidth >= maxWidth)
+		        {
+		            preferredWidth = maxWidth;
+		            break;
+		        }
+		    }
+		 
+		    tableColumn.setPreferredWidth( preferredWidth );
+		}
+		textBox.getTableHeader().setReorderingAllowed(false);
+	}
+	
+	public void clear() {
+		model.setColumnCount(0);
+		model.setRowCount(0);
+	}
+	public void setCols(String[] cols) {
+		model.setColumnIdentifiers(cols);
 	}
 	/**
 	 * Launch the application.

@@ -11,6 +11,7 @@ public class LoginController {
 	private LoginView view;
 	private LoginPasswordView passwordView;
 	private UserDatabaseController database;
+	private ManagerView managerView; 
 	private LoginEnum loginType;
 	
 	public LoginController(Client c) {
@@ -21,6 +22,7 @@ public class LoginController {
         listings = c.listings;
         passwordView = c.passwordView;
         database = c.userDatabase;
+        managerView = c.managerView;
         listener = new MyListener();
         addListeners();
 	}
@@ -49,6 +51,7 @@ public class LoginController {
 				}
 				else if(event.getSource() == view.renterButton) {
 					listings.setVisible(true);
+					listings.updateButton.doClick();
 					view.setVisible(false);
 				}
 				else if(event.getSource() == view.regRenterButton) {
@@ -69,7 +72,12 @@ public class LoginController {
 						passwordView.errorMessage("username or password incorrect, please try again");
 						return;
 					}
-					passwordView.errorMessage("SUCCESS");
+					if(loginType == LoginEnum.MANAGER) {
+						managerView.setVisible(true);
+						managerView.listPropertiesBtn.doClick();
+						passwordView.clearText();
+						passwordView.setVisible(false);
+					}
 					//TODO else: give the appropriate GUI for who ever logged in
 				}
 				else if(event.getSource() == passwordView.backButton) {
