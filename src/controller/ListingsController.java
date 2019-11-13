@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-
-import controller.LoginController.MyListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 public class ListingsController {
 	
@@ -19,6 +19,7 @@ public class ListingsController {
 	private String quadChoice = "";
 	private String furnishChoice = "";
 	private String houseTypeChoice = "";
+	private String selected = "";
 	
 	
 	public ListingsController(Client c) {
@@ -49,7 +50,11 @@ public class ListingsController {
 					}
 					listings.autoColWidth();
 				} 
-				if(event.getSource() == listings.searchButton) {
+				else if(event.getSource() == listings.emailButton) {
+//					searchView.setVisible(true);
+					
+				} 
+				else if(event.getSource() == listings.searchButton) {
 					searchView.setVisible(true);
 				} 
 				else if(event.getSource() == searchView.submitButton) {
@@ -137,5 +142,13 @@ public class ListingsController {
                 login.setVisible(true);
             }
         });
+		listings.addSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent e) {
+	        	if(!e.getValueIsAdjusting() && listings.textBox.getSelectedRow() != -1){
+	        		selected = listings.textBox.getValueAt(listings.textBox.getSelectedRow(), 0).toString();
+	        		listings.emailButton.setEnabled(true);
+	        	}
+	        }
+	    });
 	}
 }

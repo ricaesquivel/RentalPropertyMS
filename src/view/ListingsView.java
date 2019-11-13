@@ -12,7 +12,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -70,6 +71,8 @@ public class ListingsView extends JFrame{
         northPanel.add("North", titlePanel);
         northPanel.add("Center", topButtonPanel);
         
+        textBox.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));        
+        textBox.setRowHeight(25);       
     }
     
 	private void setButtonFontSize(int fontSize) {
@@ -91,7 +94,7 @@ public class ListingsView extends JFrame{
 		
 		textBox.setFont(new Font("Sans", Font.PLAIN, 16));
         textBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane scrollText = new JScrollPane(textBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JScrollPane scrollText = new JScrollPane(textBox, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		
         styler();
         buttonState(false);
@@ -166,5 +169,9 @@ public class ListingsView extends JFrame{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addSelectionListener(ListSelectionListener a) {
+		textBox.getSelectionModel().addListSelectionListener(a);
 	}
 }

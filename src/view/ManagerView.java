@@ -93,15 +93,17 @@ public class ManagerView extends JFrame{
         this.setLocationRelativeTo(null);
         this.setTitle("Property Listings");
         this.setBackground(Color.WHITE);
-        this.setSize(1020, 600);
+        this.setSize(1120, 600);
         this.setResizable(false);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		
 		textBox.setFont(new Font("Sans", Font.PLAIN, 16));
         textBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane scrollText = new JScrollPane(textBox, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		
+        JScrollPane scrollText = new JScrollPane(textBox, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        textBox.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));    
+        textBox.setRowHeight(25);   
+        
         styler();
         buttonState(false);
         

@@ -38,7 +38,7 @@ public class LoginView extends JFrame {
         this.setBackground(Color.WHITE);
         this.setSize(700, 400);
         this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		getContentPane().setLayout(new BorderLayout());
 		
