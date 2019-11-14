@@ -17,6 +17,7 @@ public class Client {
 	SearchCriteriaView searchView;
 	ListingsView listings;
 	ManagerView managerView;
+	EmailView emailView;
 	
 	private Connection myConn;
 	PropertyDatabaseController propertyDatabase;
@@ -24,7 +25,7 @@ public class Client {
 	
 	public Client() {
 		try{
-            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rentalpropertyms?user=root","root", "799228002");
+            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=rahman","rahman", "8002");
         } catch(SQLException a){
         	a.printStackTrace();
             System.err.println("Error connecting to database");
@@ -42,6 +43,7 @@ public class Client {
 		LoginView view = new LoginView();
 		LoginPasswordView passwordView = new LoginPasswordView();
 		ManagerView managerView = new ManagerView();
+		EmailView emailView = new EmailView();
 		
 		ListingsView listings = new ListingsView();
 		SearchCriteriaView searchView = new SearchCriteriaView();
@@ -53,6 +55,7 @@ public class Client {
 		c.passwordView = passwordView;
 		c.searchView = searchView;
 		c.listings = listings;
+		c.emailView = emailView;
 		
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);

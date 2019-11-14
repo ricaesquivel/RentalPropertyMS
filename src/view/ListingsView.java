@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import java.awt.BorderLayout;
@@ -95,6 +96,7 @@ public class ListingsView extends JFrame{
 		textBox.setFont(new Font("Sans", Font.PLAIN, 16));
         textBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollText = new JScrollPane(textBox, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        textBox.setDefaultEditor(Object.class, null);
 		
         styler();
         buttonState(false);
@@ -149,6 +151,11 @@ public class ListingsView extends JFrame{
 		    tableColumn.setPreferredWidth( preferredWidth );
 		}
 		textBox.getTableHeader().setReorderingAllowed(false);
+	}
+	
+	public void hideLandlordCol() {
+		TableColumnModel tcm = textBox.getColumnModel();
+		tcm.removeColumn( tcm.getColumn(6) );
 	}
 	
 	public void clear() {

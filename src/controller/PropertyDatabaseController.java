@@ -90,7 +90,7 @@ public class PropertyDatabaseController {
                 boolean furnishedResult= rs.getBoolean("furnished");
                 int landlordId = rs.getInt("landlordID");
 //                result += toString(id, type, bedsResult, bathsResult, quadResult, furnishedResult) + "\n";
-                result += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ "\n";
+                result += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ landlordId + "~"+ "\n";
             }
 			if(!result.equals(""))
 				result = result.substring(0, result.length() -1);
@@ -121,7 +121,7 @@ public class PropertyDatabaseController {
                 boolean furnishedResult= rs.getBoolean("furnished");
                 int landlordId = rs.getInt("landlordID");
 //                list += toString(id, type, bedsResult, bathsResult, quadResult, furnishedResult) + "\n";
-                list += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ "\n";
+                list += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ landlordId + "~"+"\n";
             }
             list = list.substring(0, list.length() -1);
             return list;

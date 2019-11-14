@@ -86,4 +86,24 @@ public class UserDatabaseController {
                 ", password: " + password;
 	}
 
+	public void sendEmail(int to, String from, String emailText) {
+		
+		query =  "INSERT INTO `emails` (`to`,`from`, `text`)"
+	            + "VALUES(?,?,?)";
+		
+		try {
+			
+			preStmt = myConn.prepareStatement(query);
+
+            preStmt.setInt(1, to);
+            preStmt.setString(2, from);
+            preStmt.setString(3, emailText);
+			System.err.println("in email sender");
+            preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error sending email");
+		}
+	}
+
 }
