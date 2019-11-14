@@ -169,7 +169,8 @@ public class ListingsController {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 searchView.clearText();
                 listings.setVisible(false);
-                login.setVisible(true);
+                System.exit(0);
+//                login.setVisible(true);
             }
         });
 		listings.addSelectionListener(new ListSelectionListener(){

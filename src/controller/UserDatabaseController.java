@@ -106,4 +106,55 @@ public class UserDatabaseController {
 		}
 	}
 
+	public int getlandlordID(String username) {
+		String ide = "";
+		query = "SELECT id " +
+				"FROM `landlords` " +
+				"WHERE landlordusername = ? ";
+		try {
+			preStmt = myConn.prepareStatement(query);
+			preStmt.setString(1, username);
+            ResultSet rs = preStmt.executeQuery();
+            
+            while(rs.next()){
+            	ide = rs.getString("id");
+            }
+            return Integer.parseInt(ide);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in get landlordID");
+		}
+		return -1;		//this is critical error
+	}
+
+	public String getLandlordEmails(int landlordID) {
+		String result = "";
+		query = "SELECT * " +
+				"FROM `emails` " +
+				"WHERE `to` = ?";
+		try {
+			preStmt = myConn.prepareStatement(query);
+			preStmt.setInt(1, landlordID);
+            ResultSet rs = preStmt.executeQuery();
+		
+            while(rs.next()){
+            	String from = rs.getString("from");
+                String text = rs.getString("text");
+                result += from +"~"+  text + "~" + "\n";
+            }
+            if(result.equals("")) {
+            	return "none";
+            }
+            result = result.substring(0, result.length() -1);
+            return result;
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in get emails");
+		}
+            
+		return "critical error";
+	}
+
 }

@@ -18,6 +18,9 @@ public class Client {
 	ListingsView listings;
 	ManagerView managerView;
 	EmailView emailView;
+	LandlordAddView landlordAddView;
+	LandlordEmailView landlordEmailView;
+	LandlordView landlordView;
 	
 	private Connection myConn;
 	PropertyDatabaseController propertyDatabase;
@@ -44,6 +47,9 @@ public class Client {
 		LoginPasswordView passwordView = new LoginPasswordView();
 		ManagerView managerView = new ManagerView();
 		EmailView emailView = new EmailView();
+		LandlordAddView landlordAddView = new LandlordAddView();
+		LandlordEmailView landlordEmailView = new LandlordEmailView();
+		LandlordView landlordView = new LandlordView(); 
 		
 		ListingsView listings = new ListingsView();
 		SearchCriteriaView searchView = new SearchCriteriaView();
@@ -56,10 +62,14 @@ public class Client {
 		c.searchView = searchView;
 		c.listings = listings;
 		c.emailView = emailView;
+		c.landlordAddView = landlordAddView;
+		c.landlordEmailView = landlordEmailView;
+		c.landlordView = landlordView;
 		
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);
 		ManagerController managerController = new ManagerController(c);
+		LandlordController landlordController = new LandlordController(c);
 		c.loginView.setVisible(true);
 //		c.searchView.setVisible(true);		//TODO comment this
 //		c.listings.setVisible(true);		//TODO comment this

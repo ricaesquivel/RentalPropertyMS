@@ -12,6 +12,7 @@ public class LoginController {
 	private LoginPasswordView passwordView;
 	private UserDatabaseController database;
 	private ManagerView managerView; 
+	private LandlordView landlordView; 
 	private LoginEnum loginType;
 	
 	public LoginController(Client c) {
@@ -23,6 +24,7 @@ public class LoginController {
         passwordView = c.passwordView;
         database = c.userDatabase;
         managerView = c.managerView;
+        landlordView = c.landlordView;
         listener = new MyListener();
         addListeners();
 	}
@@ -75,6 +77,13 @@ public class LoginController {
 					if(loginType == LoginEnum.MANAGER) {
 						managerView.setVisible(true);
 						managerView.listPropertiesBtn.doClick();
+						passwordView.clearText();
+						passwordView.setVisible(false);
+					}
+					if(loginType == LoginEnum.LANDLORD) {
+						landlordView.setVisible(true);
+						landlordView.setUsername(username);
+						landlordView.showPropertiesBtn.doClick();
 						passwordView.clearText();
 						passwordView.setVisible(false);
 					}

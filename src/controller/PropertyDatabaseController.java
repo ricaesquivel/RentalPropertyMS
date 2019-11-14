@@ -180,4 +180,35 @@ public class PropertyDatabaseController {
 	                ", furnished: " + fur;
 	}
 
+
+	public String getLandlordProperties(int landlordID) {
+		
+		String query = "SELECT * FROM `properties` WHERE `landlordID` = ? ORDER BY id ASC";
+		
+		try {
+			preStmt = myConn.prepareStatement(query);
+			preStmt.setInt(1, landlordID);
+			ResultSet rs = preStmt.executeQuery();
+            String list = "";
+            
+            while(rs.next()){
+            	int id = rs.getInt("id");
+                String type = rs.getString("type");
+                int bedsResult = rs.getInt("bedrooms");
+                int bathsResult = rs.getInt("bathrooms");
+                String quadResult= rs.getString("quadrant");
+                boolean furnishedResult= rs.getBoolean("furnished");
+                String state = rs.getString("state");
+                list += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ state + "~"+"\n";
+            }
+            list = list.substring(0, list.length() -1);
+            return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in get landlord's properties");
+		}
+		
+		return "critical error";
+	}
+
 }
