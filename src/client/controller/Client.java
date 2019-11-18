@@ -51,7 +51,7 @@ public class Client {
 	
 	public static void main(String[] args) {
 		
-		ClientCommunicator communicator = new ClientCommunicator("localhost", 9091);
+//		ClientCommunicator communicator = new ClientCommunicator("localhost", 9091);
 		
 		Client c = new Client(); 
 		

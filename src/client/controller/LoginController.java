@@ -30,8 +30,8 @@ public class LoginController {
 		
         loginType = LoginEnum.DEFAULT;
         
-        socketIn = c.communicator.getInSocket();
-        socketOut = c.communicator.getOutSocket();
+//        socketIn = c.communicator.getInSocket();
+//        socketOut = c.communicator.getOutSocket();
         view = c.loginView;
         listings = c.listings;
         passwordView = c.passwordView;
