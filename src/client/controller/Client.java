@@ -42,7 +42,7 @@ public class Client {
 	
 	public Client() {
 		try{
-            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=rahman","rahman", "8002");
+            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=root","root", "Rocky@299");
         } catch(SQLException a){
         	a.printStackTrace();
             System.err.println("Error connecting to database");
@@ -88,11 +88,11 @@ public class Client {
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);
 		ManagerController managerController = new ManagerController(c);
-		LandlordController landlordController = new LandlordController(c, c.myConn);
+		LandlordController landlordController = new LandlordController(c);
 		SignUpController signUpController = new SignUpController(c);
 		
-		c.signUpView.setVisible(true);
-//		c.loginView.setVisible(true);
+		//c.signUpView.setVisible(true);
+	c.loginView.setVisible(true);
 //		c.searchView.setVisible(true);		//TODO comment this
 //		c.listings.setVisible(true);		//TODO comment this
 	}
