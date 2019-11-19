@@ -34,7 +34,6 @@ public class Client {
 	LandlordAddView landlordAddView;
 	LandlordEmailView landlordEmailView;
 	LandlordView landlordView;
-	SignUp signUpView;
 	
 	private Connection myConn;
 	PropertyDatabaseController propertyDatabase;
@@ -52,7 +51,7 @@ public class Client {
 	
 	public static void main(String[] args) {
 		
-		ClientCommunicator communicator = new ClientCommunicator("localhost", 9091);
+//		ClientCommunicator communicator = new ClientCommunicator("localhost", 9091);
 		
 		Client c = new Client(); 
 		
@@ -66,7 +65,6 @@ public class Client {
 		LandlordAddView landlordAddView = new LandlordAddView();
 		LandlordEmailView landlordEmailView = new LandlordEmailView();
 		LandlordView landlordView = new LandlordView(); 
-		SignUp signUpView = new SignUp();
 		
 		ListingsView listings = new ListingsView();
 		SearchCriteriaView searchView = new SearchCriteriaView();
@@ -82,16 +80,12 @@ public class Client {
 		c.landlordAddView = landlordAddView;
 		c.landlordEmailView = landlordEmailView;
 		c.landlordView = landlordView;
-		c.signUpView = signUpView;
-		c.communicator = communicator;
 		
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);
 		ManagerController managerController = new ManagerController(c);
-		LandlordController landlordController = new LandlordController(c);
-		SignUpController signUpController = new SignUpController(c);
-//		c.loginView.setVisible(true);
-		c.signUpView.setVisible(true);
+		LandlordController landlordController = new LandlordController(c, c.myConn);
+		c.loginView.setVisible(true);
 //		c.searchView.setVisible(true);		//TODO comment this
 //		c.listings.setVisible(true);		//TODO comment this
 	}
