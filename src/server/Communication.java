@@ -60,6 +60,9 @@ public class Communication implements Runnable {
                 case 5:
                 	listLandlords();
                 	break;
+                case 6:
+                	addUser();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -71,6 +74,16 @@ public class Communication implements Runnable {
             }
         }
     }
+	
+	private void addUser() {
+		try {
+			String userInfo[] = in.readLine().split("~");
+			userDatabase.addUser(userInfo[0], userInfo[1],userInfo[2],userInfo[3], userInfo[4]);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	private void listLandlords() {
 		try {

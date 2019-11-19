@@ -85,6 +85,7 @@ public class UserDatabaseController {
 	public void addUser(String username,String password, String email, String name, String usertype) {
 		query =  "INSERT INTO `users` (`username`,`password`,`email`,`name`,`usertype`)"
 	            + "VALUES(?,?,?,?,?)";
+
 		try {
 			preStmt = myConn.prepareStatement(query);
 	        preStmt.setString(1, username);
@@ -99,6 +100,8 @@ public class UserDatabaseController {
 		}
 		
 	}
+	
+	
 	
 	public boolean userExists(String username) {
 

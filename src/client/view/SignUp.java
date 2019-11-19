@@ -1,32 +1,27 @@
 package client.view;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
+
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
+import javax.swing.SpringLayout;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
-import java.awt.event.WindowAdapter;
-import java.awt.Component;
-import javax.swing.Box;
+
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.border.BevelBorder;
 
-import javax.swing.BoxLayout;
 
 @SuppressWarnings("serial")
 public class SignUp extends JFrame{
@@ -46,14 +41,19 @@ public class SignUp extends JFrame{
 	String[] menu = {"--choose one--", "Landlord","Registered Renter"};
 	DefaultComboBoxModel<String> dropDown = new DefaultComboBoxModel<String>(menu);
 	
-	private JPanel text = new JPanel();
-	private JPanel panel = new JPanel();
+	private JPanel emailPanel = new JPanel();
+	private JPanel namePanel = new JPanel();
+	private JPanel userPanel = new JPanel();
+	private JPanel passwordPanel = new JPanel();
+	private JPanel confirmPanel = new JPanel();
+	
+	private JPanel mainPanel = new JPanel();
 	
 	public JButton submit = new JButton("Submit");
 	
 	
 	
-    public JComboBox dropDownCombo = new JComboBox(dropDown);
+    public JComboBox<String> dropDownCombo = new JComboBox<String>(dropDown);
     
     public String getUserName() {
     	return userName.getText();
@@ -113,39 +113,52 @@ public class SignUp extends JFrame{
         submit.setPreferredSize(new Dimension(150,25));
         submit.setMinimumSize(new Dimension(150,25));
         submit.setMaximumSize(new Dimension(150,25));
+        
+        emailPanel.setLayout(new FlowLayout());
+        namePanel.setLayout(new FlowLayout());
+        passwordPanel.setLayout(new FlowLayout());
+        userPanel.setLayout(new FlowLayout());
+        confirmPanel.setLayout(new FlowLayout());
+        
+        mainPanel.setLayout(new SpringLayout());
+        
 	}
 	
 	public SignUp() {
 		this.setTitle("Enter Signup");
-   	 	this.setSize(700, 500);
+   	 	this.setSize(300, 350);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setResizable(false);
         this.setBackground(Color.WHITE);
         this.setLocationRelativeTo(null);
         
-       text.setLayout(new BoxLayout(text, BoxLayout.X_AXIS));
-       setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-       
         
         init();
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         
-        add("West",houseTypeLabel);
-        add("West",emailField);
-        add("West",Email);
-        add("West", nameField);
-        add("West",name);
-        add("West",userNameField);
-        add("West",userName);
-        add("West",passwordField);
-        add("West",password);
-        add("West",confirmField);
-        add("West",confirm);
-        add("West",dropDownCombo);
-        add("West",submit);
         
-        //getContentPane().add("West",panel);
-       // getContentPane().add("West",text);
-        setVisible(false);
+
+        
+        
+
+        
+        getContentPane().add(Email);
+        getContentPane().add(name);
+        getContentPane().add(userName);
+        getContentPane().add(password);
+        getContentPane().add(confirm);
+        getContentPane().add(dropDownCombo);
+        getContentPane().add(submit)
+    /*
+        getContentPane().add(emailPanel);
+        getContentPane().add(namePanel);
+        getContentPane().add(userPanel);
+        getContentPane().add(passwordPanel);
+        getContentPane().add(confirmPanel);
+        getContentPane().add(dropDownCombo);
+        getContentPane().add(submit);
+       */
+;        setVisible(false);
 	}
 	
 	
