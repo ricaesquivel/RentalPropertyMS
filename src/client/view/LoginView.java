@@ -2,6 +2,7 @@ package client.view;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,6 +25,7 @@ public class LoginView extends JFrame {
 	public JButton managerButton = new JButton("Manager");
 	public JButton renterButton = new JButton("Renter");
 	public JButton landlordButton = new JButton("landlord");
+	public JButton newUser = new JButton("Sign Up");
 	public JButton regRenterButton = new JButton("<html><center>"+"Registered"+"<br>"+"Renter"+"</center></html>");
 	public JButton submitButton = new JButton("Ok");
 	
@@ -46,7 +48,8 @@ public class LoginView extends JFrame {
 		topTitle.setLayout(new BorderLayout());
 		verticalStrut.setPreferredSize(new Dimension(0, 50));
 		topTitle.add(verticalStrut, BorderLayout.NORTH);
-		topTitle.add(verticalStrut_1, BorderLayout.SOUTH);
+//		topTitle.add(verticalStrut_1, BorderLayout.SOUTH);
+		topTitle.add(newUser, BorderLayout.SOUTH);
 		SelectUserLabel.setHorizontalAlignment(JLabel.CENTER);
         topTitle.add("Center", SelectUserLabel);
 		
@@ -84,8 +87,13 @@ public class LoginView extends JFrame {
         regRenterButton.addActionListener(a);
         submitButton.addActionListener(a);
         landlordButton.addActionListener(a);
+        newUser.addActionListener(a);
     }
 
+	public void errorMessage(String text){
+        JOptionPane.showMessageDialog(this, text);
+    }
+	
 	/**
 	 * Launch the application.
 	 * @param args

@@ -24,7 +24,8 @@ public class LoginController {
 	private LoginPasswordView passwordView;
 	private UserDatabaseController database;
 	private ManagerView managerView; 
-	private LandlordView landlordView; 
+	private LandlordView landlordView;
+	private SignUp signUpView;
 	private LoginEnum loginType;
 	
 	public LoginController(Client c) {
@@ -38,6 +39,7 @@ public class LoginController {
         database = c.userDatabase;
         managerView = c.managerView;
         landlordView = c.landlordView;
+        signUpView = c.signUpView;
         listener = new MyListener();
         addListeners();
 	}
@@ -89,6 +91,10 @@ public class LoginController {
 					view.setVisible(false);
 					passwordView.setVisible(true);
 				}
+				else if(event.getSource() == view.newUser) {
+					view.setVisible(false);
+					signUpView.setVisible(true);
+				}
 				else if(event.getSource() == passwordView.loginButton) {
 					String username = passwordView.getUserName();
                     String pass = passwordView.getPassword();
@@ -100,6 +106,7 @@ public class LoginController {
                     }
 					
 					writeSocket("4");
+					String send = username + "é" + pass + "é" + loginType.getCode();
 					writeSocket(username + "é" + pass + "é" + loginType.getCode());
 					String valid = readSocket();
 					if(!valid.equals("yes")) {

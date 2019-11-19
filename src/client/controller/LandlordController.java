@@ -108,7 +108,7 @@ public class LandlordController {
 						if(beds < 1 || baths < 1)
 							throw new NumberFormatException();
                     }catch(NumberFormatException a){
-                        System.err.println("Please enter a valid bathroom and bedroom number");
+                    	landlordAddView.errorMessage("Please enter a valid bathroom and bedroom number");
                         return;
                     }
 					if(!quadChoice.equals("--choose one--") && !houseTypeChoice.equals("--choose one--") && !furnishChoice.equals("--choose one--")){
