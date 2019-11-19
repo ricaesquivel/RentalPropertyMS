@@ -23,9 +23,10 @@ public class UserDatabaseController {
         }
     }
 	
-	public boolean validateUser(String username, String pass, LoginEnum loginType) {
+	public boolean validateUser(String username, String pass, int loginType) {
 		
-		int userType = loginType.getCode(); String type = "";
+		int userType = loginType;//.getCode(); 
+		String type = "";
 		if(userType == 1) type = "manager";
 		if(userType == 3) type = "regrenter";
 		if(userType == 4) type = "landlord";
@@ -69,7 +70,7 @@ public class UserDatabaseController {
             	String name = rs.getString("name");
                 String userType = rs.getString("usertype");
 //                result += toString(username, password, email, name) + "\n";
-                result += username +"~"+  password +"~"+  email +"~"+  name +"~"+  userType +"~"+ "\n";
+                result += username +"~"+  password +"~"+  email +"~"+  name +"~"+  userType +"~"+ "é";
             }
             result = result.substring(0, result.length() -1);
             return result;
@@ -79,6 +80,46 @@ public class UserDatabaseController {
 			System.err.println("error in list all landlords");
 		}
 		return "critical error";
+	}
+	
+	public void addUser(String username,String password, String email, String name, String usertype) {
+		query =  "INSERT INTO `users` (`username`,`password`,`email`,`name`,`usertype`)"
+	            + "VALUES(?,?,?,?,?)";
+		try {
+			preStmt = myConn.prepareStatement(query);
+	        preStmt.setString(1, username);
+	        preStmt.setString(2, password);
+	        preStmt.setString(3, email);
+	        preStmt.setString(4, name);
+	        preStmt.setString(5, usertype);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error adding user");
+		}
+		
+	}
+	
+	public boolean userExists(String username) {
+
+		try {
+			query = "SELECT * FROM `users` WHERE `username` = ?";
+			preStmt = myConn.prepareStatement(query);
+			preStmt.setString(1, username);
+			
+			ResultSet rs = preStmt.executeQuery();
+			
+			if(!rs.next()){
+				return false;
+            }
+			return true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in validate user");
+		}
+		
+		return false;
 	}
 
 	private String toString(String username, String password, String email, String name) {
@@ -100,7 +141,6 @@ public class UserDatabaseController {
             preStmt.setInt(1, to);
             preStmt.setString(2, from);
             preStmt.setString(3, emailText);
-			System.err.println("in email sender");
             preStmt.execute();
 		} catch (Exception e) {
 			e.printStackTrace();

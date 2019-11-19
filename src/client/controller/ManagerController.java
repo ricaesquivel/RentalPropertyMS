@@ -11,6 +11,7 @@ import server.UserDatabaseController;
 
 public class ManagerController {
 	
+	private ClientCommunicator comms;
 	private MyListener listener;
 	private ManagerView managerView;
 	private PropertyDatabaseController propDatabase;
@@ -19,6 +20,7 @@ public class ManagerController {
 	
 	public ManagerController(Client c) {
 
+		comms = c.communicator;
 		propDatabase = c.propertyDatabase;
 		userDatabase = c.userDatabase;
         loginView = c.loginView;
@@ -26,6 +28,21 @@ public class ManagerController {
         
         listener = new MyListener();
         addListeners();
+	}
+	
+	private void writeSocket(String s) {
+		comms.socketOut.println(s);	
+		comms.socketOut.flush();
+	}
+	
+	private String readSocket() {
+		try {
+			return comms.socketIn.readLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in readSocket");
+		}
+		return null;
 	}
 	
 	class MyListener implements ActionListener {
@@ -37,6 +54,9 @@ public class ManagerController {
 				if(e.getSource() == managerView.listLandlordBtn) {
 					managerView.clear();
 					managerView.setCols(new String[] {"username", "password", "email", "name"});
+					
+					writeSocket("5");
+					
 					String result = userDatabase.listUsers("landlord");
 					String arr[] = result.split("\n");
 					for (String string : arr) {

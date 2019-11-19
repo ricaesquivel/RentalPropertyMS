@@ -17,6 +17,7 @@ import server.UserDatabaseController;
 
 public class ListingsController {
 	
+	private ClientCommunicator comms;
 	private ListingsView listings;
 	private EmailView emailView;
 	private MyListener listener;
@@ -31,7 +32,8 @@ public class ListingsController {
 	private String selected = "";
 	
 	public ListingsController(Client c) {
-
+		
+		comms = c.communicator;
 		database = c.propertyDatabase;
 		listings = c.listings;
         searchView = c.searchView;
@@ -41,6 +43,21 @@ public class ListingsController {
         
         listener = new MyListener();
         addListeners();
+	}
+	
+	private void writeSocket(String s) {
+		comms.socketOut.println(s);	
+		comms.socketOut.flush();
+	}
+	
+	private String readSocket() {
+		try {
+			return comms.socketIn.readLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in readSocket");
+		}
+		return null;
 	}
 
 	class MyListener implements ActionListener {
@@ -52,8 +69,13 @@ public class ListingsController {
 				if(event.getSource() == listings.updateButton) {
 					listings.clear();
 					listings.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished", "LandlordID"});
-					String result = database.listAll("active");
-					String arr[] = result.split("\n");
+					
+					writeSocket("1");
+					
+//					String result = database.listAll("active");
+					String result = readSocket();
+					
+					String arr[] = result.split("é");
 					for (String string : arr) {
 						String[] row = string.split("~");
 						listings.addElementTextBox(row);
@@ -88,7 +110,9 @@ public class ListingsController {
 						return;
 					}
 					
-					userDatabase.sendEmail(Integer.parseInt(selected), contactText, emailText);
+					writeSocket("3");
+					writeSocket(selected + "é" + contactText + "é" + emailText);
+//					userDatabase.sendEmail(Integer.parseInt(selected), contactText, emailText);
 					emailView.errorMessage("email sent!");
 					
 					emailView.clear();
@@ -112,13 +136,16 @@ public class ListingsController {
                         return;
                     }
 					
-					String result = database.searchProperty(houseTypeChoice, furnishChoice, quadChoice, beds, baths ,"active");
+					writeSocket("2");
+					writeSocket(houseTypeChoice + "é" + furnishChoice + "é" + quadChoice + "é" + beds + "é" + baths + "é" + "active");
+//					String result = database.searchProperty(houseTypeChoice, furnishChoice, quadChoice, beds, baths ,"active");
+					String result = readSocket();
 					if(result.equals("") || result.contentEquals("\n")) {
 						searchView.errorMessage("No results, try changing filters");
 						return;
 					}
 					listings.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished", "LandlordID"});
-					String[] arr = result.split("\n");
+					String[] arr = result.split("é");
 					for (String string : arr) {
 						String[] row = string.split("~");
 						listings.addElementTextBox(row);

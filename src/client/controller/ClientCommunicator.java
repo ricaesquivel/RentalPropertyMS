@@ -10,8 +10,8 @@ import client.view.*;
 public class ClientCommunicator {
 	
 	private Socket palinSocket;
-    protected PrintWriter socketOut;
-    protected BufferedReader socketIn;
+    PrintWriter socketOut;
+    BufferedReader socketIn;
     
     public ClientCommunicator(String name, int port) {
 		 try {

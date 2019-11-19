@@ -15,6 +15,7 @@ import client.view.*;
 
 public class LoginController {
 	
+	private ClientCommunicator comms;
 	private PrintWriter socketOut;
     private BufferedReader socketIn;
 	private MyListener listener;
@@ -30,8 +31,7 @@ public class LoginController {
 		
         loginType = LoginEnum.DEFAULT;
         
-//        socketIn = c.communicator.getInSocket();
-//        socketOut = c.communicator.getOutSocket();
+        comms = c.communicator;
         view = c.loginView;
         listings = c.listings;
         passwordView = c.passwordView;
@@ -40,6 +40,21 @@ public class LoginController {
         landlordView = c.landlordView;
         listener = new MyListener();
         addListeners();
+	}
+	
+	private void writeSocket(String s) {
+		comms.socketOut.println(s);	
+		comms.socketOut.flush();
+	}
+	
+	private String readSocket() {
+		try {
+			return comms.socketIn.readLine();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in readSocket");
+		}
+		return null;
 	}
 	
 	private void addListeners() {
@@ -83,10 +98,15 @@ public class LoginController {
                         passwordView.errorMessage("Please Enter Username and Password");
                         return;
                     }
-					if(!database.validateUser(username, pass, loginType)) {
+					
+					writeSocket("4");
+					writeSocket(username + "é" + pass + "é" + loginType.getCode());
+					String valid = readSocket();
+					if(!valid.equals("yes")) {
 						passwordView.errorMessage("username or password incorrect, please try again");
 						return;
 					}
+					
 					if(loginType == LoginEnum.MANAGER) {
 						managerView.setVisible(true);
 						managerView.listPropertiesBtn.doClick();

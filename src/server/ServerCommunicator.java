@@ -17,6 +17,7 @@ public class ServerCommunicator {
     private Socket aSocket;
     private ServerSocket myServer;
     private ExecutorService pool;
+    private Connection myConn;
 
     private PropertyDatabaseController propertyDatabase;
     private UserDatabaseController userDatabase;
@@ -34,20 +35,46 @@ public class ServerCommunicator {
     public void communicateClient()throws IOException{
     	try {
 			while(true) {
-				
+				System.out.println(" At loopTop ");
+                pool = Executors.newCachedThreadPool();
+                aSocket = myServer.accept();
+                
+                Communication communicate = new Communication(propertyDatabase, userDatabase, aSocket);
+                
+                System.out.println("<< Shop app started >>");
+                pool.execute(communicate);
+                pool.shutdown();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.err.println("error in ");
+			System.err.println("--error in Server loop--");
+			pool.shutdown();
+		} finally {
+			out.close();
 		}
     }
     
+    public void createDatabase() {
+		try{
+            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=rahman","rahman", "8002");
+            propertyDatabase = new PropertyDatabaseController(myConn); 
+    		userDatabase = new UserDatabaseController(myConn);
+        } catch(SQLException a){
+        	a.printStackTrace();
+            System.err.println("Error connecting to database");
+        }
+        System.out.println("<< database Server is Running >>");
+	}
+    
     public static void main(String[] args) {
+    	
 		ServerCommunicator s = new ServerCommunicator(9091);
+		s.createDatabase();
 		try {
-			
+			s.communicateClient();
 		} catch (Exception e) {
 			e.printStackTrace();
+			System.err.println("Server issue main");
 		}
 	}
 }
