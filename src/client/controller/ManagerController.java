@@ -56,9 +56,11 @@ public class ManagerController {
 					managerView.setCols(new String[] {"username", "password", "email", "name"});
 					
 					writeSocket("5");
+					String result = readSocket();
 					
-					String result = userDatabase.listUsers("landlord");
-					String arr[] = result.split("\n");
+//					String result = userDatabase.listUsers("landlord");
+					
+					String arr[] = result.split("é");
 					for (String string : arr) {
 						String[] row = string.split("~");
 						managerView.addElementTextBox(row);

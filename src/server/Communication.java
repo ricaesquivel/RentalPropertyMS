@@ -59,6 +59,7 @@ public class Communication implements Runnable {
                 	break;
                 case 5:
                 	listLandlords();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
