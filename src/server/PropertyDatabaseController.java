@@ -211,4 +211,52 @@ public class PropertyDatabaseController {
 		return "critical error";
 	}
 
+	public void addProperty(int id, String houseTypeChoice, String bedroom, String bathroom, String quadChoice,
+			String furnishChoice, int landlordID, String state) {
+		
+		query =  "INSERT INTO `properties` (`id`,`type`,`bedrooms`,`bathrooms`,`quadrant`,`furnished`,`landlordID`, `state`)"
+	            + "VALUES(?,?,?,?,?,?,?,?)";
+
+		if(furnishChoice.equals("Furnished")) {
+			furnishChoice = "1";
+		}
+		else {
+			furnishChoice = "0";
+		}
+		
+		try {
+			preStmt = myConn.prepareStatement(query);
+	        preStmt.setInt(1, id);
+	        preStmt.setString(2, houseTypeChoice);
+	        preStmt.setString(3, bedroom);
+	        preStmt.setString(4, bathroom);
+	        preStmt.setString(5, quadChoice);
+	        preStmt.setString(6, furnishChoice);
+	        preStmt.setInt(7, landlordID);
+	        preStmt.setString(8, state);
+	        preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error adding user");
+		}
+	}
+
+	public int getMaxPropertyID() {
+		query = "SELECT MAX(id) FROM `properties`";
+		try {
+			preStmt = myConn.prepareStatement(query);
+			ResultSet rs = preStmt.executeQuery();
+			int res = 0;
+			while(rs.next()) {
+				res = rs.getInt("MAX(id)");
+			}
+			
+			return res;
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("error in get max property id");
+		}
+		return -1; //critical error
+	}
+
 }

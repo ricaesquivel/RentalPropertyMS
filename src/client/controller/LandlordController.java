@@ -2,6 +2,8 @@ package client.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import client.controller.ListingsController.MyListener;
 import client.view.LandlordAddView;
@@ -21,18 +23,33 @@ public class LandlordController {
 	private UserDatabaseController userDatabase;
 	private MyListener listener;
 	private int landlordID;
-	private Connection myConn;
-	public LandlordController(Client c, Connection cMyConn) {
+	private ClientCommunicator comms; 
+	private String houseTypeChoice;
+	private String quadChoice;
+	private String furnishChoice;
+
+	public LandlordController(Client c) {
 		propertyDatabase = c.propertyDatabase;
         userDatabase = c.userDatabase;
         landlordAddView = c.landlordAddView;
         landlordEmailView = c.landlordEmailView;
         landlordView = c.landlordView;
-        myConn = cMyConn;
+        comms = c.communicator;
         listener = new MyListener();
         addListeners();
 	}
-	
+	private void writeSocket(String s) {
+		comms.socketOut.println(s);
+		comms.socketOut.flush();
+	}
+	private String readSocket() {
+		try {
+			return comms.socketIn.readLine();
+		}catch(Exception e) {
+			System.err.println("error in read socket");
+		}
+		return null;
+	}
 	private void autoSetlandlordID() {
 		landlordID = userDatabase.getlandlordID(landlordView.getUsername());
 	}
@@ -77,42 +94,70 @@ public class LandlordController {
 				}
 				if(e.getSource() == landlordView.addPropertyBtn){
 					landlordAddView.setVisible(true);
-					MyListener listenerAdd = new MyListener();
-					String query;
-					PreparedStatement preStmt;
-					landlordAddView.addListener(listenerAdd);
-					if(e.getSource() == landlordAddView.submitButton){
-						System.out.println("pressed");
-						landlordAddView.setVisible(false);
-						  try {
-					            query =  "INSERT INTO `rental` (`id`,`type`, `bedrooms`, `bathrooms`, `quadrants`, `furnished`, `landlordID`, `state`)"
-					            + "VALUES(?,?,?,?,?,?,?)";
-					            preStmt = myConn.prepareStatement(query);
-
-					            preStmt.setInt(1, '1');
-					            preStmt.setString(2, "apartment");
-					            preStmt.setInt(3, '5');
-					            preStmt.setInt(4, '6');
-					            preStmt.setString(5, "NW");
-					            preStmt.setInt(6, '0');
-					            preStmt.setString(4, "1001");
-					            preStmt.execute();
-
-					        } catch (SQLException a) {
-					            System.err.println("SQL Error in Add Property to database");
-					            a.printStackTrace();
-					        }   
-					}
-					 
 				}
+				if(e.getSource()== landlordAddView.submitButton){
+					String bathroom = landlordAddView.getBathrooms();
+					String bedroom = landlordAddView.getBedrooms();
+					int beds = -1;
+					int baths = -1;
+					try{
+						if(!bedroom.equals(""))
+							beds = Integer.parseInt(bedroom);
+						if(!bathroom.equals(""))
+							baths = Integer.parseInt(bathroom);
+						if(beds < 1 || baths < 1)
+							throw new NumberFormatException();
+                    }catch(NumberFormatException a){
+                        System.err.println("Please enter a valid bathroom and bedroom number");
+                        return;
+                    }
+					if(!quadChoice.equals("--choose one--") && !houseTypeChoice.equals("--choose one--") && !furnishChoice.equals("--choose one--")){
+						int id = getNewPropertyID();
+						id++;
+						propertyDatabase.addProperty(id,houseTypeChoice,bedroom, bathroom,quadChoice, furnishChoice, landlordID,"active");
+						landlordAddView.errorMessage("Property Added");
+						landlordAddView.setVisible(false);
+					}
+				}				
 			} catch (Exception e2) {
 				e2.printStackTrace();
 				System.err.println("error in Landlord controller");
 			}
 		}
-		
+	}	
+	
+	private int getNewPropertyID() {
+		int currMax = propertyDatabase.getMaxPropertyID();
+		System.out.println(currMax);
+		return currMax;
 	}
+	
 	private void addListeners() {
+		landlordAddView.addSubmitListener(listener);
+		landlordAddView.addHouseDropdownListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					houseTypeChoice = (String)e.getItem();
+				}
+			}
+		});
+
+		landlordAddView.addQuadDropdownListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+            	if(e.getStateChange() == ItemEvent.SELECTED) {
+            		quadChoice = (String)e.getItem();
+            	}
+            }
+        });
+		landlordAddView.addfurnishDropdownListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+            	if(e.getStateChange() == ItemEvent.SELECTED) {
+            		furnishChoice = (String)e.getItem();
+            	}
+            }
+        });
 		landlordView.addListener(listener);
 		landlordView.addCloseListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -121,4 +166,5 @@ public class LandlordController {
             }
         });
 	}
-}
+  }
+

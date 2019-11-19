@@ -88,11 +88,11 @@ public class Client {
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);
 		ManagerController managerController = new ManagerController(c);
-		LandlordController landlordController = new LandlordController(c, c.myConn);
+		LandlordController landlordController = new LandlordController(c);
 		SignUpController signUpController = new SignUpController(c);
 		
-		c.signUpView.setVisible(true);
-//		c.loginView.setVisible(true);
+		//c.signUpView.setVisible(true);
+	c.loginView.setVisible(true);
 //		c.searchView.setVisible(true);		//TODO comment this
 //		c.listings.setVisible(true);		//TODO comment this
 	}
