@@ -6,6 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
 
+import client.view.LoginView;
 import client.view.SignUp;
 import server.UserDatabaseController;
 
@@ -15,11 +16,13 @@ public class SignUpController {
 	private SignUp view;
 	private MyListener listener;
 	private String choice = "";
+	private LoginView loginView;
 	private UserDatabaseController base;
 	
 	public SignUpController(Client c) {
 		comms = c.communicator;
 		view = c.signUpView;
+		loginView = c.loginView;
 		base = c.userDatabase;
 		listener = new MyListener();
 		addListners();
@@ -83,6 +86,7 @@ public class SignUpController {
 				}
 				
 				if (password.equals(confirm) && !base.userExists(userName)) {
+					
 					String s="";
 					writeSocket("6");
 					if(choice.equals("Registered Renter")) {
@@ -90,16 +94,16 @@ public class SignUpController {
 					}
 					else if(choice.equals("Landlord")) {
 						s = userName+"~"+password+"~"+email+"~"+name+"~"+"landlord";
-					   }
+					}
 					
 					writeSocket(s);					
 					view.errorMessage("Sign up complete!");
 					view.setVisible(false);
+					loginView.setVisible(true);
 					
-					}
-				else{
-						view.errorMessage("Username has been taken, please try another one");
-					}
+				} else{
+					view.errorMessage("Username has been taken, please try another one");
+				}
 			}
 			
 			

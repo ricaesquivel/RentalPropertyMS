@@ -42,7 +42,7 @@ public class Client {
 	
 	public Client() {
 		try{
-            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=root","root", "ihatefacebook11");
+            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=rahman","rahman", "8002");
         } catch(SQLException a){
         	a.printStackTrace();
             System.err.println("Error connecting to database");
