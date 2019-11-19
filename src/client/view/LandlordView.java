@@ -56,6 +56,7 @@ public class LandlordView extends JFrame{
         topButtonPanel.setBackground(Color.WHITE);
         bottomButtonPanel.setBackground(Color.WHITE);
         northPanel.setBackground(Color.WHITE);
+        southPanel.setBackground(Color.WHITE);
         
         topButtonPanel.setLayout(new FlowLayout());
         setButtonFontSize(20);

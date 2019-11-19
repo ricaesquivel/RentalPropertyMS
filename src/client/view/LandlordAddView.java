@@ -202,7 +202,10 @@ public class LandlordAddView extends JFrame{
 			e.printStackTrace();
 		}
 	}
-
+	public void addListener(ActionListener a) {
+		submitButton.addActionListener(a);
+	}
+	
 	public void clearText() {
 		bedroomField.setText(null);
 		bathroomField.setText(null);
