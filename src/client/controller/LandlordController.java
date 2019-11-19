@@ -11,6 +11,7 @@ import server.PropertyDatabaseController;
 import server.UserDatabaseController;
 import client.view.*;
 import java.sql.*;
+
 public class LandlordController {
 	
 	private LandlordAddView landlordAddView;
