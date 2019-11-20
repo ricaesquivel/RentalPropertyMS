@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -49,7 +50,7 @@ public class ManagerView extends JFrame{
     public JButton listLandlordBtn = new JButton("Retrieve landlords");
     public JButton listRentersBtn = new JButton("Retrieve RegRenters");
     public JButton listPropertiesBtn = new JButton("Retrieve Properties");
-
+    public JButton changeStatusBtn = new JButton("change State");
     public JButton requestSummary = new JButton("Create Summary");
 	
     public void styler() {
@@ -68,6 +69,7 @@ public class ManagerView extends JFrame{
 
         southPanel.setLayout(new FlowLayout());
         southPanel.add(requestSummary);
+        southPanel.add(changeStatusBtn);
         southPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
 
         title.setFont(new Font("Arial", Font.BOLD, 26));
@@ -85,6 +87,7 @@ public class ManagerView extends JFrame{
 		listRentersBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
         listPropertiesBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
         requestSummary.setFont(new Font("Sans", Font.PLAIN, fontSize));
+        changeStatusBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
 	}
 
 	public ManagerView() {
@@ -155,6 +158,9 @@ public class ManagerView extends JFrame{
 	public void addCloseListener(WindowAdapter a){
         this.addWindowListener(a);
     }
+	public void addSelectionListener(ListSelectionListener a) {
+		textBox.getSelectionModel().addListSelectionListener(a);
+	}
 	public void buttonState(boolean state) {
 		listRentersBtn.setEnabled(true);
 	}
@@ -168,6 +174,7 @@ public class ManagerView extends JFrame{
 		listLandlordBtn.addActionListener(a);
 		listRentersBtn.addActionListener(a);
 		listPropertiesBtn.addActionListener(a);
+		changeStatusBtn.addActionListener(a);
 	}
 	/**
 	 * Launch the application.

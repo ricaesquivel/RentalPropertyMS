@@ -21,6 +21,24 @@ public class PropertyDatabaseController {
             e.printStackTrace();
         }
     }
+    
+    
+	public void setNewStatus(String s, int id) {
+		System.out.println("in property");
+		String query = "UPDATE `properties` SET `state` = ? WHERE `id` = ?";
+		try {
+			preStmt = myConn.prepareStatement(query);
+		      preStmt.setString  (1, s);
+		      preStmt.setInt(2, id);
+		      
+		      preStmt.execute();
+		      
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+    
 	
 	public String searchProperty(String houseTypeChoice, String furnishChoice, String quadChoice, int beds, int baths, String state) {
 		

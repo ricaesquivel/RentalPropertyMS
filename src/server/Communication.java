@@ -83,6 +83,9 @@ public class Communication implements Runnable {
                 case 10:
                 	deleteEmail();
                 	break;
+                case 13:
+                	changeState();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -125,6 +128,19 @@ public class Communication implements Runnable {
 		}
 	}
 
+	private void changeState() {
+		System.out.println("communication");
+		try {
+			String state[] = in.readLine().split("~");
+			int id = Integer.parseInt(state[1]);
+			propertyDatabase.setNewStatus(state[0], id);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	
 	private void addProperty() {
 		try {	
 		String propertyData[] = in.readLine().split("é");
