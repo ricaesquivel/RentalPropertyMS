@@ -154,7 +154,7 @@ public class SubscriptionsView extends JFrame {
 		textBox.getTableHeader().setReorderingAllowed(false);
 	}
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { 
         try {
             SubscriptionsView window = new SubscriptionsView();
             window.setVisible(true);
