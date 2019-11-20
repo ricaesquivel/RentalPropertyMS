@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -63,6 +65,9 @@ public class Communication implements Runnable {
                 case 6:
                 	addUser();
                 	break;
+                case 7:
+                	newLandlordID();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -75,10 +80,25 @@ public class Communication implements Runnable {
         }
     }
 	
+	private void newLandlordID() {
+		try {
+			System.out.println("in communication");
+			String s = userDatabase.landlordSignUpID()+"";
+			sendString(s);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void addUser() {
 		try {
 			String userInfo[] = in.readLine().split("~");
 			userDatabase.addUser(userInfo[0], userInfo[1],userInfo[2],userInfo[3], userInfo[4]);
+			if(userInfo[4].contentEquals("Landlord")) {
+				System.out.println("adding landlord");
+				int id = Integer.parseInt(userInfo[5]);
+				userDatabase.addLandlord(id,userInfo[3],userInfo[2],userInfo[0]);
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

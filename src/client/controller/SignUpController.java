@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.IOException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import client.view.SignUp;
 import server.UserDatabaseController;
@@ -50,6 +52,24 @@ public class SignUpController {
 		return null;
 	}
 	
+	private int getNewLandLordID(){
+		System.out.println("in signup");
+		int id = -3;
+		writeSocket("7");
+			try {
+				String s = readSocket();
+				id = Integer.parseInt(s);
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			id-=-1;
+			
+			
+			System.out.println(id);
+			return id;
+	}
+	
 	
 	
 	class MyListener implements ActionListener {
@@ -84,14 +104,14 @@ public class SignUpController {
 				
 				if (password.equals(confirm) && !base.userExists(userName)) {
 					String s="";
-					writeSocket("6");
 					if(choice.equals("Registered Renter")) {
 						s = userName+"~"+password+"~"+email+"~"+name+"~"+"regrenter";
 					}
 					else if(choice.equals("Landlord")) {
-						s = userName+"~"+password+"~"+email+"~"+name+"~"+"landlord";
-					   }
+						s = userName+"~"+password+"~"+email+"~"+name+"~"+"Landlord"+"~"+getNewLandLordID();
+					}
 					
+					writeSocket("6");
 					writeSocket(s);					
 					view.errorMessage("Sign up complete!");
 					view.setVisible(false);
