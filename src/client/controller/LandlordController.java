@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import client.controller.ListingsController.MyListener;
 import client.view.LandlordAddView;
 import client.view.LandlordEmailView;
@@ -27,6 +30,10 @@ public class LandlordController {
 	private String houseTypeChoice;
 	private String quadChoice;
 	private String furnishChoice;
+	private String selected;
+	private String selected2;
+	private int rowNum;
+	
 
 	public LandlordController(Client c) {
 		propertyDatabase = c.propertyDatabase;
@@ -59,7 +66,6 @@ public class LandlordController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-
 				if(e.getSource() == landlordView.showPropertiesBtn) {
 					autoSetlandlordID();
 					landlordView.clear();
@@ -72,11 +78,10 @@ public class LandlordController {
 						landlordView.addElementTextBox(row);
 					}
 					landlordView.autoColWidth();
-//					landlordView.buttonState(false);
-					
 				}
-				if(e.getSource() == landlordView.viewEmailButton) {
-					
+				
+				else if(e.getSource() == landlordView.viewEmailButton) {
+
 					landlordEmailView.clear();
 					landlordEmailView.setCols(new String[] {"From", "Message"});
 					String result = userDatabase.getLandlordEmails(landlordID);
@@ -92,10 +97,21 @@ public class LandlordController {
 					
 					landlordEmailView.setVisible(true);
 				}
-				if(e.getSource() == landlordView.addPropertyBtn){
+				
+				else if(e.getSource() == landlordEmailView.deleteBtn){
+					writeSocket("10");
+					writeSocket(landlordID + "é" + selected + "é" + selected2);
+					landlordEmailView.deleteRow(rowNum);
+				}
+				
+				else if(e.getSource() == landlordEmailView.openBtn) {
+					landlordEmailView.displayEmail(selected2);
+				}
+			
+				else if(e.getSource() == landlordView.addPropertyBtn){
 					landlordAddView.setVisible(true);
 				}
-				if(e.getSource()== landlordAddView.submitButton){
+				else if(e.getSource()== landlordAddView.submitButton){
 					String bathroom = landlordAddView.getBathrooms();
 					String bedroom = landlordAddView.getBedrooms();
 					int beds = -1;
@@ -138,6 +154,7 @@ public class LandlordController {
 	
 	
 	private void addListeners() {
+		landlordEmailView.addListener(listener);
 		landlordAddView.addSubmitListener(listener);
 		landlordAddView.addHouseDropdownListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -170,6 +187,16 @@ public class LandlordController {
                 System.exit(0);
             }
         });
+		landlordEmailView.addSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent e) {
+	        	if(!e.getValueIsAdjusting() && landlordEmailView.textBox.getSelectedRow() != -1){
+	        		selected = landlordEmailView.textBox.getModel().getValueAt(landlordEmailView.textBox.getSelectedRow(),0).toString();
+	        		selected2 = landlordEmailView.textBox.getModel().getValueAt(landlordEmailView.textBox.getSelectedRow(),1).toString();
+	        		rowNum = landlordEmailView.textBox.getSelectedRow();
+	        	}
+	        }
+	    });
+
 	}
   }
 

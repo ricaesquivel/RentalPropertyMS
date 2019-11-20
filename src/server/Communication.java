@@ -80,6 +80,9 @@ public class Communication implements Runnable {
                 case 12:
                 	deleteSubscribe();
                 	break;
+                case 10:
+                	deleteEmail();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -92,6 +95,16 @@ public class Communication implements Runnable {
         }
     }
 	
+	private void deleteEmail() {
+		try {
+		String emailData[] = in.readLine().split("é");
+		userDatabase.removeEmail(Integer.parseInt(emailData[0]), emailData[1], emailData[2]);
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("Error in delete email");
+		}
+	}
+
 	private void deleteSubscribe() {
 		try {
 			String args[] = in.readLine().split("é");

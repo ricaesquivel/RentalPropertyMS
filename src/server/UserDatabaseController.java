@@ -215,6 +215,19 @@ public class UserDatabaseController {
             
 		return "critical error";
 	}
+	public void removeEmail(int id, String from, String text){
+		try {
+		query = "DELETE FROM `emails` WHERE `to` = ?"
+				+ " AND `from` = ? AND `text` = ?";
+		preStmt = myConn.prepareStatement(query);
+		preStmt.setInt(1, id);
+		preStmt.setString(2, from);
+		preStmt.setString(3, text);
+		preStmt.execute();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void addSubscribes(String username, String houseTypeChoice, String furnishChoice, int beds, int baths, String quadChoice) {
 		
