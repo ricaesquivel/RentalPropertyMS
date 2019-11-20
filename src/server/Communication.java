@@ -63,6 +63,12 @@ public class Communication implements Runnable {
                 case 6:
                 	addUser();
                 	break;
+                case 8:
+                	getMaxPropertyID();
+                	break;
+                case 9:
+                	addProperty();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -75,6 +81,19 @@ public class Communication implements Runnable {
         }
     }
 	
+	private void addProperty() {
+//		public void addProperty(int id, String houseTypeChoice, String bedroom, String bathroom, String quadChoice,
+//				String furnishChoice, int landlordID, String state) 
+		try {
+		String propertyData[] = in.readLine().split("é");
+		propertyDatabase.addProperty(Integer.parseInt(propertyData[0]), propertyData[1], propertyData[2], propertyData[3], propertyData[4], propertyData[5], Integer.parseInt(propertyData[6]), propertyData[7]);
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("Error in add property");
+		}
+		
+	}
+
 	private void addUser() {
 		try {
 			String userInfo[] = in.readLine().split("~");
@@ -116,6 +135,7 @@ public class Communication implements Runnable {
 			e.printStackTrace();
 		}
 	}
+	
 
 	private void search() {
 		try {
@@ -137,6 +157,11 @@ public class Communication implements Runnable {
 	
 	private void listAllProperty() {
 		sendString(propertyDatabase.listAll("active"));
+	}
+	
+	private void getMaxPropertyID() {
+		int max = propertyDatabase.getMaxPropertyID();
+		sendString(max + "");
 	}
 
 	@Override
