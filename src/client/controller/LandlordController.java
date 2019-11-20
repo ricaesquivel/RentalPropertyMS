@@ -114,7 +114,9 @@ public class LandlordController {
 					if(!quadChoice.equals("--choose one--") && !houseTypeChoice.equals("--choose one--") && !furnishChoice.equals("--choose one--")){
 						int id = getNewPropertyID();
 						id++;
-						propertyDatabase.addProperty(id,houseTypeChoice,bedroom, bathroom,quadChoice, furnishChoice, landlordID,"active");
+						String status = "active";
+						writeSocket("9");
+						writeSocket(id + "é" + houseTypeChoice + "é" + bedroom + "é" + bathroom + "é" + quadChoice +"é" + furnishChoice + "é" + landlordID + "é" + status);
 						landlordAddView.errorMessage("Property Added");
 						landlordAddView.setVisible(false);
 					}
@@ -127,10 +129,12 @@ public class LandlordController {
 	}	
 	
 	private int getNewPropertyID() {
-		int currMax = propertyDatabase.getMaxPropertyID();
-		System.out.println(currMax);
+		writeSocket("8");
+		String result = readSocket();
+		int currMax = Integer.parseInt(result);
 		return currMax;
 	}
+	
 	
 	private void addListeners() {
 		landlordAddView.addSubmitListener(listener);
