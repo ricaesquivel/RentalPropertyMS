@@ -74,6 +74,12 @@ public class Communication implements Runnable {
                 case 7:
                 	newLandlordID();
                 	break;
+                case 11:
+                	getSubscribes();
+                	break;
+                case 12:
+                	deleteSubscribe();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -86,6 +92,26 @@ public class Communication implements Runnable {
         }
     }
 	
+	private void deleteSubscribe() {
+		try {
+			String args[] = in.readLine().split("é");
+			userDatabase.deleteSubscribe(args[0], args[1], args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void getSubscribes() {
+		try {
+			String user = in.readLine();
+			String res = userDatabase.getSubscribes(user);
+			sendString(res);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error getting subscribes");
+		}
+	}
+
 	private void addProperty() {
 		try {	
 		String propertyData[] = in.readLine().split("é");

@@ -115,11 +115,7 @@ public class UserDatabaseController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		
 	}
-	
-	
 	
 	public boolean userExists(String username) {
 
@@ -275,6 +271,58 @@ public class UserDatabaseController {
 			System.err.println("error in get max property id");
 		}
 		return -1; //critical error
+	}
+
+	public String getSubscribes(String user) {
+		String result = "";
+		query = "SELECT * " +
+				"FROM `subscribes` " +
+				"WHERE `subusername` = ?";
+		try {
+			preStmt = myConn.prepareStatement(query);
+			preStmt.setString(1, user);
+            ResultSet rs = preStmt.executeQuery();
+		
+            while(rs.next()){
+            	String housetype = rs.getString("housetype");
+            	String furnish = rs.getString("furnished");
+                int beds = rs.getInt("beds");
+                int baths = rs.getInt("baths");
+                String quadrant = rs.getString("quadrant");
+                result += housetype +"~"+  furnish +"~" + beds +"~" + baths +"~" + quadrant +"~" + "é";
+            }
+            if(result.equals("")) {
+            	return "none";
+            }
+            result = result.substring(0, result.length() -1);
+            return result;
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in get subscribes");
+		}
+		return "critical error";
+	}
+
+	public void deleteSubscribe(String user, String type, String furnish, int beds, int baths, String quad) {
+		
+		query =  "DELETE FROM `subscribes` WHERE subusername = ? AND housetype = ? AND furnished = ? AND beds = ? AND baths = ? AND quadrant = ?";
+		
+		try {
+			
+			preStmt = myConn.prepareStatement(query);
+
+            preStmt.setString(1, user);
+            preStmt.setString(2, type);
+            preStmt.setString(3, furnish);
+            preStmt.setInt(4, beds);
+            preStmt.setInt(5, baths);
+            preStmt.setString(6, quad);
+            preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error delete subs");
+		}
 	}
 }
 
