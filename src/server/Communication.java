@@ -74,6 +74,9 @@ public class Communication implements Runnable {
                 case 7:
                 	newLandlordID();
                 	break;
+                	
+                case 12:
+                	changeState();
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -85,6 +88,11 @@ public class Communication implements Runnable {
             }
         }
     }
+	
+	private void changeState() {
+		propertyDatabase.setNewStatus("Active", 3);
+	}
+	
 	
 	private void addProperty() {
 		try {	

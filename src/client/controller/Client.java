@@ -5,15 +5,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import client.view.EmailView;
-import client.view.LandlordAddView;
-import client.view.LandlordEmailView;
-import client.view.LandlordView;
-import client.view.ListingsView;
-import client.view.LoginPasswordView;
-import client.view.LoginView;
-import client.view.ManagerView;
-import client.view.SearchCriteriaView;
 import server.PropertyDatabaseController;
 import server.UserDatabaseController;
 import client.view.*;
@@ -24,7 +15,7 @@ import client.view.*;
 public class Client {
 	
 	ClientCommunicator communicator;
-	
+	ChangeStatusPopUp changeView;
 	LoginView loginView;
 	LoginPasswordView passwordView;
 	SearchCriteriaView searchView;
@@ -42,7 +33,7 @@ public class Client {
 	
 	public Client() {
 		try{
-            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=rahman","rahman", "8002");
+            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=root","root", "ihatefacebook11");
         } catch(SQLException a){
         	a.printStackTrace();
             System.err.println("Error connecting to database");
@@ -67,10 +58,12 @@ public class Client {
 		LandlordEmailView landlordEmailView = new LandlordEmailView();
 		LandlordView landlordView = new LandlordView(); 
 		SignUp signUpView = new SignUp();
+		ChangeStatusPopUp changeView = new ChangeStatusPopUp();
 		
 		ListingsView listings = new ListingsView();
 		SearchCriteriaView searchView = new SearchCriteriaView();
 		
+		c.changeView = changeView;
 		c.propertyDatabase = propertyDatabase;
 		c.userDatabase = userDatabase;
 		c.managerView = managerView;
@@ -92,7 +85,7 @@ public class Client {
 		SignUpController signUpController = new SignUpController(c);
 		
 		//c.signUpView.setVisible(true);
-	c.loginView.setVisible(true);
+	    c.landlordView.setVisible(true);
 //		c.searchView.setVisible(true);		//TODO comment this
 //		c.listings.setVisible(true);		//TODO comment this
 	}

@@ -16,6 +16,7 @@ import java.sql.*;
 
 public class LandlordController {
 	
+	private ChangeStatusPopUp changeView;
 	private LandlordAddView landlordAddView;
 	private LandlordEmailView landlordEmailView;
 	private LandlordView landlordView;
@@ -27,14 +28,21 @@ public class LandlordController {
 	private String houseTypeChoice;
 	private String quadChoice;
 	private String furnishChoice;
-
+	private String stateChoice;
+	
 	public LandlordController(Client c) {
+		
+		
+
+		
 		propertyDatabase = c.propertyDatabase;
         userDatabase = c.userDatabase;
         landlordAddView = c.landlordAddView;
         landlordEmailView = c.landlordEmailView;
         landlordView = c.landlordView;
         comms = c.communicator;
+        changeView = c.changeView;
+        
         listener = new MyListener();
         addListeners();
 	}
@@ -54,11 +62,18 @@ public class LandlordController {
 		landlordID = userDatabase.getlandlordID(landlordView.getUsername());
 	}
 
-	class MyListener implements ActionListener {
+	public class MyListener implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
+				if(e.getSource()==changeView.submit) {
+					System.out.println(stateChoice);	
+					writeSocket("12");
+					}
+				if(e.getSource()==landlordView.changeStatusBtn) {
+					changeView.setVisible(true);
+				}
 
 				if(e.getSource() == landlordView.showPropertiesBtn) {
 					autoSetlandlordID();
@@ -138,6 +153,17 @@ public class LandlordController {
 	
 	
 	private void addListeners() {
+		changeView.addListener(listener);
+
+		changeView.addDropdownListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+            	if(e.getStateChange() == ItemEvent.SELECTED) {
+            		stateChoice = (String)e.getItem();
+            	}
+            }
+		});
+		
 		landlordAddView.addSubmitListener(listener);
 		landlordAddView.addHouseDropdownListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
