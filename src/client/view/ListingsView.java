@@ -30,6 +30,9 @@ import java.awt.Dimension;
 @SuppressWarnings("serial")
 public class ListingsView extends JFrame{
 
+	public boolean registered;		// true if registered renter
+	public String username;
+	
 	JLabel title = new JLabel("RentalPropertyMS" + "\u2122");
 	JPanel topButtonPanel = new JPanel();
     JPanel bottomButtonPanel = new JPanel();
@@ -49,6 +52,7 @@ public class ListingsView extends JFrame{
     public JButton searchButton = new JButton("Search Filter");
     public JButton emailButton = new JButton("Email Landlord");
     public JButton updateButton = new JButton("Clear Filters and Update");
+    public JButton subscriptionsButton = new JButton("View Subscriptions");
 	
     public void styler() {
     	this.setBackground(Color.WHITE);
@@ -62,6 +66,7 @@ public class ListingsView extends JFrame{
         topButtonPanel.add(searchButton);
         topButtonPanel.add(emailButton);
         topButtonPanel.add(updateButton);
+        topButtonPanel.add(subscriptionsButton);
         topButtonPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
         
         title.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 26));
@@ -109,6 +114,9 @@ public class ListingsView extends JFrame{
         add("Center", mainPanel);
         
 		setVisible(false);
+	}
+	public void setSubscriptionButtonState(boolean state) {
+		subscriptionsButton.setEnabled(state);
 	}
 	public void addCloseListener(WindowAdapter a){
         this.addWindowListener(a);

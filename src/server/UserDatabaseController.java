@@ -202,4 +202,41 @@ public class UserDatabaseController {
 		return "critical error";
 	}
 
+	public void addSubscribes(String username, String houseTypeChoice, String furnishChoice, int beds, int baths, String quadChoice) {
+		
+		String result = ""; byte furnishedByte = 0; String bedString = ""; String bathString = "";
+		
+		query =  "INSERT INTO `subscribes` (`subusername`,`housetype`,`furnished`,`beds`,`baths`,`quadrant`)"
+	            + "VALUES(?,?,?,?,?,?)";
+		
+		if(houseTypeChoice.equals("") || houseTypeChoice.contains("choose")) {
+			houseTypeChoice = "any";
+		}
+		if(furnishChoice.equals("") || furnishChoice.contains("choose")) {
+			furnishChoice = "any";
+		}
+		if(quadChoice.equals("") || quadChoice.contains("choose")) {
+			quadChoice = "any";
+		}
+		if(beds == Integer.MAX_VALUE) {
+			beds = -1;
+		}
+		if(baths == Integer.MAX_VALUE) {
+			baths = -1;
+		}
+			
+		try {
+				preStmt = myConn.prepareStatement(query);
+		        preStmt.setString(1, username);
+		        preStmt.setString(2, houseTypeChoice);
+		        preStmt.setString(3, furnishChoice);
+		        preStmt.setInt(4, beds);
+		        preStmt.setInt(5, baths);
+		        preStmt.setString(6, quadChoice);
+		        preStmt.execute();
+		}catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in subscribe");
+		}
+	}
 }
