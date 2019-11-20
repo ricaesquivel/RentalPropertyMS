@@ -41,7 +41,7 @@ public class ChangeStatusPopUp extends JFrame{
 	private MyListener listener;
 	
 	public JButton submit = new JButton("submit");
-	String[] menu = {"--choose one--", "Landlord","Registered Renter"};
+	String[] menu = {"--choose one--", "Active","Rented","Cancelled","Suspended"};
 	DefaultComboBoxModel<String> dropDown = new DefaultComboBoxModel<String>(menu);
 	
     public JComboBox<String> dropDownCombo = new JComboBox<String>(dropDown);
@@ -74,6 +74,9 @@ public class ChangeStatusPopUp extends JFrame{
         add(submit);
 	}
 	
+	public void errorMessage(String error){
+        JOptionPane.showMessageDialog(this, error);
+    }
 	
 	public void addDropdownListener(ItemListener a) {
 		dropDownCombo.addItemListener(a);

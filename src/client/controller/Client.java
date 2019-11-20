@@ -16,6 +16,8 @@ public class Client {
 	
 	ClientCommunicator communicator;
 	ChangeStatusPopUp changeView;
+	ChangeStatusPopUp changeView2;
+
 	LoginView loginView;
 	LoginPasswordView passwordView;
 	SearchCriteriaView searchView;
@@ -59,11 +61,13 @@ public class Client {
 		LandlordView landlordView = new LandlordView(); 
 		SignUp signUpView = new SignUp();
 		ChangeStatusPopUp changeView = new ChangeStatusPopUp();
+		ChangeStatusPopUp changeView2 = new ChangeStatusPopUp();
 		
 		ListingsView listings = new ListingsView();
 		SearchCriteriaView searchView = new SearchCriteriaView();
-		
-		c.changeView = changeView;
+
+		c.changeView = changeView;		
+		c.changeView2 = changeView2;
 		c.propertyDatabase = propertyDatabase;
 		c.userDatabase = userDatabase;
 		c.managerView = managerView;
@@ -84,8 +88,9 @@ public class Client {
 		LandlordController landlordController = new LandlordController(c);
 		SignUpController signUpController = new SignUpController(c);
 		
+		c.loginView.setVisible(true);
 		//c.signUpView.setVisible(true);
-	    c.landlordView.setVisible(true);
+	    //c.landlordView.setVisible(true);
 //		c.searchView.setVisible(true);		//TODO comment this
 //		c.listings.setVisible(true);		//TODO comment this
 	}

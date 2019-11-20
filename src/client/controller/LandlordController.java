@@ -14,6 +14,11 @@ import server.UserDatabaseController;
 import client.view.*;
 import java.sql.*;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
+import org.eclipse.core.internal.runtime.PrintStackUtil;
+
 public class LandlordController {
 	
 	private ChangeStatusPopUp changeView;
@@ -29,6 +34,7 @@ public class LandlordController {
 	private String quadChoice;
 	private String furnishChoice;
 	private String stateChoice;
+	private String selectedID =" ";
 	
 	public LandlordController(Client c) {
 		
@@ -68,9 +74,20 @@ public class LandlordController {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				if(e.getSource()==changeView.submit) {
-					System.out.println(stateChoice);	
-					writeSocket("12");
+					System.out.println(stateChoice);
+					System.out.println(selectedID);	
+					if(!stateChoice.equals(" ") && !stateChoice.equals("--choose one--")) {
+						String s = stateChoice+"~"+selectedID;
+	
+						writeSocket("13");
+						writeSocket(s);
+						changeView.setVisible(false);
+						changeView.errorMessage("State has been changed");
+						landlordView.changeStatusBtn.setEnabled(false);
+						landlordView.showPropertiesBtn.doClick();
 					}
+					
+				}
 				if(e.getSource()==landlordView.changeStatusBtn) {
 					changeView.setVisible(true);
 				}
@@ -145,14 +162,20 @@ public class LandlordController {
 	}	
 	
 	private int getNewPropertyID() {
+		try {
 		writeSocket("8");
 		String result = readSocket();
 		int currMax = Integer.parseInt(result);
 		return currMax;
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 	
 	
 	private void addListeners() {
+		landlordView.addListener(listener);
 		changeView.addListener(listener);
 
 		changeView.addDropdownListener(new ItemListener(){
@@ -165,6 +188,7 @@ public class LandlordController {
 		});
 		
 		landlordAddView.addSubmitListener(listener);
+		
 		landlordAddView.addHouseDropdownListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED) {
@@ -189,6 +213,15 @@ public class LandlordController {
             	}
             }
         });
+		
+		landlordView.addSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting()&&landlordView.textBox.getSelectedRow() !=-1) {
+					selectedID = landlordView.textBox.getModel().getValueAt(landlordView.textBox.getSelectedRow(),0).toString();
+					 landlordView.changeStatusBtn.setEnabled(true);
+				}
+			}
+		});
 		landlordView.addListener(listener);
 		landlordView.addCloseListener(new java.awt.event.WindowAdapter() {
             @Override

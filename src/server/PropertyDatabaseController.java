@@ -24,6 +24,7 @@ public class PropertyDatabaseController {
     
     
 	public void setNewStatus(String s, int id) {
+		System.out.println("in property");
 		String query = "UPDATE `properties` SET `state` = ? WHERE `id` = ?";
 		try {
 			preStmt = myConn.prepareStatement(query);

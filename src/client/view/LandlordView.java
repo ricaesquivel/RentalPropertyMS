@@ -8,6 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -117,6 +118,8 @@ public class LandlordView extends JFrame{
         clear();
         textBox.setDefaultEditor(Object.class, null);
         
+        changeStatusBtn.setEnabled(false);
+        
 		setVisible(false);
 	}
 	public void addCloseListener(WindowAdapter a){
@@ -133,6 +136,10 @@ public class LandlordView extends JFrame{
 		viewEmailButton.addActionListener(a);
 		addPropertyBtn.addActionListener(a);
 		changeStatusBtn.addActionListener(a);
+	}
+	
+	public void addSelectionListener(ListSelectionListener a) {
+		textBox.getSelectionModel().addListSelectionListener(a);
 	}
 	public void clear() {
 		model.setColumnCount(0);
