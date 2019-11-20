@@ -101,6 +101,24 @@ public class UserDatabaseController {
 		
 	}
 	
+	public void addLandlord(int id, String name, String email, String userName) {
+		query =  "INSERT INTO `landlords` (`id`,`name`,`email`,`landlordusername`)"
+	            + "VALUES(?,?,?,?)";
+		
+		try {
+			preStmt = myConn.prepareStatement(query);
+	        preStmt.setInt(1,id );
+	        preStmt.setString(2, name);
+	        preStmt.setString(3, email);
+	        preStmt.setString(4, userName);
+	        preStmt.execute();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	
 	
 	public boolean userExists(String username) {
@@ -239,4 +257,24 @@ public class UserDatabaseController {
 			System.err.println("error in subscribe");
 		}
 	}
+	
+	public int landlordSignUpID() {
+		System.out.println("landlordsignupid");
+		query = "SELECT MAX(id) FROM `landlords`";
+		try {
+			preStmt = myConn.prepareStatement(query);
+			ResultSet rs = preStmt.executeQuery();
+			int id = 0;
+			while(rs.next()) {
+				id = rs.getInt("MAX(id)");
+			}
+			
+			return id;
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("error in get max property id");
+		}
+		return -1; //critical error
+	}
 }
+
