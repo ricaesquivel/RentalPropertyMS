@@ -65,6 +65,7 @@ public class SearchCriteriaView extends JFrame{
     private final Component vertStrut = Box.createVerticalStrut(10);
     private final Component vertStrut2 = Box.createVerticalStrut(10);
     public JButton submitButton = new JButton("Submit");
+    public JButton subscribeButton = new JButton("Subscribe");
     private JPanel submitPanel = new JPanel();
     
     private void labels() {
@@ -157,7 +158,10 @@ public class SearchCriteriaView extends JFrame{
     	submitPanel.setLayout(new FlowLayout());
     	submitButton.setPreferredSize(new Dimension(150, 50));
     	submitButton.setBackground(Color.WHITE);
+    	subscribeButton.setPreferredSize(new Dimension(150, 50));
+    	subscribeButton.setBackground(Color.WHITE);
     	submitPanel.add(submitButton);
+    	submitPanel.add(subscribeButton);
     	criteriaPanel.add(submitPanel);
         
         getContentPane().add("Center", criteriaPanel);
@@ -165,6 +169,9 @@ public class SearchCriteriaView extends JFrame{
         getContentPane().add(horizontalStrut_1, BorderLayout.EAST);
         
 		setVisible(false);
+	}
+	public void setSubscribeButtonState(boolean state) {
+		subscribeButton.setEnabled(state);
 	}
 	public void addCloseListener(WindowAdapter a){
         this.addWindowListener(a);
@@ -180,6 +187,7 @@ public class SearchCriteriaView extends JFrame{
     }
 	public void addSubmitListener(ActionListener a) {
 		submitButton.addActionListener(a);
+		subscribeButton.addActionListener(a);
 	}
 	public void addHouseDropdownListener(ItemListener a) {
         houseDropdown.addItemListener(a);

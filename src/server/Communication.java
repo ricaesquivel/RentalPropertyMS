@@ -169,8 +169,12 @@ public class Communication implements Runnable {
 		 try{
 			 	menuRunner();
 	        }catch(IOException a){
-	            System.err.println(" run caught error ");
-	            a.printStackTrace();
+	            if(!a.getMessage().equals("Connection reset")) {
+	            	System.err.println(" run caught error ");
+	            	a.printStackTrace();
+	            } else {
+	            	System.out.println("  << a Client disconnected voluntarily");
+	            }
 	        }catch(Exception b){
 	            System.err.println(" run caught error 2 ");
 	            b.printStackTrace();

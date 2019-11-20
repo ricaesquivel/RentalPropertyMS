@@ -89,6 +89,7 @@ public class ListingsController {
 					emailView.setVisible(true);
 				} 
 				else if(event.getSource() == listings.searchButton) {
+					searchView.setSubscribeButtonState(listings.registered);
 					searchView.setVisible(true);
 				} 
 				else if(event.getSource() == emailView.cancelBtn) {
@@ -154,6 +155,27 @@ public class ListingsController {
 					listings.hideLandlordCol();
 					searchView.clearText();
 					searchView.setVisible(false);
+				}
+				
+				else if(event.getSource() == searchView.subscribeButton ) {
+					String bedrooms = searchView.getBedrooms();
+					String bathrooms = searchView.getBathrooms();
+					int beds = Integer.MAX_VALUE; int baths = Integer.MAX_VALUE;
+					
+					try{
+						if(!bedrooms.equals(""))
+							beds = Integer.parseInt(bedrooms);
+						if(!bathrooms.equals(""))
+							baths = Integer.parseInt(bathrooms);
+						if(beds < 1 || baths < 1)
+							throw new NumberFormatException();
+                    }catch(NumberFormatException a){
+                        searchView.errorMessage("Please enter a valid bathroom and bedroom number");
+                        return;
+                    }
+					userDatabase.addSubscribes(listings.username, houseTypeChoice, furnishChoice, beds, baths, quadChoice);
+					searchView.errorMessage("You have subscribed to this search!");
+					
 				}
 				
 			} catch (Exception e2) {

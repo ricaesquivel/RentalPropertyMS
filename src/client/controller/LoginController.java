@@ -83,6 +83,8 @@ public class LoginController {
 				}
 				else if(event.getSource() == view.renterButton) {
 					listings.setVisible(true);
+					listings.setSubscriptionButtonState(false);
+					listings.registered = false;
 					listings.updateButton.doClick();
 					view.setVisible(false);
 				}
@@ -127,7 +129,15 @@ public class LoginController {
 						passwordView.clearText();
 						passwordView.setVisible(false);
 					}
-					//TODO else: give the appropriate GUI for who ever logged in
+					if(loginType == LoginEnum.REG_RENTER) {
+						listings.setVisible(true);
+						listings.setSubscriptionButtonState(true);
+						listings.registered = true;
+						listings.username = username;
+						listings.updateButton.doClick();
+						passwordView.clearText();
+						passwordView.setVisible(false);
+					}
 				}
 				else if(event.getSource() == passwordView.backButton) {
 					passwordView.setVisible(false);
