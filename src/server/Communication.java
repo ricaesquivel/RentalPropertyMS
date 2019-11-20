@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
@@ -67,7 +69,16 @@ public class Communication implements Runnable {
                 	getMaxPropertyID();
                 	break;
                 case 9:
-                	addProperty();
+					addProperty();
+					break;
+                case 7:
+                	newLandlordID();
+                	break;
+                case 11:
+                	getSubscribes();
+                	break;
+                case 12:
+                	deleteSubscribe();
                 	break;
                 case 10:
                 	deleteEmail();
@@ -94,10 +105,28 @@ public class Communication implements Runnable {
 		}
 	}
 
-	private void addProperty() {
-//		public void addProperty(int id, String houseTypeChoice, String bedroom, String bathroom, String quadChoice,
-//				String furnishChoice, int landlordID, String state) 
+	private void deleteSubscribe() {
 		try {
+			String args[] = in.readLine().split("é");
+			userDatabase.deleteSubscribe(args[0], args[1], args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void getSubscribes() {
+		try {
+			String user = in.readLine();
+			String res = userDatabase.getSubscribes(user);
+			sendString(res);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error getting subscribes");
+		}
+	}
+
+	private void addProperty() {
+		try {	
 		String propertyData[] = in.readLine().split("é");
 		propertyDatabase.addProperty(Integer.parseInt(propertyData[0]), propertyData[1], propertyData[2], propertyData[3], propertyData[4], propertyData[5], Integer.parseInt(propertyData[6]), propertyData[7]);
 		}catch(Exception e) {
@@ -107,10 +136,25 @@ public class Communication implements Runnable {
 		
 	}
 
+	private void newLandlordID() {
+		try {
+			System.out.println("in communication");
+			String s = userDatabase.landlordSignUpID()+"";
+			sendString(s);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	private void addUser() {
 		try {
 			String userInfo[] = in.readLine().split("~");
 			userDatabase.addUser(userInfo[0], userInfo[1],userInfo[2],userInfo[3], userInfo[4]);
+			if(userInfo[4].contentEquals("Landlord")) {
+				System.out.println("adding landlord");
+				int id = Integer.parseInt(userInfo[5]);
+				userDatabase.addLandlord(id,userInfo[3],userInfo[2],userInfo[0]);
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -119,7 +163,7 @@ public class Communication implements Runnable {
 	
 	private void listLandlords() {
 		try {
-			String result = userDatabase.listUsers("landlord");
+			String result =  userDatabase.listUsers("landlord");
 			sendString(result);
 		} catch (Exception e) {
 			e.printStackTrace();

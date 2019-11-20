@@ -85,6 +85,7 @@ public class ListingsView extends JFrame{
 		searchButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
 		emailButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
 		updateButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
+		subscriptionsButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
 	}
 
 	public ListingsView() {
@@ -134,6 +135,7 @@ public class ListingsView extends JFrame{
 		searchButton.addActionListener(a);
 		emailButton.addActionListener(a);
 		updateButton.addActionListener(a);
+		subscriptionsButton.addActionListener(a);
 	}
 	public void autoColWidth() {
 		for (int column = 0; column < textBox.getColumnCount(); column++)

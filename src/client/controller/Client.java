@@ -35,6 +35,7 @@ public class Client {
 	LandlordEmailView landlordEmailView;
 	LandlordView landlordView;
 	SignUp signUpView;
+	SubscriptionsView subView;
 	
 	private Connection myConn;
 	PropertyDatabaseController propertyDatabase;
@@ -67,6 +68,7 @@ public class Client {
 		LandlordEmailView landlordEmailView = new LandlordEmailView();
 		LandlordView landlordView = new LandlordView(); 
 		SignUp signUpView = new SignUp();
+		SubscriptionsView subView = new SubscriptionsView();
 		
 		ListingsView listings = new ListingsView();
 		SearchCriteriaView searchView = new SearchCriteriaView();
@@ -83,6 +85,7 @@ public class Client {
 		c.landlordEmailView = landlordEmailView;
 		c.landlordView = landlordView;
 		c.signUpView = signUpView;
+		c.subView = subView;
 		c.communicator = communicator;
 		
 		LoginController loginController = new LoginController(c);

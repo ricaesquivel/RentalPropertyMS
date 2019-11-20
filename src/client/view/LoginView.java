@@ -100,7 +100,8 @@ public class LoginView extends JFrame {
 	 */
 	public static void main(String[] args) {
 		try {
-			LoginView window = new LoginView();
+			//LoginView window = new LoginView();
+			SignUp window = new SignUp();
 			window.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
