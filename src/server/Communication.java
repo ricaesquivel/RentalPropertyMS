@@ -87,7 +87,7 @@ public class Communication implements Runnable {
 	
 	private void listLandlords() {
 		try {
-			String result = userDatabase.listUsers("landlord");
+			String result =  userDatabase.listUsers("landlord");
 			sendString(result);
 		} catch (Exception e) {
 			e.printStackTrace();
