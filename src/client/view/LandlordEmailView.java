@@ -7,8 +7,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,6 +23,8 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import java.awt.Dimension;
 
 @SuppressWarnings("serial")
@@ -31,8 +36,8 @@ public class LandlordEmailView extends JFrame {
     JLabel titleLabel = new JLabel("Messages sent to you");
     JPanel titlePanel = new JPanel();
     
-    JButton deleteBtn = new JButton("Delete");
-    JButton openBtn = new JButton("Open");
+    public JButton deleteBtn = new JButton("Delete");
+    public JButton openBtn = new JButton("Open");
     
     String[] headers = {"col1", "col2"};
     String[][] data = {{"col1 row1", "col2 row1"},
@@ -70,7 +75,19 @@ public class LandlordEmailView extends JFrame {
         bottomSide.add("North",openBtn);
         bottomSide.add("Center", deleteBtn);
     }
-
+    public void displayEmail(String text){  
+    	JDialog d = new JDialog(this, "Email");
+    	d.setBackground(Color.WHITE);
+    	JTextArea field = new JTextArea(text);
+    	field.setAlignmentY(TOP_ALIGNMENT);
+    	field.setAlignmentX(LEFT_ALIGNMENT);
+    	field.setEditable(false);
+    	field.setLineWrap(true);
+    	d.add(field);
+    	d.setSize(250,250);
+    	d.setLocation(500, 500);
+    	d.setVisible(true);
+    }
     public LandlordEmailView(){
     	
         this.setResizable(false);
@@ -111,6 +128,14 @@ public class LandlordEmailView extends JFrame {
 	}
 	public void setCols(String[] cols) {
 		model.setColumnIdentifiers(cols);
+	}
+	
+	public void addSelectionListener(ListSelectionListener a) {
+		textBox.getSelectionModel().addListSelectionListener(a);
+	}
+	
+	public void deleteRow(int row) {
+		((DefaultTableModel)textBox.getModel()).removeRow(row);
 	}
 
     public static void main(String[] args) {
