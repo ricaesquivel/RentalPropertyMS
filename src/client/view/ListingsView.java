@@ -85,6 +85,7 @@ public class ListingsView extends JFrame{
 		searchButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
 		emailButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
 		updateButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
+		subscriptionsButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
 	}
 
 	public ListingsView() {

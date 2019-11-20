@@ -201,6 +201,9 @@ public class PropertyDatabaseController {
                 String state = rs.getString("state");
                 list += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ state + "~"+"\n";
             }
+            if(list.length() == 0) {
+            	return "no properties yet";
+            }
             list = list.substring(0, list.length() -1);
             return list;
 		} catch (Exception e) {

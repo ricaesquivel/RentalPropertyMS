@@ -177,6 +177,9 @@ public class ListingsController {
 					searchView.errorMessage("You have subscribed to this search!");
 					
 				}
+				else if(event.getSource() == listings.subscriptionsButton) {
+					
+				}
 				
 			} catch (Exception e2) {
 				e2.printStackTrace();

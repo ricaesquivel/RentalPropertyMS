@@ -119,6 +119,7 @@ public class LandlordController {
 						writeSocket(id + "é" + houseTypeChoice + "é" + bedroom + "é" + bathroom + "é" + quadChoice +"é" + furnishChoice + "é" + landlordID + "é" + status);
 						landlordAddView.errorMessage("Property Added");
 						landlordAddView.setVisible(false);
+						landlordView.showPropertiesBtn.doClick();
 					}
 				}				
 			} catch (Exception e2) {
