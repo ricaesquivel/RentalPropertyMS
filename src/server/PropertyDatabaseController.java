@@ -9,11 +9,13 @@ import java.util.Vector;
 
 public class PropertyDatabaseController {
 
+	private static PropertyDatabaseController onlyInstance;
+	
 	Connection myConn;
     String query;
     PreparedStatement preStmt;
     
-    public PropertyDatabaseController(Connection conn){
+    private PropertyDatabaseController(Connection conn){
         try {
             myConn = conn;
         } catch (Exception e) {
@@ -22,9 +24,14 @@ public class PropertyDatabaseController {
         }
     }
     
+    public static PropertyDatabaseController getOnlyInstance(Connection conn) {
+    	if(onlyInstance == null) {
+    		onlyInstance = new PropertyDatabaseController(conn);
+    	}
+    	return onlyInstance;
+    }
     
 	public void setNewStatus(String s, int id) {
-		System.out.println("in property");
 		String query = "UPDATE `properties` SET `state` = ? WHERE `id` = ?";
 		try {
 			preStmt = myConn.prepareStatement(query);

@@ -56,9 +56,11 @@ public class ServerCommunicator {
     
     public void createDatabase() {
 		try{
-            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=root","root", "ihatefacebook11");
-            propertyDatabase = new PropertyDatabaseController(myConn); 
-    		userDatabase = new UserDatabaseController(myConn);
+            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=root","root", "8002");
+//            propertyDatabase = new PropertyDatabaseController(myConn); 
+            propertyDatabase = PropertyDatabaseController.getOnlyInstance(myConn); 
+//            userDatabase = new UserDatabaseController(myConn);
+    		userDatabase = UserDatabaseController.getOnlyInstance(myConn);
         } catch(SQLException a){
         	a.printStackTrace();
             System.err.println("Error connecting to database");

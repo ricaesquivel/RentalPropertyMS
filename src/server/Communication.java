@@ -222,7 +222,6 @@ public class Communication implements Runnable {
 	}
 
 	private void changeState() {
-		System.out.println("communication");
 		try {
 			String state[] = in.readLine().split("~");
 			int id = Integer.parseInt(state[1]);
@@ -247,7 +246,6 @@ public class Communication implements Runnable {
 
 	private void newLandlordID() {
 		try {
-			System.out.println("in communication");
 			String s = userDatabase.landlordSignUpID()+"";
 			sendString(s);
 		}catch(Exception e) {
@@ -265,7 +263,6 @@ public class Communication implements Runnable {
 				userDatabase.addLandlord(id,userInfo[3],userInfo[2],userInfo[0]);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

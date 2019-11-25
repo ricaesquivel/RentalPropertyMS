@@ -10,17 +10,26 @@ import client.controller.LoginEnum;
 
 public class UserDatabaseController {
 
+	private static UserDatabaseController onlyInstance;
+	
 	Connection myConn;
     String query;
     PreparedStatement preStmt;
     
-    public UserDatabaseController(Connection conn){
+    private UserDatabaseController(Connection conn){
         try {
             myConn = conn;
         } catch (Exception e) {
             System.err.println("error connecting to user database");
             e.printStackTrace();
         }
+    }
+    
+    public static UserDatabaseController getOnlyInstance(Connection conn) {
+    	if(onlyInstance == null) {
+    		onlyInstance = new UserDatabaseController(conn);
+    	}
+    	return onlyInstance;
     }
 	
 	public boolean validateUser(String username, String pass, int loginType) {

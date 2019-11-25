@@ -40,7 +40,6 @@ public class Client {
 		ClientCommunicator communicator = new ClientCommunicator("localhost", 9091);
 		
 		Client c = new Client(); 
-
 		LoginView view = new LoginView();
 		LoginPasswordView passwordView = new LoginPasswordView();
 		ManagerView managerView = new ManagerView();
@@ -71,11 +70,13 @@ public class Client {
 		c.subView = subView;
 		c.communicator = communicator;
 		
+		
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);
 		ManagerController managerController = new ManagerController(c);
 		LandlordController landlordController = new LandlordController(c);
 		SignUpController signUpController = new SignUpController(c);
+		
 		
 		c.loginView.setVisible(true);
 		//c.signUpView.setVisible(true);
