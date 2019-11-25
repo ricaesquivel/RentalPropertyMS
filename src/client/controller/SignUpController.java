@@ -19,13 +19,11 @@ public class SignUpController {
 	private MyListener listener;
 	private String choice = "";
 	private LoginView loginView;
-	private UserDatabaseController base;
 	
 	public SignUpController(Client c) {
 		comms = c.communicator;
 		view = c.signUpView;
 		loginView = c.loginView;
-		base = c.userDatabase;
 		listener = new MyListener();
 		addListners();
 	}
@@ -105,7 +103,14 @@ public class SignUpController {
 					return;
 				}
 				
-				if (password.equals(confirm) && !base.userExists(userName)) {
+				if (password.equals(confirm)) {
+					writeSocket("21");
+					writeSocket(userName);
+					
+					String b = readSocket();
+					boolean exists = Boolean.getBoolean(b);
+					
+					if(!exists) {
 					
 					String s="";
 					if(choice.equals("Registered Renter")) {
@@ -120,18 +125,11 @@ public class SignUpController {
 					view.errorMessage("Sign up complete!");
 					view.setVisible(false);
 					loginView.setVisible(true);
-					
+					}
 				} else{
 					view.errorMessage("Username has been taken, please try another one");
 				}
-			}
-			
-			
-		}
-		
+			}	
+		}	
 	}
-	
-	
-	
-
 }

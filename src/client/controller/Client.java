@@ -30,18 +30,9 @@ public class Client {
 	SignUp signUpView;
 	SubscriptionsView subView;
 	
-	private Connection myConn;
-	PropertyDatabaseController propertyDatabase;
-	UserDatabaseController userDatabase;
-	
+
 	public Client() {
-		try{
-            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=root","root", "ihatefacebook11");
-        } catch(SQLException a){
-        	a.printStackTrace();
-            System.err.println("Error connecting to database");
-        }
-        System.out.println("<< database Server is Running >>");
+        System.out.println("<< Client is connected >>");
 	}
 	
 	public static void main(String[] args) {
@@ -49,10 +40,7 @@ public class Client {
 		ClientCommunicator communicator = new ClientCommunicator("localhost", 9091);
 		
 		Client c = new Client(); 
-		
-		PropertyDatabaseController propertyDatabase = new PropertyDatabaseController(c.myConn); 
-		UserDatabaseController userDatabase = new UserDatabaseController(c.myConn);
-		
+
 		LoginView view = new LoginView();
 		LoginPasswordView passwordView = new LoginPasswordView();
 		ManagerView managerView = new ManagerView();
@@ -70,8 +58,6 @@ public class Client {
 
 		c.changeView = changeView;		
 		c.changeView2 = changeView2;
-		c.propertyDatabase = propertyDatabase;
-		c.userDatabase = userDatabase;
 		c.managerView = managerView;
 		c.loginView = view;
 		c.passwordView = passwordView;

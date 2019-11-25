@@ -28,8 +28,6 @@ public class LandlordController {
 	private LandlordAddView landlordAddView;
 	private LandlordEmailView landlordEmailView;
 	private LandlordView landlordView;
-	private PropertyDatabaseController propertyDatabase;
-	private UserDatabaseController userDatabase;
 	private MyListener listener;
 	private int landlordID;
 	private ClientCommunicator comms; 
@@ -44,11 +42,6 @@ public class LandlordController {
 	
 	public LandlordController(Client c) {
 		
-		
-
-		
-		propertyDatabase = c.propertyDatabase;
-        userDatabase = c.userDatabase;
         landlordAddView = c.landlordAddView;
         landlordEmailView = c.landlordEmailView;
         landlordView = c.landlordView;
@@ -71,7 +64,10 @@ public class LandlordController {
 		return null;
 	}
 	private void autoSetlandlordID() {
-		landlordID = userDatabase.getlandlordID(landlordView.getUsername());
+		writeSocket("16");
+		writeSocket(landlordView.getUsername());
+		String id = readSocket();
+		landlordID = Integer.parseInt(id);
 	}
 
 	public class MyListener implements ActionListener {
@@ -102,10 +98,11 @@ public class LandlordController {
 					autoSetlandlordID();
 					landlordView.clear();
 					landlordView.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished", "state"});
-					
-					String result = propertyDatabase.getLandlordProperties(landlordID);
-					String arr[] = result.split("\n");
-					for (String string : arr) {
+					writeSocket("14");
+					writeSocket(Integer.toString(landlordID));
+					String result = readSocket();						
+					String arr[] = result.split("é");		
+					for (String string : arr) {		
 						String[] row = string.split("~");
 						landlordView.addElementTextBox(row);
 					}
@@ -116,12 +113,14 @@ public class LandlordController {
 
 					landlordEmailView.clear();
 					landlordEmailView.setCols(new String[] {"From", "Message"});
-					String result = userDatabase.getLandlordEmails(landlordID);
+					writeSocket("15");
+					writeSocket(Integer.toString(landlordID));
+					String result = readSocket();										
 					if(result.equals("none")) {
 						landlordView.errorMessage("No Emails yet");
 						return;
 					}
-					String arr[] = result.split("\n");
+					String arr[] = result.split("é");	
 					for (String string : arr) {
 						String[] row = string.split("~");
 						landlordEmailView.addElementTextBox(row);

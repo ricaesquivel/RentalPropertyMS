@@ -172,7 +172,7 @@ public class PropertyDatabaseController {
                 String state = rs.getString("state");
                 String name = rs.getString("name");
                 String email = rs.getString("email");
-                result += id +"~"+  type +"~"+  bedsResult +"~"+  bathsResult +"~"+  quadResult +"~"+  furnishedResult +"~"+ state + "~" + name +"~"+ email +"~"+ "\n";
+                result += id +"~"+  type +"~"+  bedsResult +"~"+  bathsResult +"~"+  quadResult +"~"+  furnishedResult +"~"+ state + "~" + name +"~"+ email +"~"+ "é";
             }
             result = result.substring(0, result.length() -1);
             return result;
@@ -217,7 +217,7 @@ public class PropertyDatabaseController {
                 String quadResult= rs.getString("quadrant");
                 boolean furnishedResult= rs.getBoolean("furnished");
                 String state = rs.getString("state");
-                list += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ state + "~"+"\n";
+                list += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ state + "~"+ "é";
             }
             if(list.length() == 0) {
             	return "no properties yet";

@@ -86,6 +86,27 @@ public class Communication implements Runnable {
                 case 13:
                 	changeState();
                 	break;
+                case 14:
+                	getLandlordProperty();
+                	break;
+                case 15:
+                	getlandlordEmail();
+                	break;
+                case 16:
+                	getlandlordID();
+                	break;
+                case 17:
+                	addSubscriber();
+                	break;
+                case 18:
+                	getLandlordAndProperty();
+                	break;
+                case 19:
+                	getRegRenters();
+                	break;
+                case 21:
+                	checkExists();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -98,6 +119,78 @@ public class Communication implements Runnable {
         }
     }
 	
+	private void checkExists() {
+		try {
+			String arg = in.readLine();
+			boolean b = userDatabase.userExists(arg);
+			sendString(Boolean.toString(b));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void getRegRenters() {
+		try {
+			sendString(userDatabase.listUsers("regrenter"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void getLandlordAndProperty() {
+		try {
+			sendString(propertyDatabase.listPropertiesAndLandlords());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void addSubscriber() {
+		try {
+			String args[] = in.readLine().split("é");
+			userDatabase.addSubscribes(args[0], args[1], args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void getlandlordID() {
+		try {
+			String landlordId = in.readLine();
+			int id = userDatabase.getlandlordID(landlordId);
+			sendString(Integer.toString(id));
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("Error in get landlord id");
+		}
+		
+	}
+
+	private void getlandlordEmail() {
+		try {
+			String landlordId = in.readLine();
+			sendString(userDatabase.getLandlordEmails(Integer.parseInt(landlordId)));
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.err.println("Error in get landlord property");
+			}
+		
+	}
+
+	private void getLandlordProperty() {
+		try {
+		String landlordId = in.readLine();
+		sendString(propertyDatabase.getLandlordProperties(Integer.parseInt(landlordId)));
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("Error in get landlord property");
+		}
+		
+	}
+
 	private void deleteEmail() {
 		try {
 		String emailData[] = in.readLine().split("é");
