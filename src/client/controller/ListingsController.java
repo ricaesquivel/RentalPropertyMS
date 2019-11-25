@@ -24,8 +24,6 @@ public class ListingsController{
 	private MyListener listener;
 	private LoginView login;
 	private SearchCriteriaView searchView;
-	private PropertyDatabaseController database;
-	private UserDatabaseController userDatabase;
 	private SubscriptionsView subView;
 	
 	private String quadChoice = "";
@@ -42,12 +40,10 @@ public class ListingsController{
 	public ListingsController(Client c) {
 		
 		comms = c.communicator;
-		database = c.propertyDatabase;
 		listings = c.listings;
         searchView = c.searchView;
         login = c.loginView;
         emailView = c.emailView;
-        userDatabase = c.userDatabase;
         subView = c.subView;
         
         listener = new MyListener();
@@ -182,7 +178,8 @@ public class ListingsController{
                         searchView.errorMessage("Please enter a valid bathroom and bedroom number");
                         return;
                     }
-					userDatabase.addSubscribes(listings.username, houseTypeChoice, furnishChoice, beds, baths, quadChoice);
+					writeSocket("17");
+					writeSocket(listings.username + "é" +  houseTypeChoice + "é" + furnishChoice + "é" + beds + "é" +  baths + "é" + quadChoice);
 					searchView.errorMessage("You have subscribed to this search!");
 					
 				}
