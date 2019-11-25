@@ -43,8 +43,6 @@ public class LandlordView extends JFrame{
     String[][] data = {{"col1 row1", "col2 row1"},
     					{"col1 row2", "col2 row2"}
     };
-    
-    public boolean visible;
 	
     public DefaultTableModel model = new DefaultTableModel(data, headers);
     public JTable textBox = new JTable(model);
@@ -192,13 +190,5 @@ public class LandlordView extends JFrame{
 	}
 	public String getUsername() {
 		return username;
-	}
-	public void setOpen(boolean b) {
-		this.setVisible(b);
-		visible = b;
-		System.err.println("we hereee in setOpen " + isOpen() + " " + b);
-	}
-	public boolean isOpen() {
-		return visible;
 	}
 }

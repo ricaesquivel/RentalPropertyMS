@@ -24,9 +24,7 @@ import javax.swing.event.ListSelectionListener;
 
 import org.eclipse.core.internal.runtime.PrintStackUtil;
 
-public class LandlordController implements Observer {
-	
-	boolean seeable;
+public class LandlordController {
 	
 	private ChangeStatusPopUp changeView;
 	private LandlordAddView landlordAddView;
@@ -45,7 +43,6 @@ public class LandlordController implements Observer {
 	private int rowNum;
 	private String stateChoice;
 	private String selectedID =" ";
-	private Subject subject;
 	
 	public LandlordController(Client c) {
 		
@@ -59,11 +56,6 @@ public class LandlordController implements Observer {
         
         listener = new MyListener();
         addListeners();
-	}
-	
-	public void setSubject(Subject s) {
-		subject = s;
-		s.register(this);
 	}
 	
 	private void writeSocket(String s) {
@@ -108,8 +100,6 @@ public class LandlordController implements Observer {
 
 				if(e.getSource() == landlordView.showPropertiesBtn) {
 					
-					seeable = landlordView.isOpen();
-					
 					autoSetlandlordID();
 					landlordView.clear();
 					landlordView.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished", "state"});
@@ -139,7 +129,6 @@ public class LandlordController implements Observer {
 					}
 					
 					landlordEmailView.setVisible(true);
-					update();
 				}
 				
 				else if(e.getSource() == landlordEmailView.deleteBtn){
@@ -147,6 +136,7 @@ public class LandlordController implements Observer {
 					writeSocket(landlordID + "é" + selected + "é" + selected2);
 					landlordEmailView.deleteRow(rowNum);
 					landlordEmailView.deleteBtn.setEnabled(false);
+					landlordEmailView.openBtn.setEnabled(false);
 				}
 				
 				else if(e.getSource() == landlordEmailView.openBtn) {
@@ -256,7 +246,6 @@ public class LandlordController implements Observer {
 		landlordView.addCloseListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-            	landlordView.setOpen(false);
             	System.exit(0);
             }
         });
@@ -273,15 +262,4 @@ public class LandlordController implements Observer {
 	    });
 
 	}
-	
-	@Override
-	public void update() {
-		if(seeable) {
-			landlordView.errorMessage("You've got mail!");
-		} else {
-			landlordView.errorMessage("yuh");
-		}
-		System.out.println("   gayyy >>> " + landlordView.visible);
-	}
 }
-

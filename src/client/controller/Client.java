@@ -50,9 +50,7 @@ public class Client {
 		
 		Client c = new Client(); 
 		
-//		PropertyDatabaseController propertyDatabase = new PropertyDatabaseController(c.myConn); 
 		PropertyDatabaseController propertyDatabase = PropertyDatabaseController.getOnlyInstance(c.myConn);
-//		UserDatabaseController userDatabase = new UserDatabaseController(c.myConn);
 		UserDatabaseController userDatabase = UserDatabaseController.getOnlyInstance(c.myConn);
 		
 		LoginView view = new LoginView();
@@ -87,12 +85,13 @@ public class Client {
 		c.subView = subView;
 		c.communicator = communicator;
 		
+		
 		LoginController loginController = new LoginController(c);
 		ListingsController listingsController = new ListingsController(c);
 		ManagerController managerController = new ManagerController(c);
 		LandlordController landlordController = new LandlordController(c);
 		SignUpController signUpController = new SignUpController(c);
-		landlordController.setSubject(listingsController);
+		
 		
 		c.loginView.setVisible(true);
 		//c.signUpView.setVisible(true);

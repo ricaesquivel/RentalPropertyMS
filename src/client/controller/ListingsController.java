@@ -16,7 +16,7 @@ import client.view.SearchCriteriaView;
 import server.PropertyDatabaseController;
 import server.UserDatabaseController;
 
-public class ListingsController implements Subject{
+public class ListingsController{
 	
 	private ClientCommunicator comms;
 	private ListingsView listings;
@@ -27,7 +27,6 @@ public class ListingsController implements Subject{
 	private PropertyDatabaseController database;
 	private UserDatabaseController userDatabase;
 	private SubscriptionsView subView;
-	private ArrayList<Observer> observers;
 	
 	private String quadChoice = "";
 	private String furnishChoice = "";
@@ -50,8 +49,6 @@ public class ListingsController implements Subject{
         emailView = c.emailView;
         userDatabase = c.userDatabase;
         subView = c.subView;
-        
-        observers = new ArrayList<Observer>();
         
         listener = new MyListener();
         addListeners();
@@ -130,7 +127,6 @@ public class ListingsController implements Subject{
 					
 					emailView.clear();
 					emailView.setVisible(false);
-					notifyObserver();
 				} 
 				else if(event.getSource() == searchView.submitButton) {
 					listings.clear();
@@ -303,18 +299,5 @@ public class ListingsController implements Subject{
 	        }
 	    });
 		
-	}
-
-	@Override
-	public void register(Observer o) {
-		observers.add(o);
-//		o.update();
-	}
-
-	@Override
-	public void notifyObserver() {
-		for (Observer o : observers) {
-			o.update();
-		}
 	}
 }
