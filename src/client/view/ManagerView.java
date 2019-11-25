@@ -176,6 +176,7 @@ public class ManagerView extends JFrame{
 		listRentersBtn.addActionListener(a);
 		listPropertiesBtn.addActionListener(a);
 		changeStatusBtn.addActionListener(a);
+		requestSummary.addActionListener(a);
 	}
 	/**
 	 * Launch the application.

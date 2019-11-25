@@ -31,6 +31,10 @@ public class PropertyDatabaseController {
     	return onlyInstance;
     }
     
+    
+    
+    
+    
 	public void setNewStatus(String s, int id) {
 		String query = "UPDATE `properties` SET `state` = ? WHERE `id` = ?";
 		try {
@@ -128,6 +132,54 @@ public class PropertyDatabaseController {
 		return "error";
 	}
 	
+	
+	
+    
+    public String getPropertyCount(String s) {
+    	int count = -1;
+    	if(s.equals("")) {
+    		
+    		try {
+    	    	String query = "SELECT count(properties.id) FROM `properties`"; 
+    	    	preStmt = myConn.prepareStatement(query);
+    	  
+    			ResultSet rs = preStmt.executeQuery();
+                String list = "";
+                
+                while (rs.next()) {
+                	count = rs.getInt("count(properties.id)");
+                }
+                //list = list.substring(0, list.length() -1);
+                return list +=count;
+        	}catch(SQLException e) {
+        		e.printStackTrace();
+        	}
+        	return count+"";
+    		
+    	}else {
+    	
+	    	String query = "SELECT count(properties.id) FROM `properties` WHERE `state` = ?";    	
+	    	
+	    	try {
+		    	preStmt = myConn.prepareStatement(query);
+		    	preStmt.setString(1, s);
+		    	
+				ResultSet rs = preStmt.executeQuery();
+	            String list = "";
+	            
+	            while (rs.next()) {
+	            	count = rs.getInt("count(properties.id)");
+	            }
+	            //list = list.substring(0, list.length() -1);
+	            return list +=count;
+	    	}catch(SQLException e) {
+	    		e.printStackTrace();
+	    	}
+	    	return count+"";
+    	}
+    }
+    
+    
 	public String listAll(String state) {
 		String query = "SELECT * FROM `properties` WHERE `state` = ? ORDER BY id ASC";
 		
@@ -147,6 +199,9 @@ public class PropertyDatabaseController {
                 int landlordId = rs.getInt("landlordID");
 //                list += toString(id, type, bedsResult, bathsResult, quadResult, furnishedResult) + "\n";
                 list += id +"~"+  type +"~"+  bedsResult+"~"+  bathsResult+"~"+  quadResult+"~"+ furnishedResult + "~"+ landlordId + "~"+"é";
+            }
+            if(list.length()==0) {
+            	return "";
             }
             list = list.substring(0, list.length() -1);
             return list;

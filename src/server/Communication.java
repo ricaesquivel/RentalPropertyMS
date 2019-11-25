@@ -106,6 +106,9 @@ public class Communication implements Runnable {
                 	break;
                 case 21:
                 	checkExists();
+					break;	
+                case 20:
+                	periodicSummary();
                 	break;
                 default:
                     quit = true;                // this was below
@@ -265,6 +268,14 @@ public class Communication implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+		
+	private void periodicSummary() {
+		String result = propertyDatabase.getPropertyCount("active");
+		result+=("~"+propertyDatabase.getPropertyCount("rented"));
+		result+=("~"+propertyDatabase.getPropertyCount("")) + "é";
+		result+= ("~"+propertyDatabase.listAll("rented"));
+		sendString(result);
 	}
 	
 	private void listLandlords() {

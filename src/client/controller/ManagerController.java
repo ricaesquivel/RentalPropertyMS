@@ -54,6 +54,12 @@ public class ManagerController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
+				if(e.getSource()==managerView.requestSummary) {
+					System.out.println("requesting summary");
+					writeSocket("20");
+					String s = readSocket();
+					System.out.println(s);
+				}
 				if(e.getSource()==changeView.submit) {
 					System.out.println(stateChoice);
 					System.out.println(selectedID);	
