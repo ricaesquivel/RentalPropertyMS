@@ -36,7 +36,7 @@ public class Client {
 	
 	public Client() {
 		try{
-            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=root","root", "ihatefacebook11");
+            myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=root","root", "8002");
         } catch(SQLException a){
         	a.printStackTrace();
             System.err.println("Error connecting to database");
@@ -50,8 +50,10 @@ public class Client {
 		
 		Client c = new Client(); 
 		
-		PropertyDatabaseController propertyDatabase = new PropertyDatabaseController(c.myConn); 
-		UserDatabaseController userDatabase = new UserDatabaseController(c.myConn);
+//		PropertyDatabaseController propertyDatabase = new PropertyDatabaseController(c.myConn); 
+		PropertyDatabaseController propertyDatabase = PropertyDatabaseController.getOnlyInstance(c.myConn);
+//		UserDatabaseController userDatabase = new UserDatabaseController(c.myConn);
+		UserDatabaseController userDatabase = UserDatabaseController.getOnlyInstance(c.myConn);
 		
 		LoginView view = new LoginView();
 		LoginPasswordView passwordView = new LoginPasswordView();
