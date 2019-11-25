@@ -50,7 +50,7 @@ public class ManagerView extends JFrame{
     public JButton listLandlordBtn = new JButton("Retrieve landlords");
     public JButton listRentersBtn = new JButton("Retrieve RegRenters");
     public JButton listPropertiesBtn = new JButton("Retrieve Properties");
-    public JButton changeStatusBtn = new JButton("change State");
+    public JButton changeStatusBtn = new JButton("Change State");
     public JButton requestSummary = new JButton("Create Summary");
 	
     public void styler() {
@@ -70,7 +70,8 @@ public class ManagerView extends JFrame{
         southPanel.setLayout(new FlowLayout());
         southPanel.add(requestSummary);
         southPanel.add(changeStatusBtn);
-        southPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
+        southPanel.setBorder(new EmptyBorder(10, 15, 10, 15));
+        southPanel.setBackground(Color.WHITE);
 
         title.setFont(new Font("Arial", Font.BOLD, 26));
         title.setForeground(Color.WHITE);

@@ -1,9 +1,14 @@
 package client.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import client.controller.ListingsController.MyListener;
 import client.view.LandlordAddView;
@@ -25,24 +30,20 @@ public class LandlordController {
 	private LandlordAddView landlordAddView;
 	private LandlordEmailView landlordEmailView;
 	private LandlordView landlordView;
-	private PropertyDatabaseController propertyDatabase;
-	private UserDatabaseController userDatabase;
 	private MyListener listener;
 	private int landlordID;
 	private ClientCommunicator comms; 
 	private String houseTypeChoice;
 	private String quadChoice;
 	private String furnishChoice;
+	private String selected;
+	private String selected2;
+	private int rowNum;
 	private String stateChoice;
 	private String selectedID =" ";
 	
 	public LandlordController(Client c) {
 		
-		
-
-		
-		propertyDatabase = c.propertyDatabase;
-        userDatabase = c.userDatabase;
         landlordAddView = c.landlordAddView;
         landlordEmailView = c.landlordEmailView;
         landlordView = c.landlordView;
@@ -52,6 +53,7 @@ public class LandlordController {
         listener = new MyListener();
         addListeners();
 	}
+	
 	private void writeSocket(String s) {
 		comms.socketOut.println(s);
 		comms.socketOut.flush();
@@ -65,7 +67,10 @@ public class LandlordController {
 		return null;
 	}
 	private void autoSetlandlordID() {
-		landlordID = userDatabase.getlandlordID(landlordView.getUsername());
+		writeSocket("16");
+		writeSocket(landlordView.getUsername());
+		String id = readSocket();
+		landlordID = Integer.parseInt(id);
 	}
 
 	public class MyListener implements ActionListener {
@@ -93,30 +98,33 @@ public class LandlordController {
 				}
 
 				if(e.getSource() == landlordView.showPropertiesBtn) {
+					
 					autoSetlandlordID();
 					landlordView.clear();
 					landlordView.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished", "state"});
-					
-					String result = propertyDatabase.getLandlordProperties(landlordID);
-					String arr[] = result.split("\n");
-					for (String string : arr) {
+					writeSocket("14");
+					writeSocket(Integer.toString(landlordID));
+					String result = readSocket();						
+					String arr[] = result.split("é");		
+					for (String string : arr) {		
 						String[] row = string.split("~");
 						landlordView.addElementTextBox(row);
 					}
 					landlordView.autoColWidth();
-//					landlordView.buttonState(false);
-					
 				}
-				if(e.getSource() == landlordView.viewEmailButton) {
-					
+				
+				else if(e.getSource() == landlordView.viewEmailButton) {
+
 					landlordEmailView.clear();
 					landlordEmailView.setCols(new String[] {"From", "Message"});
-					String result = userDatabase.getLandlordEmails(landlordID);
+					writeSocket("15");
+					writeSocket(Integer.toString(landlordID));
+					String result = readSocket();										
 					if(result.equals("none")) {
 						landlordView.errorMessage("No Emails yet");
 						return;
 					}
-					String arr[] = result.split("\n");
+					String arr[] = result.split("é");	
 					for (String string : arr) {
 						String[] row = string.split("~");
 						landlordEmailView.addElementTextBox(row);
@@ -124,10 +132,24 @@ public class LandlordController {
 					
 					landlordEmailView.setVisible(true);
 				}
-				if(e.getSource() == landlordView.addPropertyBtn){
+				
+				else if(e.getSource() == landlordEmailView.deleteBtn){
+					writeSocket("10");
+					writeSocket(landlordID + "é" + selected + "é" + selected2);
+					landlordEmailView.deleteRow(rowNum);
+					landlordEmailView.deleteBtn.setEnabled(false);
+					landlordEmailView.openBtn.setEnabled(false);
+				}
+				
+				else if(e.getSource() == landlordEmailView.openBtn) {
+					landlordEmailView.displayEmail(selected2);
+					landlordEmailView.openBtn.setEnabled(false);
+				}
+			
+				else if(e.getSource() == landlordView.addPropertyBtn){
 					landlordAddView.setVisible(true);
 				}
-				if(e.getSource()== landlordAddView.submitButton){
+				else if(e.getSource()== landlordAddView.submitButton){
 					String bathroom = landlordAddView.getBathrooms();
 					String bedroom = landlordAddView.getBedrooms();
 					int beds = -1;
@@ -173,8 +195,8 @@ public class LandlordController {
 		return -1;
 	}
 	
-	
 	private void addListeners() {
+		landlordEmailView.addListener(listener);
 		landlordView.addListener(listener);
 		changeView.addListener(listener);
 
@@ -226,9 +248,20 @@ public class LandlordController {
 		landlordView.addCloseListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                System.exit(0);
+            	System.exit(0);
             }
         });
-	}
-  }
+		landlordEmailView.addSelectionListener(new ListSelectionListener(){
+	        public void valueChanged(ListSelectionEvent e) {
+	        	if(!e.getValueIsAdjusting() && landlordEmailView.textBox.getSelectedRow() != -1){
+	        		selected = landlordEmailView.textBox.getModel().getValueAt(landlordEmailView.textBox.getSelectedRow(),0).toString();
+	        		selected2 = landlordEmailView.textBox.getModel().getValueAt(landlordEmailView.textBox.getSelectedRow(),1).toString();
+	        		rowNum = landlordEmailView.textBox.getSelectedRow();
+	        		landlordEmailView.deleteBtn.setEnabled(true);
+	        		landlordEmailView.openBtn.setEnabled(true);
+	        	}
+	        }
+	    });
 
+	}
+}

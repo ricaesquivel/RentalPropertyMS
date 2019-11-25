@@ -88,6 +88,7 @@ public class LandlordView extends JFrame{
 		showPropertiesBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
         viewEmailButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
         addPropertyBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
+        changeStatusBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
 	}
 
 	public LandlordView() {

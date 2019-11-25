@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.ListSelectionModel;import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -19,6 +19,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemListener;
@@ -40,38 +42,48 @@ public class ChangeStatusPopUp extends JFrame{
 	
 	private MyListener listener;
 	
-	public JButton submit = new JButton("submit");
+	public JButton submit = new JButton("Submit");
 	String[] menu = {"--choose one--", "Active","Rented","Cancelled","Suspended"};
 	DefaultComboBoxModel<String> dropDown = new DefaultComboBoxModel<String>(menu);
 	
     public JComboBox<String> dropDownCombo = new JComboBox<String>(dropDown);
 	
-    
+    JPanel panel = new JPanel();
+    JPanel panel2 = new JPanel();
     public void style() {
-        submit.setPreferredSize(new Dimension(150,150));
-        submit.setMinimumSize(new Dimension(300,150));
+    	
+    	
+    	panel.setSize(200, 55);
+    	panel2.setSize(200,55);
+        submit.setPreferredSize(new Dimension(100, 30));
+        submit.setMinimumSize(new Dimension(100, 30));
         
         submit.setFont(new Font("Sans", Font.PLAIN, 15));
         
         dropDownCombo.setPreferredSize(new Dimension(200,25));
         dropDownCombo.setMinimumSize(new Dimension(200,25));
         dropDownCombo.setFont(new Font("Sans", Font.PLAIN, 15));
-    	
+    	panel.add(dropDownCombo);
+    	Border border = new EmptyBorder(15, 0, 0, 0);
+    	panel.setBorder(border);
+    	Border border2 = new EmptyBorder(0, 0, 18, 0);
+    	panel2.add(submit);
+    	panel2.setBorder(border2);
     }
 	
 	public ChangeStatusPopUp() {
     	this.setTitle("Sign Up");
-   	 	this.setSize(700, 75);
+   	 	this.setSize(230, 150);
         this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         this.setResizable(false);
         this.setBackground(Color.WHITE);
         this.setLocationRelativeTo(null);
-        this.setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
+        this.setLayout(new BorderLayout());
         
         style();
         
-        add(dropDownCombo);
-        add(submit);
+        add("North", panel);
+        add("South", panel2);
 	}
 	
 	public void errorMessage(String error){

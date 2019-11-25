@@ -10,17 +10,26 @@ import client.controller.LoginEnum;
 
 public class UserDatabaseController {
 
+	private static UserDatabaseController onlyInstance;
+	
 	Connection myConn;
     String query;
     PreparedStatement preStmt;
     
-    public UserDatabaseController(Connection conn){
+    private UserDatabaseController(Connection conn){
         try {
             myConn = conn;
         } catch (Exception e) {
             System.err.println("error connecting to user database");
             e.printStackTrace();
         }
+    }
+    
+    public static UserDatabaseController getOnlyInstance(Connection conn) {
+    	if(onlyInstance == null) {
+    		onlyInstance = new UserDatabaseController(conn);
+    	}
+    	return onlyInstance;
     }
 	
 	public boolean validateUser(String username, String pass, int loginType) {
@@ -115,11 +124,7 @@ public class UserDatabaseController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		
-		
 	}
-	
-	
 	
 	public boolean userExists(String username) {
 
@@ -219,6 +224,19 @@ public class UserDatabaseController {
             
 		return "critical error";
 	}
+	public void removeEmail(int id, String from, String text){
+		try {
+		query = "DELETE FROM `emails` WHERE `to` = ?"
+				+ " AND `from` = ? AND `text` = ?";
+		preStmt = myConn.prepareStatement(query);
+		preStmt.setInt(1, id);
+		preStmt.setString(2, from);
+		preStmt.setString(3, text);
+		preStmt.execute();
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void addSubscribes(String username, String houseTypeChoice, String furnishChoice, int beds, int baths, String quadChoice) {
 		
@@ -275,6 +293,58 @@ public class UserDatabaseController {
 			System.err.println("error in get max property id");
 		}
 		return -1; //critical error
+	}
+
+	public String getSubscribes(String user) {
+		String result = "";
+		query = "SELECT * " +
+				"FROM `subscribes` " +
+				"WHERE `subusername` = ?";
+		try {
+			preStmt = myConn.prepareStatement(query);
+			preStmt.setString(1, user);
+            ResultSet rs = preStmt.executeQuery();
+		
+            while(rs.next()){
+            	String housetype = rs.getString("housetype");
+            	String furnish = rs.getString("furnished");
+                int beds = rs.getInt("beds");
+                int baths = rs.getInt("baths");
+                String quadrant = rs.getString("quadrant");
+                result += housetype +"~"+  furnish +"~" + beds +"~" + baths +"~" + quadrant +"~" + "é";
+            }
+            if(result.equals("")) {
+            	return "none";
+            }
+            result = result.substring(0, result.length() -1);
+            return result;
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in get subscribes");
+		}
+		return "critical error";
+	}
+
+	public void deleteSubscribe(String user, String type, String furnish, int beds, int baths, String quad) {
+		
+		query =  "DELETE FROM `subscribes` WHERE subusername = ? AND housetype = ? AND furnished = ? AND beds = ? AND baths = ? AND quadrant = ?";
+		
+		try {
+			
+			preStmt = myConn.prepareStatement(query);
+
+            preStmt.setString(1, user);
+            preStmt.setString(2, type);
+            preStmt.setString(3, furnish);
+            preStmt.setInt(4, beds);
+            preStmt.setInt(5, baths);
+            preStmt.setString(6, quad);
+            preStmt.execute();
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error delete subs");
+		}
 	}
 }
 

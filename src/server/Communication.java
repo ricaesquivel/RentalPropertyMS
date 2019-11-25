@@ -74,11 +74,39 @@ public class Communication implements Runnable {
                 case 7:
                 	newLandlordID();
                 	break;
-                	
+                case 11:
+                	getSubscribes();
+                	break;
+                case 12:
+                	deleteSubscribe();
+                	break;
+                case 10:
+                	deleteEmail();
+                	break;
                 case 13:
                 	changeState();
                 	break;
-                
+                case 14:
+                	getLandlordProperty();
+                	break;
+                case 15:
+                	getlandlordEmail();
+                	break;
+                case 16:
+                	getlandlordID();
+                	break;
+                case 17:
+                	addSubscriber();
+                	break;
+                case 18:
+                	getLandlordAndProperty();
+                	break;
+                case 19:
+                	getRegRenters();
+                	break;
+                case 21:
+                	checkExists();
+					break;	
                 case 20:
                 	periodicSummary();
                 	break;
@@ -94,8 +122,109 @@ public class Communication implements Runnable {
         }
     }
 	
+	private void checkExists() {
+		try {
+			String arg = in.readLine();
+			boolean b = userDatabase.userExists(arg);
+			sendString(Boolean.toString(b));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void getRegRenters() {
+		try {
+			sendString(userDatabase.listUsers("regrenter"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void getLandlordAndProperty() {
+		try {
+			sendString(propertyDatabase.listPropertiesAndLandlords());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void addSubscriber() {
+		try {
+			String args[] = in.readLine().split("é");
+			userDatabase.addSubscribes(args[0], args[1], args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	private void getlandlordID() {
+		try {
+			String landlordId = in.readLine();
+			int id = userDatabase.getlandlordID(landlordId);
+			sendString(Integer.toString(id));
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("Error in get landlord id");
+		}
+		
+	}
+
+	private void getlandlordEmail() {
+		try {
+			String landlordId = in.readLine();
+			sendString(userDatabase.getLandlordEmails(Integer.parseInt(landlordId)));
+			}catch(Exception e) {
+				e.printStackTrace();
+				System.err.println("Error in get landlord property");
+			}
+		
+	}
+
+	private void getLandlordProperty() {
+		try {
+		String landlordId = in.readLine();
+		sendString(propertyDatabase.getLandlordProperties(Integer.parseInt(landlordId)));
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("Error in get landlord property");
+		}
+		
+	}
+
+	private void deleteEmail() {
+		try {
+		String emailData[] = in.readLine().split("é");
+		userDatabase.removeEmail(Integer.parseInt(emailData[0]), emailData[1], emailData[2]);
+		}catch(Exception e) {
+			e.printStackTrace();
+			System.err.println("Error in delete email");
+		}
+	}
+
+	private void deleteSubscribe() {
+		try {
+			String args[] = in.readLine().split("é");
+			userDatabase.deleteSubscribe(args[0], args[1], args[2], Integer.parseInt(args[3]), Integer.parseInt(args[4]), args[5]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void getSubscribes() {
+		try {
+			String user = in.readLine();
+			String res = userDatabase.getSubscribes(user);
+			sendString(res);
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error getting subscribes");
+		}
+	}
+
 	private void changeState() {
-		System.out.println("communication");
 		try {
 			String state[] = in.readLine().split("~");
 			int id = Integer.parseInt(state[1]);
@@ -120,7 +249,6 @@ public class Communication implements Runnable {
 
 	private void newLandlordID() {
 		try {
-			System.out.println("in communication");
 			String s = userDatabase.landlordSignUpID()+"";
 			sendString(s);
 		}catch(Exception e) {
@@ -138,7 +266,6 @@ public class Communication implements Runnable {
 				userDatabase.addLandlord(id,userInfo[3],userInfo[2],userInfo[0]);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

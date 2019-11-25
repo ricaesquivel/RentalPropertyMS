@@ -5,9 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import client.view.EmailView;
 import client.view.ListingsView;
 import client.view.LoginView;
@@ -15,7 +16,7 @@ import client.view.SearchCriteriaView;
 import server.PropertyDatabaseController;
 import server.UserDatabaseController;
 
-public class ListingsController {
+public class ListingsController{
 	
 	private ClientCommunicator comms;
 	private ListingsView listings;
@@ -23,23 +24,27 @@ public class ListingsController {
 	private MyListener listener;
 	private LoginView login;
 	private SearchCriteriaView searchView;
-	private PropertyDatabaseController database;
-	private UserDatabaseController userDatabase;
+	private SubscriptionsView subView;
 	
 	private String quadChoice = "";
 	private String furnishChoice = "";
 	private String houseTypeChoice = "";
 	private String selected = "";
+	private String selectedSubType = "";
+	private String selectedSubFurnish = "";
+	private String selectedSubBeds = "";
+	private String selectedSubBaths = "";
+	private String selectedSubQuadrant = "";
+	private int rowNumber;
 	
 	public ListingsController(Client c) {
 		
 		comms = c.communicator;
-		database = c.propertyDatabase;
 		listings = c.listings;
         searchView = c.searchView;
         login = c.loginView;
         emailView = c.emailView;
-        userDatabase = c.userDatabase;
+        subView = c.subView;
         
         listener = new MyListener();
         addListeners();
@@ -173,12 +178,48 @@ public class ListingsController {
                         searchView.errorMessage("Please enter a valid bathroom and bedroom number");
                         return;
                     }
-					userDatabase.addSubscribes(listings.username, houseTypeChoice, furnishChoice, beds, baths, quadChoice);
+					writeSocket("17");
+					writeSocket(listings.username + "é" +  houseTypeChoice + "é" + furnishChoice + "é" + beds + "é" +  baths + "é" + quadChoice + "é" + "yuh");
 					searchView.errorMessage("You have subscribed to this search!");
 					
 				}
 				else if(event.getSource() == listings.subscriptionsButton) {
 					
+					writeSocket("11");
+					writeSocket(listings.username);
+					String result = readSocket();
+					if(result.equals("none")) {
+						listings.errorMessage("You have no subscriptions");
+						return;
+					}
+					
+					subView.setCols(new String[] {"type", "furnished", "bedrooms", "bathrooms", "quadrant"});
+					String[] arr = result.split("é");
+					for (String string : arr) {
+						String[] row = string.split("~");
+						if(row[2].equals("-1")) {
+							row[2] = "any";
+						}
+						if(row[3].equals("-1")) {
+							row[3] = "any";
+						}
+						subView.addElementTextBox(row);
+					}
+					subView.autoColWidth();
+					subView.setVisible(true);
+				}
+				else if(event.getSource() == subView.deleteBtn) {
+					writeSocket("12");
+					if(selectedSubBaths.equals("any")) {
+						selectedSubBaths = "-1";
+					}
+					if(selectedSubBeds.equals("any")) {
+						selectedSubBeds = "-1";
+					}
+					writeSocket(listings.username + "é" + selectedSubType + "é" +selectedSubFurnish + "é" +selectedSubBeds + "é" +selectedSubBaths + "é" +selectedSubQuadrant);
+					subView.deleteRow(rowNumber);
+					subView.deleteBtn.setEnabled(false);
+//					listings.errorMessage("deleted");
 				}
 				
 			} catch (Exception e2) {
@@ -191,6 +232,7 @@ public class ListingsController {
 		searchView.addSubmitListener(listener);
 		listings.addListener(listener);
 		emailView.addListener(listener);
+		subView.addListener(listener);
 		
 		searchView.addQuadDropdownListener(new ItemListener(){
             @Override
@@ -233,12 +275,28 @@ public class ListingsController {
             }
         });
 		listings.addSelectionListener(new ListSelectionListener(){
+			public void valueChanged(ListSelectionEvent e) {
+				if(!e.getValueIsAdjusting() && listings.textBox.getSelectedRow() != -1){
+					selected = listings.textBox.getModel().getValueAt(listings.textBox.getSelectedRow(),6).toString();
+					listings.emailButton.setEnabled(true);
+				}
+			}
+		});
+		subView.addSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent e) {
-	        	if(!e.getValueIsAdjusting() && listings.textBox.getSelectedRow() != -1){
-	        		selected = listings.textBox.getModel().getValueAt(listings.textBox.getSelectedRow(),6).toString();
-	        		listings.emailButton.setEnabled(true);
+	        	if(!e.getValueIsAdjusting() && subView.textBox.getSelectedRow() != -1){
+//	        		 {"type", "furnished", "bedrooms", "bathrooms", "quadrant"});
+	        		selectedSubType = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),0).toString();
+	        		selectedSubFurnish = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),1).toString();
+	        		selectedSubBeds = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),2).toString();
+	        		selectedSubBaths = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),3).toString();
+	        		selectedSubQuadrant = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),4).toString();
+	        		subView.deleteBtn.setEnabled(true);
+	        		rowNumber = subView.textBox.getSelectedRow();
+	        		subView.deleteBtn.setEnabled(true);
 	        	}
 	        }
 	    });
+		
 	}
 }

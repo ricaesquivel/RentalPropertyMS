@@ -10,7 +10,6 @@ import client.view.ListingsView;
 import client.view.LoginPasswordView;
 import client.view.LoginView;
 import client.view.ManagerView;
-import server.UserDatabaseController;
 import client.view.*;
 
 public class LoginController {
@@ -22,7 +21,6 @@ public class LoginController {
 	private ListingsView listings;
 	private LoginView view;
 	private LoginPasswordView passwordView;
-	private UserDatabaseController database;
 	private ManagerView managerView; 
 	private LandlordView landlordView;
 	private SignUp signUpView;
@@ -36,7 +34,6 @@ public class LoginController {
         view = c.loginView;
         listings = c.listings;
         passwordView = c.passwordView;
-        database = c.userDatabase;
         managerView = c.managerView;
         landlordView = c.landlordView;
         signUpView = c.signUpView;

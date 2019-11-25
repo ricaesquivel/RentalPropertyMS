@@ -20,8 +20,6 @@ public class ManagerController {
 	private ClientCommunicator comms;
 	private MyListener listener;
 	private ManagerView managerView;
-	private PropertyDatabaseController propDatabase;
-	private UserDatabaseController userDatabase;
 	private LoginView loginView;
 	private ChangeStatusPopUp changeView;
 	private String stateChoice;
@@ -30,11 +28,8 @@ public class ManagerController {
 	public ManagerController(Client c) {
 		changeView = c.changeView2;
 		comms = c.communicator;
-		propDatabase = c.propertyDatabase;
-		userDatabase = c.userDatabase;
         loginView = c.loginView;
         managerView = c.managerView;
-        
         listener = new MyListener();
         addListeners();
 	}
@@ -90,9 +85,7 @@ public class ManagerController {
 					
 					writeSocket("5");
 					String result = readSocket();
-					
-//					String result = userDatabase.listUsers("landlord");
-					
+										
 					String arr[] = result.split("é");
 					for (String string : arr) {
 						String[] row = string.split("~");
@@ -103,8 +96,9 @@ public class ManagerController {
 				if(e.getSource() == managerView.listPropertiesBtn) {
 					managerView.clear();
 					managerView.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished","Listing State" ,"Landlord name", "email"});
-					String result = propDatabase.listPropertiesAndLandlords();
-					String arr[] = result.split("\n");
+					writeSocket("18");
+					String result = readSocket();
+					String arr[] = result.split("é");
 					for (String string : arr) {
 						String[] row = string.split("~");
 						managerView.addElementTextBox(row);
@@ -114,8 +108,10 @@ public class ManagerController {
 				if(e.getSource() == managerView.listRentersBtn) {
 					managerView.clear();
 					managerView.setCols(new String[] {"username", "password", "email", "name"});
-					String result = userDatabase.listUsers("regrenter");
-					String arr[] = result.split("\n");
+					writeSocket("19");
+	
+					String result = readSocket();
+					String arr[] = result.split("é");
 					for (String string : arr) {
 						String[] row = string.split("~");
 						managerView.addElementTextBox(row);
