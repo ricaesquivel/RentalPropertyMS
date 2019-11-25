@@ -179,7 +179,7 @@ public class ListingsController{
                         return;
                     }
 					writeSocket("17");
-					writeSocket(listings.username + "é" +  houseTypeChoice + "é" + furnishChoice + "é" + beds + "é" +  baths + "é" + quadChoice);
+					writeSocket(listings.username + "é" +  houseTypeChoice + "é" + furnishChoice + "é" + beds + "é" +  baths + "é" + quadChoice + "é" + "yuh");
 					searchView.errorMessage("You have subscribed to this search!");
 					
 				}
@@ -218,6 +218,7 @@ public class ListingsController{
 					}
 					writeSocket(listings.username + "é" + selectedSubType + "é" +selectedSubFurnish + "é" +selectedSubBeds + "é" +selectedSubBaths + "é" +selectedSubQuadrant);
 					subView.deleteRow(rowNumber);
+					subView.deleteBtn.setEnabled(false);
 //					listings.errorMessage("deleted");
 				}
 				
@@ -292,6 +293,7 @@ public class ListingsController{
 	        		selectedSubQuadrant = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),4).toString();
 	        		subView.deleteBtn.setEnabled(true);
 	        		rowNumber = subView.textBox.getSelectedRow();
+	        		subView.deleteBtn.setEnabled(true);
 	        	}
 	        }
 	    });
