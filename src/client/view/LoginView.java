@@ -47,7 +47,7 @@ public class LoginView extends JFrame {
     // topTitle.setLayout(new BorderLayout());
 
 	public LoginView() {
-		ImageIcon image = new ImageIcon("src\\img\\image.jpg");
+		ImageIcon image = new ImageIcon("img\\image.jpg");
 		Image i = image.getImage();
 		Image i1 = i.getScaledInstance(360, 300, java.awt.Image.SCALE_SMOOTH);
 		image = new ImageIcon(i1);
