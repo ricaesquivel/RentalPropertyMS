@@ -78,6 +78,10 @@ public class Communication implements Runnable {
                 case 13:
                 	changeState();
                 	break;
+                
+                case 20:
+                	periodicSummary();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -137,6 +141,14 @@ public class Communication implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+		
+	private void periodicSummary() {
+		String result = propertyDatabase.getPropertyCount("active");
+		result+=("~"+propertyDatabase.getPropertyCount("rented"));
+		result+=("~"+propertyDatabase.getPropertyCount("")) + "é";
+		result+= ("~"+propertyDatabase.listAll("rented"));
+		sendString(result);
 	}
 	
 	private void listLandlords() {
