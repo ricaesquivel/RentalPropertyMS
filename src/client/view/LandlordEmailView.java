@@ -110,6 +110,8 @@ public class LandlordEmailView extends JFrame {
         textBox.setDefaultEditor(Object.class, null);
         setVisible(false);
         
+        deleteBtn.setEnabled(false);
+        openBtn.setEnabled(false);
     }
     
     public void addElementTextBox(String[] value){

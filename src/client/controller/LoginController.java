@@ -123,7 +123,8 @@ public class LoginController {
 						passwordView.setVisible(false);
 					}
 					if(loginType == LoginEnum.LANDLORD) {
-						landlordView.setVisible(true);
+//						landlordView.setVisible(true);
+						landlordView.setOpen(true);
 						landlordView.setUsername(username);
 						landlordView.showPropertiesBtn.doClick();
 						passwordView.clearText();

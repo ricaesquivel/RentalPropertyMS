@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import client.view.EmailView;
@@ -14,7 +16,7 @@ import client.view.SearchCriteriaView;
 import server.PropertyDatabaseController;
 import server.UserDatabaseController;
 
-public class ListingsController {
+public class ListingsController implements Subject{
 	
 	private ClientCommunicator comms;
 	private ListingsView listings;
@@ -25,6 +27,7 @@ public class ListingsController {
 	private PropertyDatabaseController database;
 	private UserDatabaseController userDatabase;
 	private SubscriptionsView subView;
+	private ArrayList<Observer> observers;
 	
 	private String quadChoice = "";
 	private String furnishChoice = "";
@@ -47,6 +50,8 @@ public class ListingsController {
         emailView = c.emailView;
         userDatabase = c.userDatabase;
         subView = c.subView;
+        
+        observers = new ArrayList<Observer>();
         
         listener = new MyListener();
         addListeners();
@@ -125,6 +130,7 @@ public class ListingsController {
 					
 					emailView.clear();
 					emailView.setVisible(false);
+					notifyObserver();
 				} 
 				else if(event.getSource() == searchView.submitButton) {
 					listings.clear();
@@ -297,5 +303,18 @@ public class ListingsController {
 	        }
 	    });
 		
+	}
+
+	@Override
+	public void register(Observer o) {
+		observers.add(o);
+//		o.update();
+	}
+
+	@Override
+	public void notifyObserver() {
+		for (Observer o : observers) {
+			o.update();
+		}
 	}
 }

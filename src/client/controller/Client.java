@@ -92,6 +92,7 @@ public class Client {
 		ManagerController managerController = new ManagerController(c);
 		LandlordController landlordController = new LandlordController(c);
 		SignUpController signUpController = new SignUpController(c);
+		landlordController.setSubject(listingsController);
 		
 		c.loginView.setVisible(true);
 		//c.signUpView.setVisible(true);

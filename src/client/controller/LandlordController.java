@@ -1,10 +1,12 @@
 package client.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -22,7 +24,9 @@ import javax.swing.event.ListSelectionListener;
 
 import org.eclipse.core.internal.runtime.PrintStackUtil;
 
-public class LandlordController {
+public class LandlordController implements Observer {
+	
+	boolean seeable;
 	
 	private ChangeStatusPopUp changeView;
 	private LandlordAddView landlordAddView;
@@ -41,11 +45,9 @@ public class LandlordController {
 	private int rowNum;
 	private String stateChoice;
 	private String selectedID =" ";
+	private Subject subject;
 	
 	public LandlordController(Client c) {
-		
-		
-
 		
 		propertyDatabase = c.propertyDatabase;
         userDatabase = c.userDatabase;
@@ -58,6 +60,12 @@ public class LandlordController {
         listener = new MyListener();
         addListeners();
 	}
+	
+	public void setSubject(Subject s) {
+		subject = s;
+		s.register(this);
+	}
+	
 	private void writeSocket(String s) {
 		comms.socketOut.println(s);
 		comms.socketOut.flush();
@@ -99,6 +107,9 @@ public class LandlordController {
 				}
 
 				if(e.getSource() == landlordView.showPropertiesBtn) {
+					
+					seeable = landlordView.isOpen();
+					
 					autoSetlandlordID();
 					landlordView.clear();
 					landlordView.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished", "state"});
@@ -128,16 +139,19 @@ public class LandlordController {
 					}
 					
 					landlordEmailView.setVisible(true);
+					update();
 				}
 				
 				else if(e.getSource() == landlordEmailView.deleteBtn){
 					writeSocket("10");
 					writeSocket(landlordID + "é" + selected + "é" + selected2);
 					landlordEmailView.deleteRow(rowNum);
+					landlordEmailView.deleteBtn.setEnabled(false);
 				}
 				
 				else if(e.getSource() == landlordEmailView.openBtn) {
 					landlordEmailView.displayEmail(selected2);
+					landlordEmailView.openBtn.setEnabled(false);
 				}
 			
 				else if(e.getSource() == landlordView.addPropertyBtn){
@@ -188,7 +202,6 @@ public class LandlordController {
 		}
 		return -1;
 	}
-	
 	
 	private void addListeners() {
 		landlordEmailView.addListener(listener);
@@ -243,7 +256,8 @@ public class LandlordController {
 		landlordView.addCloseListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                System.exit(0);
+            	landlordView.setOpen(false);
+            	System.exit(0);
             }
         });
 		landlordEmailView.addSelectionListener(new ListSelectionListener(){
@@ -252,10 +266,22 @@ public class LandlordController {
 	        		selected = landlordEmailView.textBox.getModel().getValueAt(landlordEmailView.textBox.getSelectedRow(),0).toString();
 	        		selected2 = landlordEmailView.textBox.getModel().getValueAt(landlordEmailView.textBox.getSelectedRow(),1).toString();
 	        		rowNum = landlordEmailView.textBox.getSelectedRow();
+	        		landlordEmailView.deleteBtn.setEnabled(true);
+	        		landlordEmailView.openBtn.setEnabled(true);
 	        	}
 	        }
 	    });
 
 	}
-  }
+	
+	@Override
+	public void update() {
+		if(seeable) {
+			landlordView.errorMessage("You've got mail!");
+		} else {
+			landlordView.errorMessage("yuh");
+		}
+		System.out.println("   gayyy >>> " + landlordView.visible);
+	}
+}
 
