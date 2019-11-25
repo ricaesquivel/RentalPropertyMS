@@ -8,6 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -49,6 +50,7 @@ public class LandlordView extends JFrame{
     public JButton showPropertiesBtn = new JButton("Show Properties");
     public JButton viewEmailButton = new JButton("View Emails");
     public JButton addPropertyBtn = new JButton("Add Property");
+    public JButton changeStatusBtn = new JButton("Change Status");
 	
     public void styler() {
     	this.setBackground(Color.WHITE);
@@ -66,6 +68,7 @@ public class LandlordView extends JFrame{
 
         southPanel.setLayout(new FlowLayout());
         southPanel.add(addPropertyBtn);
+        southPanel.add(changeStatusBtn);
         southPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
 
         textBox.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));        
@@ -115,6 +118,8 @@ public class LandlordView extends JFrame{
         clear();
         textBox.setDefaultEditor(Object.class, null);
         
+        changeStatusBtn.setEnabled(false);
+        
 		setVisible(false);
 	}
 	public void addCloseListener(WindowAdapter a){
@@ -130,6 +135,11 @@ public class LandlordView extends JFrame{
 		showPropertiesBtn.addActionListener(a);
 		viewEmailButton.addActionListener(a);
 		addPropertyBtn.addActionListener(a);
+		changeStatusBtn.addActionListener(a);
+	}
+	
+	public void addSelectionListener(ListSelectionListener a) {
+		textBox.getSelectionModel().addListSelectionListener(a);
 	}
 	public void clear() {
 		model.setColumnCount(0);
