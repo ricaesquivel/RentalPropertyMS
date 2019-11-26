@@ -106,6 +106,9 @@ public class Communication implements Runnable {
                 	break;
                 case 21:
                 	checkExists();
+					break;	
+                case 20:
+                	periodicSummary();
                 	break;
                 case 22:
                 	changeFee();
@@ -153,7 +156,6 @@ public class Communication implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	private void getRegRenters() {
@@ -290,6 +292,21 @@ public class Communication implements Runnable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+		
+	private void periodicSummary() {
+		
+		String result = "Total houses: ";
+		result+= propertyDatabase.getPropertyCount("");
+		result+= "      Total rented: ";
+		result+=propertyDatabase.getPropertyCount("rented");
+		result+= "      Total active: ";
+		result+=(propertyDatabase.getPropertyCount("active"));
+		sendString(result);
+		
+		result ="";
+		result+= (propertyDatabase.listAll("rented"));
+		sendString(result);
 	}
 	
 	private void listLandlords() {

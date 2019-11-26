@@ -109,8 +109,9 @@ public class ManagerView extends JFrame{
         southPanel.setLayout(new FlowLayout());
         southPanel.add(requestSummary);
         southPanel.add(changeStatusBtn);
+        southPanel.setBorder(new EmptyBorder(10, 15, 10, 15));
+        southPanel.setBackground(Color.WHITE);
         southPanel.add(changeFees);
-        southPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
 
         title.setFont(new Font("Arial", Font.BOLD, 26));
         title.setForeground(Color.WHITE);
@@ -221,6 +222,7 @@ public class ManagerView extends JFrame{
 		listRentersBtn.addActionListener(a);
 		listPropertiesBtn.addActionListener(a);
 		changeStatusBtn.addActionListener(a);
+		requestSummary.addActionListener(a);
 		changeFees.addActionListener(a);
 		submit.addActionListener(a);
 	}

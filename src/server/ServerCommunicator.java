@@ -13,6 +13,8 @@ import java.util.concurrent.Executors;
 
 public class ServerCommunicator {
 	
+	private static ServerCommunicator onlyInstance;
+	
 	private PrintWriter out;
     private Socket aSocket;
     private ServerSocket myServer;
@@ -22,7 +24,7 @@ public class ServerCommunicator {
     private PropertyDatabaseController propertyDatabase;
     private UserDatabaseController userDatabase;
     
-    public ServerCommunicator(int portNumber){
+    private ServerCommunicator(int portNumber){
     	try {
     		myServer = new ServerSocket(portNumber);
 		} catch (Exception e) {
@@ -30,6 +32,13 @@ public class ServerCommunicator {
 			System.err.println("error in server communicator");
 		}
     	System.out.println(" << server running >> ");
+    }
+    
+    public static ServerCommunicator getOnlyInstance(int port) {
+    	if(onlyInstance == null) {
+    		onlyInstance = new ServerCommunicator(9091);
+    	}
+    	return onlyInstance;
     }
     
     public void communicateClient()throws IOException{
@@ -70,7 +79,7 @@ public class ServerCommunicator {
     
     public static void main(String[] args) {
     	
-		ServerCommunicator s = new ServerCommunicator(9091);
+		ServerCommunicator s = ServerCommunicator.getOnlyInstance(9091);
 		s.createDatabase();
 		try {
 			s.communicateClient();

@@ -1,4 +1,5 @@
 package client.view;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -8,11 +9,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-
+import javax.swing.table.TableColumnModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -20,27 +22,27 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.Component;
-
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import java.awt.Dimension;
 
 @SuppressWarnings("serial")
-public class LandlordView extends JFrame{
+public class SummaryView extends JFrame{
 
-	public boolean visible;
-	private String username;
-	JLabel title = new JLabel("Landlord Page" + "\u2122");
+	public boolean registered;		// true if registered renter
+	public String username;
+	
+	JLabel title = new JLabel("Summary Report");
+	JLabel title2 = new JLabel("   Rented Property");
 	JPanel topButtonPanel = new JPanel();
     JPanel bottomButtonPanel = new JPanel();
     JPanel topTitlePanel = new JPanel();
     JPanel mainPanel = new JPanel();
     JPanel northPanel = new JPanel();
     JPanel titlePanel = new JPanel();
-
-    JPanel southPanel = new JPanel();
+    
+    JLabel total = new JLabel("sample");
 	
     String[] headers = {"col1", "col2"};
     String[][] data = {{"col1 row1", "col2 row1"},
@@ -49,109 +51,76 @@ public class LandlordView extends JFrame{
 	
     public DefaultTableModel model = new DefaultTableModel(data, headers);
     public JTable textBox = new JTable(model);
+
     
-    public JButton showPropertiesBtn = new JButton("Show Properties");
-    public JButton viewEmailButton = new JButton("View Emails");
-    public JButton addPropertyBtn = new JButton("Add Property");
-    public JButton changeStatusBtn = new JButton("Change Status");
-	
     public void styler() {
     	this.setBackground(Color.WHITE);
         mainPanel.setBackground(Color.WHITE);
         topButtonPanel.setBackground(Color.WHITE);
         bottomButtonPanel.setBackground(Color.WHITE);
         northPanel.setBackground(Color.WHITE);
-        southPanel.setBackground(Color.WHITE);
         
         topButtonPanel.setLayout(new FlowLayout());
-        setButtonFontSize(20);
-        topButtonPanel.add(showPropertiesBtn);
-        topButtonPanel.add(viewEmailButton);
         topButtonPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
-
-        southPanel.setLayout(new FlowLayout());
-        southPanel.add(addPropertyBtn);
-        southPanel.add(changeStatusBtn);
-        southPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
-
-        textBox.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));        
-        textBox.setRowHeight(25);  
         
+        topButtonPanel.add(total);
+        
+        total.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 26));
+        title2.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 20));
         title.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 26));
         title.setForeground(Color.WHITE);
         northPanel.setLayout(new BorderLayout());
         titlePanel.setBackground(Color.BLACK);
         titlePanel.add(title);
         northPanel.add("North", titlePanel);
-        northPanel.add("Center", topButtonPanel);
+        northPanel.add("West", topButtonPanel);
+        northPanel.add("South",title2);
         
+        
+        textBox.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));        
+        textBox.setRowHeight(25);       
     }
     
-	private void setButtonFontSize(int fontSize) {
-		showPropertiesBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
-        viewEmailButton.setFont(new Font("Sans", Font.PLAIN, fontSize));
-        addPropertyBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
-        changeStatusBtn.setFont(new Font("Sans", Font.PLAIN, fontSize));
-	}
-
-	public LandlordView() {
+	public SummaryView() {
 		
 		this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.setTitle("Property Listings");
         this.setBackground(Color.WHITE);
-        this.setSize(850, 400);
+        this.setSize(850, 600);
         this.setResizable(false);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
 		
 		textBox.setFont(new Font("Sans", Font.PLAIN, 16));
         textBox.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollText = new JScrollPane(textBox, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        
+        textBox.setDefaultEditor(Object.class, null);
+		
         styler();
         
         mainPanel.setLayout(new BorderLayout());
         mainPanel.add("Center", scrollText);
         mainPanel.setBorder(new EmptyBorder(10, 15, 10, 15));
         
-        add("South",southPanel);
         add("North", northPanel);
         add("Center", mainPanel);
         
-        clear();
-        textBox.setDefaultEditor(Object.class, null);
-        
-        changeStatusBtn.setEnabled(false);
-        
 		setVisible(false);
 	}
-	public void addCloseListener(WindowAdapter a){
-        this.addWindowListener(a);
-    }
+
+	
+	public void setLabels(String t) {
+		total.setText(t);
+	}
+
+
 	public void addElementTextBox(String[] value){
         model.addRow(value);
     }
 	public void errorMessage(String error){
         JOptionPane.showMessageDialog(this, error);
     }
-	public void addListener(ActionListener a) {
-		showPropertiesBtn.addActionListener(a);
-		viewEmailButton.addActionListener(a);
-		addPropertyBtn.addActionListener(a);
-		changeStatusBtn.addActionListener(a);
-	}
-	
-	public void addSelectionListener(ListSelectionListener a) {
-		textBox.getSelectionModel().addListSelectionListener(a);
-	}
-	public void clear() {
-		model.setColumnCount(0);
-		model.setRowCount(0);
-	}
-	public void setCols(String[] cols) {
-		model.setColumnIdentifiers(cols);
-	}
 	public void autoColWidth() {
 		for (int column = 0; column < textBox.getColumnCount(); column++)
 		{
@@ -177,22 +146,33 @@ public class LandlordView extends JFrame{
 		}
 		textBox.getTableHeader().setReorderingAllowed(false);
 	}
+	
+	public void hideLandlordCol() {
+		TableColumnModel tcm = textBox.getColumnModel();
+		tcm.removeColumn( tcm.getColumn(6) );
+	}
+	
+	public void clear() {
+		model.setColumnCount(0);
+		model.setRowCount(0);
+	}
+	public void setCols(String[] cols) {
+		model.setColumnIdentifiers(cols);
+	}
 	/**
 	 * Launch the application.
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		try {
-		    LandlordView window = new LandlordView();
+			SummaryView window = new SummaryView();
 			window.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	public void setUsername(String user) {
-		username = user;
-	}
-	public String getUsername() {
-		return username;
+
+	public void addSelectionListener(ListSelectionListener a) {
+		textBox.getSelectionModel().addListSelectionListener(a);
 	}
 }

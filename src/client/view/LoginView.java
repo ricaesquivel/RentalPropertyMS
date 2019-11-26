@@ -34,17 +34,8 @@ public class LoginView extends JFrame {
 	public JButton regRenterButton = new JButton("<html><center>"+"Registered"+"<br>"+"Renter"+"</center></html>");
 	public JButton submitButton = new JButton("Ok");
 	
-//	ImageIcon image = new ImageIcon("image.jpg");
-//    JLabel imagelabel = new JLabel();
-   
-
-    
-    
 	private final Component verticalStrut = Box.createVerticalStrut(31);
 	private final Component verticalStrut_1 = Box.createVerticalStrut(64);
-	
-	
-    // topTitle.setLayout(new BorderLayout());
 
 	public LoginView() {
 		ImageIcon image = new ImageIcon("img\\image.jpg");

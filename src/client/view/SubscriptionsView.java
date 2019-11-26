@@ -36,6 +36,7 @@ public class SubscriptionsView extends JFrame {
     JPanel titlePanel = new JPanel();
     
     public JButton deleteBtn = new JButton("Delete");
+    public JButton viewBtn = new JButton("View");
 //    JButton openBtn = new JButton("Open");
     
     String[] headers = {"col1", "col2"};
@@ -78,7 +79,8 @@ public class SubscriptionsView extends JFrame {
     public void constructBottomSide(){
     	bottomSide.setBackground(Color.WHITE);
 //        bottomSide.add("North",openBtn);
-        bottomSide.add("Center", deleteBtn);
+    	bottomSide.add("West", deleteBtn);
+        bottomSide.add("East", viewBtn);
     }
 
     public SubscriptionsView(){
@@ -96,11 +98,13 @@ public class SubscriptionsView extends JFrame {
         
 //        openBtn.setFont(new Font("Sans", Font.PLAIN, 20));
         deleteBtn.setFont(new Font("Sans", Font.PLAIN, 20));
+        viewBtn.setFont(new Font("Sans", Font.PLAIN, 20));
 
         getContentPane().add("Center",topSide);
         getContentPane().add("South",bottomSide);
         clear();
         deleteBtn.setEnabled(false);
+        viewBtn.setEnabled(false);
         textBox.setDefaultEditor(Object.class, null);
         setVisible(false);
         
@@ -116,7 +120,7 @@ public class SubscriptionsView extends JFrame {
     }
 	public void addListener(ActionListener a) {
 		deleteBtn.addActionListener(a);
-//		openBtn.addActionListener(a);
+		viewBtn.addActionListener(a);
 	}
 	public void clear() {
 		model.setColumnCount(0);

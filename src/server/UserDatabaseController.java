@@ -248,7 +248,7 @@ public class UserDatabaseController {
             while(rs.next()){
             	String from = rs.getString("from");
                 String text = rs.getString("text");
-                result += from +"~"+  text + "~" + "\n";
+                result += from +"~"+  text + "~" + "é";
             }
             if(result.equals("")) {
             	return "none";
@@ -281,8 +281,8 @@ public class UserDatabaseController {
 		
 		String result = ""; byte furnishedByte = 0; String bedString = ""; String bathString = "";
 		
-		query =  "INSERT INTO `subscribes` (`subusername`,`housetype`,`furnished`,`beds`,`baths`,`quadrant`)"
-	            + "VALUES(?,?,?,?,?,?)";
+		query =  "INSERT INTO `subscribes` (`subusername`,`housetype`,`furnished`,`beds`,`baths`,`quadrant`, `match`)"
+	            + "VALUES(?,?,?,?,?,?,?)";
 		
 		if(houseTypeChoice.equals("") || houseTypeChoice.contains("choose")) {
 			houseTypeChoice = "any";
@@ -308,6 +308,7 @@ public class UserDatabaseController {
 		        preStmt.setInt(4, beds);
 		        preStmt.setInt(5, baths);
 		        preStmt.setString(6, quadChoice);
+		        preStmt.setInt(7, 0);
 		        preStmt.execute();
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -350,7 +351,8 @@ public class UserDatabaseController {
                 int beds = rs.getInt("beds");
                 int baths = rs.getInt("baths");
                 String quadrant = rs.getString("quadrant");
-                result += housetype +"~"+  furnish +"~" + beds +"~" + baths +"~" + quadrant +"~" + "é";
+                int match = rs.getInt("match");
+                result += housetype +"~"+  furnish +"~" + beds +"~" + baths +"~" + quadrant +"~" + match +"~" + "é";
             }
             if(result.equals("")) {
             	return "none";
