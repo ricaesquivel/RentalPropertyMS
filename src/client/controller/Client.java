@@ -29,6 +29,7 @@ public class Client {
 	LandlordView landlordView;
 	SignUp signUpView;
 	SubscriptionsView subView;
+	SummaryView summary;
 	
 
 	public Client() {
@@ -41,6 +42,7 @@ public class Client {
 		
 		Client c = new Client(); 
 		LoginView view = new LoginView();
+		SummaryView summary = new SummaryView();
 		LoginPasswordView passwordView = new LoginPasswordView();
 		ManagerView managerView = new ManagerView();
 		EmailView emailView = new EmailView();
@@ -69,6 +71,7 @@ public class Client {
 		c.signUpView = signUpView;
 		c.subView = subView;
 		c.communicator = communicator;
+		c.summary = summary;
 		
 		
 		LoginController loginController = new LoginController(c);
