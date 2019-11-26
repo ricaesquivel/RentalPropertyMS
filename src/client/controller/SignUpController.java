@@ -64,11 +64,8 @@ public class SignUpController {
 				e.printStackTrace();
 			}
 			
-			id-=-1;
-			
-			
-			System.out.println(id);
-			return id;
+		id-=-1;
+		return id;
 	}
 	
 	
@@ -78,7 +75,7 @@ public class SignUpController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("in addUsers");
-			// TODO Auto-generated method stub
+			
 			if(e.getSource()==view.submit) {
 				System.out.println("in addUsers");
 				String userName = view.getUserName() ;
@@ -109,23 +106,24 @@ public class SignUpController {
 					
 					String b = readSocket();
 					boolean exists = Boolean.getBoolean(b);
+					System.err.println(exists + "yuhhh ");
 					
 					if(!exists) {
+						String s="";
+						if(choice.equals("Registered Renter")) {
+							s = userName+"~"+password+"~"+email+"~"+name+"~"+"regrenter";
+						}
+						else if(choice.equals("Landlord")) {
+							s = userName+"~"+password+"~"+email+"~"+name+"~"+"Landlord"+"~"+getNewLandLordID();
+						}
+						
+						writeSocket("6");
+						writeSocket(s);
+						view.errorMessage("Sign up complete!");
+						view.setVisible(false);
+						loginView.setVisible(true);
+					}
 					
-					String s="";
-					if(choice.equals("Registered Renter")) {
-						s = userName+"~"+password+"~"+email+"~"+name+"~"+"regrenter";
-					}
-					else if(choice.equals("Landlord")) {
-						s = userName+"~"+password+"~"+email+"~"+name+"~"+"Landlord"+"~"+getNewLandLordID();
-					}
-					
-					writeSocket("6");
-					writeSocket(s);					
-					view.errorMessage("Sign up complete!");
-					view.setVisible(false);
-					loginView.setVisible(true);
-					}
 				} else{
 					view.errorMessage("Username has been taken, please try another one");
 				}

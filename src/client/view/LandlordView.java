@@ -72,7 +72,7 @@ public class LandlordView extends JFrame{
         southPanel.setLayout(new FlowLayout());
         southPanel.add(addPropertyBtn);
         southPanel.add(changeStatusBtn);
-        southPanel.setBorder(new EmptyBorder(10, 15, 0, 15));
+        southPanel.setBorder(new EmptyBorder(10, 15, 20, 15));
 
         textBox.getTableHeader().setFont(new Font("SansSerif", Font.BOLD, 16));        
         textBox.setRowHeight(25);  

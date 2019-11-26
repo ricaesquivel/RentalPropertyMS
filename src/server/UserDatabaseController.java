@@ -106,7 +106,6 @@ public class UserDatabaseController {
 			e.printStackTrace();
 			System.err.println("error adding user");
 		}
-		
 	}
 	
 	public void addLandlord(int id, String name, String email, String userName) {
@@ -168,7 +167,7 @@ public class UserDatabaseController {
 	public boolean userExists(String username) {
 
 		try {
-			query = "SELECT * FROM `users` WHERE `username` = ?";
+			String query = "SELECT * FROM `users` WHERE `username` = ?";
 			preStmt = myConn.prepareStatement(query);
 			preStmt.setString(1, username);
 			

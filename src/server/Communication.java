@@ -116,6 +116,9 @@ public class Communication implements Runnable {
                 case 23:
                 	getFee();
                 	break;
+                case 24:
+                	checkForMatches();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -128,6 +131,15 @@ public class Communication implements Runnable {
         }
     }
 	
+	private void checkForMatches() {
+		try {
+			String propertyData[] = in.readLine().split("~");
+			propertyDatabase.checkProperty(Integer.parseInt(propertyData[0]), propertyData[1], propertyData[2], propertyData[3], propertyData[4], propertyData[5], Integer.parseInt(propertyData[6]), propertyData[7]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void getFee() {
 		try {
 			sendString(userDatabase.getFee());
@@ -284,6 +296,7 @@ public class Communication implements Runnable {
 		try {
 			String userInfo[] = in.readLine().split("~");
 			userDatabase.addUser(userInfo[0], userInfo[1],userInfo[2],userInfo[3], userInfo[4]);
+			
 			if(userInfo[4].contentEquals("Landlord")) {
 				System.out.println("adding landlord");
 				int id = Integer.parseInt(userInfo[5]);
