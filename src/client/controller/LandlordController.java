@@ -176,11 +176,26 @@ public class LandlordController {
 						String status = "active";
 						writeSocket("9");
 						writeSocket(id + "é" + houseTypeChoice + "é" + bedroom + "é" + bathroom + "é" + quadChoice +"é" + furnishChoice + "é" + landlordID + "é" + status);
-						landlordAddView.errorMessage("Property Added");
-						landlordAddView.setVisible(false);
+						landlordAddView.errorMessage("Property added, please pay a fee to make your listing public");
 						landlordView.showPropertiesBtn.doClick();
 					}
-				}				
+				}
+				else if(e.getSource() == landlordAddView.payButton) {
+					writeSocket("23");
+					String result = readSocket();
+					String arr[] = result.split("é");
+					String f = arr[0];
+					String p = arr[1];
+					if(p.equals("Monthly")) {
+						p = "month";
+					}
+					else {
+						p = "year";
+					}
+					landlordAddView.errorMessage("Amount $" + f + " payed for this " + p);
+					landlordAddView.setVisible(false);
+					landlordView.showPropertiesBtn.doClick();
+				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
 				System.err.println("error in Landlord controller");
@@ -215,7 +230,7 @@ public class LandlordController {
 		});
 		
 		landlordAddView.addSubmitListener(listener);
-		
+		landlordAddView.addPayListener(listener);
 		landlordAddView.addHouseDropdownListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				if(e.getStateChange() == ItemEvent.SELECTED) {

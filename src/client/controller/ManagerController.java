@@ -26,6 +26,7 @@ public class ManagerController {
 	private ChangeStatusPopUp changeView;
 	private String stateChoice;
 	private String selectedID=" ";
+	private String period = "";
 	
 	public ManagerController(Client c) {
 		summaryView = c.summary;
@@ -136,6 +137,30 @@ public class ManagerController {
 					}
 					managerView.autoColWidth();
 				}
+				if(e.getSource() == managerView.changeFees) {
+					managerView.changeFeeView();
+				}
+				if(e.getSource() == managerView.submit) {
+					String fee = managerView.getFee();
+					int fee1 = -1;
+					try{
+						if(!fee.equals(""))
+							fee1 = Integer.parseInt(fee);
+						if(fee1 < 0)
+							throw new NumberFormatException();
+                    }catch(NumberFormatException a){
+                    	managerView.errorMessage("Please enter a valid fee amount");
+                        return;
+                    }
+					if(!period.equals("--choose one--") && !period.equals("") && !period.equals("null")){
+						writeSocket("22");
+						writeSocket(fee + "é" + period);
+						managerView.setChangeInvisible();
+					}
+					else {
+						managerView.errorMessage("Please choose a fee period");
+					}
+				}
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -156,6 +181,14 @@ public class ManagerController {
             		stateChoice = (String)e.getItem();
             	}
             }
+		});
+		
+		managerView.addPeriodListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					period = (String)e.getItem();
+				}
+			}
 		});
 		
 

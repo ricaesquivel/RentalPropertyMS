@@ -110,6 +110,12 @@ public class Communication implements Runnable {
                 case 20:
                 	periodicSummary();
                 	break;
+                case 22:
+                	changeFee();
+                	break;
+                case 23:
+                	getFee();
+                	break;
                 default:
                     quit = true;                // this was below
                     sendString("Goodbye\1");    //order of these 2 lines were flipped
@@ -122,6 +128,26 @@ public class Communication implements Runnable {
         }
     }
 	
+	private void getFee() {
+		try {
+			sendString(userDatabase.getFee());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	private void changeFee() {
+		try {
+			String args[] = in.readLine().split("é");
+			userDatabase.changeFee(args[0], args[1]);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	private void checkExists() {
 		try {
 			String arg = in.readLine();
@@ -190,7 +216,6 @@ public class Communication implements Runnable {
 			e.printStackTrace();
 			System.err.println("Error in get landlord property");
 		}
-		
 	}
 
 	private void deleteEmail() {
