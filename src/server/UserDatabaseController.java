@@ -33,7 +33,6 @@ public class UserDatabaseController {
     }
 	
 	public boolean validateUser(String username, String pass, int loginType) {
-		
 		int userType = loginType;//.getCode(); 
 		String type = "";
 		if(userType == 1) type = "manager";
@@ -111,6 +110,7 @@ public class UserDatabaseController {
 	}
 	
 	public void addLandlord(int id, String name, String email, String userName) {
+		
 		query =  "INSERT INTO `landlords` (`id`,`name`,`email`,`landlordusername`)"
 	            + "VALUES(?,?,?,?)";
 		
@@ -124,6 +124,45 @@ public class UserDatabaseController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	@SuppressWarnings("unused")
+	public void changeFee(String fee, String period){
+		boolean b = false;
+		try {
+			query = "SELECT * FROM `fees`";
+			preStmt = myConn.prepareStatement(query);
+			
+			ResultSet rs = preStmt.executeQuery();
+			
+			if(!rs.next()){
+				b = false;
+            }
+			b = true;	
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in validate user");
+		}
+		if(b){
+			query = "DELETE FROM `fees`";
+			try {
+				preStmt = myConn.prepareStatement(query);
+			    preStmt.execute();
+			      
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}	
+		}
+			query =  "INSERT INTO `fees` (`fee`,`period`)"
+		            + "VALUES(?,?)";
+			try {
+				preStmt = myConn.prepareStatement(query);
+		        preStmt.setString(1, fee);
+		        preStmt.setString(2, period);
+		        preStmt.execute();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 	}
 	
 	public boolean userExists(String username) {
