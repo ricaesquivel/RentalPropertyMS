@@ -102,8 +102,10 @@ public class LandlordController {
 					autoSetlandlordID();
 					landlordView.clear();
 					landlordView.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished", "state"});
+					
 					writeSocket("14");
 					writeSocket(Integer.toString(landlordID));
+
 					String result = readSocket();						
 					String arr[] = result.split("é");		
 					for (String string : arr) {		
@@ -114,16 +116,19 @@ public class LandlordController {
 				}
 				
 				else if(e.getSource() == landlordView.viewEmailButton) {
-
+					
 					landlordEmailView.clear();
 					landlordEmailView.setCols(new String[] {"From", "Message"});
+					
 					writeSocket("15");
 					writeSocket(Integer.toString(landlordID));
+					
 					String result = readSocket();										
 					if(result.equals("none")) {
 						landlordView.errorMessage("No Emails yet");
 						return;
 					}
+					
 					String arr[] = result.split("é");	
 					for (String string : arr) {
 						String[] row = string.split("~");
@@ -149,7 +154,7 @@ public class LandlordController {
 				else if(e.getSource() == landlordView.addPropertyBtn){
 					landlordAddView.setVisible(true);
 				}
-				else if(e.getSource()== landlordAddView.submitButton){
+				else if(e.getSource() == landlordAddView.submitButton){
 					String bathroom = landlordAddView.getBathrooms();
 					String bedroom = landlordAddView.getBedrooms();
 					int beds = -1;
@@ -262,6 +267,7 @@ public class LandlordController {
 	        	}
 	        }
 	    });
-
 	}
+	
+	
 }

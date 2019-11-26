@@ -130,7 +130,6 @@ public class Communication implements Runnable {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 	private void getRegRenters() {

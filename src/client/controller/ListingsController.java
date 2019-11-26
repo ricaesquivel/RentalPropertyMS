@@ -25,6 +25,7 @@ public class ListingsController{
 	private LoginView login;
 	private SearchCriteriaView searchView;
 	private SubscriptionsView subView;
+	private LandlordView landlordView;
 	
 	private String quadChoice = "";
 	private String furnishChoice = "";
@@ -36,6 +37,8 @@ public class ListingsController{
 	private String selectedSubBaths = "";
 	private String selectedSubQuadrant = "";
 	private int rowNumber;
+	private String matchFound = "";
+	int match = 0;
 	
 	public ListingsController(Client c) {
 		
@@ -45,6 +48,7 @@ public class ListingsController{
         login = c.loginView;
         emailView = c.emailView;
         subView = c.subView;
+        landlordView = c.landlordView;
         
         listener = new MyListener();
         addListeners();
@@ -101,7 +105,7 @@ public class ListingsController{
 					emailView.setVisible(false);
 					emailView.clear();
 				} 
-				else if(event.getSource() == emailView.sendBtn) {
+				else if(event.getSource() == emailView.sendBtn) {					// TODO here
 					String contactText = ""; String emailText = "";
 					
 					contactText = emailView.getContact();
@@ -118,11 +122,11 @@ public class ListingsController{
 					
 					writeSocket("3");
 					writeSocket(selected + "é" + contactText + "é" + emailText);
-//					userDatabase.sendEmail(Integer.parseInt(selected), contactText, emailText);
 					emailView.errorMessage("email sent!");
 					
 					emailView.clear();
 					emailView.setVisible(false);
+					
 				} 
 				else if(event.getSource() == searchView.submitButton) {
 					listings.clear();
@@ -193,7 +197,7 @@ public class ListingsController{
 						return;
 					}
 					
-					subView.setCols(new String[] {"type", "furnished", "bedrooms", "bathrooms", "quadrant"});
+					subView.setCols(new String[] {"type", "furnished", "bedrooms", "bathrooms", "quadrant", "match found"});
 					String[] arr = result.split("é");
 					for (String string : arr) {
 						String[] row = string.split("~");
@@ -202,6 +206,12 @@ public class ListingsController{
 						}
 						if(row[3].equals("-1")) {
 							row[3] = "any";
+						}
+						if(row[5].equals("1")) {
+							row[5] = "yes!";
+						}
+						if(row[5].equals("0")) {
+							row[5] = "no";
 						}
 						subView.addElementTextBox(row);
 					}
@@ -220,6 +230,42 @@ public class ListingsController{
 					subView.deleteRow(rowNumber);
 					subView.deleteBtn.setEnabled(false);
 //					listings.errorMessage("deleted");
+				}
+				else if(event.getSource() == subView.viewBtn) {
+					listings.clear();
+					if(selectedSubBaths.equals("any")) {
+						selectedSubBaths = Integer.toString(Integer.MAX_VALUE);
+					}
+					if(selectedSubBeds.equals("any")) {
+						selectedSubBeds = Integer.toString(Integer.MAX_VALUE);
+					}
+					if(selectedSubQuadrant.equals("any")) {
+						selectedSubQuadrant = "";
+					}
+					if(selectedSubType.equals("any")) {
+						selectedSubType = "";
+					}
+					if(selectedSubFurnish.equals("any")) {
+						selectedSubFurnish = "";
+					}
+					
+					writeSocket("2");
+					writeSocket(selectedSubType + "é" + selectedSubFurnish + "é" + selectedSubQuadrant + "é" + selectedSubBeds + "é" + selectedSubBaths + "é" + "active");
+					String result = readSocket();
+					if(result.equals("") || result.contentEquals("\n")) {
+						searchView.errorMessage("No results, try changing filters");
+						return;
+					}
+					listings.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished", "LandlordID"});
+					String[] arr = result.split("é");
+					for (String string : arr) {
+						String[] row = string.split("~");
+						listings.addElementTextBox(row);
+					}
+					listings.autoColWidth();
+					listings.hideLandlordCol();
+					
+					subView.setVisible(false);
 				}
 				
 			} catch (Exception e2) {
@@ -291,7 +337,12 @@ public class ListingsController{
 	        		selectedSubBeds = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),2).toString();
 	        		selectedSubBaths = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),3).toString();
 	        		selectedSubQuadrant = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),4).toString();
-	        		subView.deleteBtn.setEnabled(true);
+	        		matchFound = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),5).toString();
+	        		
+	        		if(matchFound.equals("no")) {
+	        			subView.viewBtn.setEnabled(true);
+	        		}
+	        		
 	        		rowNumber = subView.textBox.getSelectedRow();
 	        		subView.deleteBtn.setEnabled(true);
 	        	}
