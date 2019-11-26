@@ -6,23 +6,23 @@
 
 
 ### Signup View
-- the sign up page allowing users to signup as a registered renter or a landlord
+- The sign up page allows users to signup as a registered renter or a landlord
 ### Manager View
-- in the Manager view the top 3 buttons give you the option to get a list of landlords, registered renters and property
-- you can request a summary by clicking the **Create Summary** button
+- In the Manager view the top 3 buttons give you the option to get a list of landlords, registered renters and properties
+- You can request a summary by clicking the **Create Summary** button
 - To change the state of a property you must
-    1. select the property that you wish to change the state of
-    2. click the **change state** button
-    3. select and submit the new state
+    1. Select the property that you wish to change the state of
+    2. Click the **change state** button
+    3. Select and submit the new state
   
 ### Landlord View
-- in the Landlord view there are buttons to show property, view emails and add new properties
-- clicking **add property** opens up a second interface which allows the user to input the nessasary information
+- In the Landlord view there are buttons to show property, view emails and add new properties
+- Clicking **add property** opens up a second interface which allows the user to input the nessasary information
 - To change the sate of a property you must
     1. select the property that you wish to change the state of
-    2. click the **change state** button
-    3. select and submit the new state
+    2. Click the **change state** button
+    3. Select and submit the new state
 ### Renter View
-- **All** renters have the option to browse the avalible property
-- Renters can filter out houses bases on specific specifications by click the **fitler** button
-- **Registered Renters** have the option to email the landlord, subscribe to propperties and view there subscriptions afterwards
+- **All** renters have the option to browse the avalible properties
+- Renters can filter out houses based on specific specifications by click the **fitler** button
+- **Registered Renters** have the option to email the landlord, subscribe to properties and view their subscriptions afterwards
