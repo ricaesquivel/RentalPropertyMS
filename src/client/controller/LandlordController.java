@@ -177,7 +177,8 @@ public class LandlordController {
 						writeSocket("9");
 						writeSocket(id + "é" + houseTypeChoice + "é" + bedroom + "é" + bathroom + "é" + quadChoice +"é" + furnishChoice + "é" + landlordID + "é" + status);
 						landlordAddView.errorMessage("Property added, please pay a fee to make your listing public");
-						landlordView.showPropertiesBtn.doClick();
+						landlordAddView.submitButton.setEnabled(false);
+//						landlordView.showPropertiesBtn.doClick();
 					}
 				}
 				else if(e.getSource() == landlordAddView.payButton) {
