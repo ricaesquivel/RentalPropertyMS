@@ -4,6 +4,9 @@
 2. Run the **Client.java** file to start the gui, taking you to the main login page of the program
 3. From the main login page you can sign in, sign up or view properties as a unregistered renter
 
+
+### Signup View
+- the sign up page allowing users to signup as a registered renter or a landlord
 ### Manager View
 - in the Manager view the top 3 buttons give you the option to get a list of landlords, registered renters and property
 - you can request a summary by clicking the **Create Summary** button
