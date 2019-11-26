@@ -20,6 +20,8 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.Component;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -28,6 +30,7 @@ import java.awt.Dimension;
 @SuppressWarnings("serial")
 public class LandlordView extends JFrame{
 
+	public boolean visible;
 	private String username;
 	JLabel title = new JLabel("Landlord Page" + "\u2122");
 	JPanel topButtonPanel = new JPanel();
