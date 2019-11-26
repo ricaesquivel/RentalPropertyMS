@@ -12,6 +12,7 @@ import client.controller.ListingsController.MyListener;
 import client.view.ChangeStatusPopUp;
 import client.view.LoginView;
 import client.view.ManagerView;
+import client.view.SummaryView;
 import server.PropertyDatabaseController;
 import server.UserDatabaseController;
 
@@ -20,12 +21,14 @@ public class ManagerController {
 	private ClientCommunicator comms;
 	private MyListener listener;
 	private ManagerView managerView;
+	private SummaryView summaryView;
 	private LoginView loginView;
 	private ChangeStatusPopUp changeView;
 	private String stateChoice;
 	private String selectedID=" ";
 	
 	public ManagerController(Client c) {
+		summaryView = c.summary;
 		changeView = c.changeView2;
 		comms = c.communicator;
         loginView = c.loginView;
@@ -55,10 +58,25 @@ public class ManagerController {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				if(e.getSource()==managerView.requestSummary) {
-					System.out.println("requesting summary");
 					writeSocket("20");
-					String s = readSocket();
-					System.out.println(s);
+					
+					String total = readSocket();
+					summaryView.setLabels(total);
+					
+					
+					
+					String rented = readSocket();
+					summaryView.clear();
+					summaryView.setCols(new String[] {"id", "type", "bedrooms", "bathrooms", "quadrant", "furnished", "LandlordID"});
+					String arr[] = rented.split("é");
+					for (String string : arr) {
+						String[] row = string.split("~");
+						summaryView.addElementTextBox(row);
+					}
+					summaryView.autoColWidth();
+					summaryView.hideLandlordCol();
+					summaryView.setVisible(true);
+					System.out.println(rented);
 				}
 				if(e.getSource()==changeView.submit) {
 					System.out.println(stateChoice);
@@ -129,6 +147,7 @@ public class ManagerController {
 	private void addListeners() {
 		managerView.addListener(listener);
 		changeView.addListener(listener);
+		//summaryView.addListener(listener);
 
 		changeView.addDropdownListener(new ItemListener(){
             @Override

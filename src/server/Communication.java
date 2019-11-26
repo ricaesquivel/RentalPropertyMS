@@ -270,10 +270,17 @@ public class Communication implements Runnable {
 	}
 		
 	private void periodicSummary() {
-		String result = propertyDatabase.getPropertyCount("active");
-		result+=("~"+propertyDatabase.getPropertyCount("rented"));
-		result+=("~"+propertyDatabase.getPropertyCount("")) + "é";
-		result+= ("~"+propertyDatabase.listAll("rented"));
+		
+		String result = "Total houses: ";
+		result+= propertyDatabase.getPropertyCount("");
+		result+= "      Total rented: ";
+		result+=propertyDatabase.getPropertyCount("rented");
+		result+= "      Total active: ";
+		result+=(propertyDatabase.getPropertyCount("active"));
+		sendString(result);
+		
+		result ="";
+		result+= (propertyDatabase.listAll("rented"));
 		sendString(result);
 	}
 	
