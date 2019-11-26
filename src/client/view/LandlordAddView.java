@@ -66,6 +66,7 @@ public class LandlordAddView extends JFrame{
     public JButton submitButton = new JButton("Add");
     public JButton payButton = new JButton("Pay Fee");
     private JPanel submitPanel = new JPanel();
+    public Color c = new Color(236, 236, 236);
     
     private void labels() {
     	houseDropdown.setMaximumSize(new Dimension(300, 10));
@@ -114,7 +115,8 @@ public class LandlordAddView extends JFrame{
     	
     	criteriaPanel.setLayout(new BoxLayout(criteriaPanel, BoxLayout.Y_AXIS));
     	criteriaPanel.setBorder(new EmptyBorder(10, 30, 10, 30));
-    	
+ //   	submitButton.setBackground(c);
+  //  	payButton.setBackground(c);
     }
     
 	public LandlordAddView() {
@@ -155,9 +157,10 @@ public class LandlordAddView extends JFrame{
     	
     	criteriaPanel.add(vertStrut2);
     	submitPanel.setLayout(new FlowLayout());
-    	submitButton.setPreferredSize(new Dimension(150, 50));
-    	submitButton.setBackground(Color.WHITE);
+    	submitButton.setPreferredSize(new Dimension(100, 50));
+    	payButton.setPreferredSize(new Dimension(100,50));
     	submitPanel.add(submitButton);
+    	submitPanel.add(payButton);
     	criteriaPanel.add(submitPanel);
         
         getContentPane().add("Center", criteriaPanel);
@@ -180,6 +183,9 @@ public class LandlordAddView extends JFrame{
     }
 	public void addSubmitListener(ActionListener a) {
 		submitButton.addActionListener(a);
+	}
+	public void addPayListener(ActionListener a) {
+		payButton.addActionListener(a);
 	}
 	public void addHouseDropdownListener(ItemListener a) {
         houseDropdown.addItemListener(a);

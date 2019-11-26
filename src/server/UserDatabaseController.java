@@ -385,5 +385,26 @@ public class UserDatabaseController {
 			System.err.println("error delete subs");
 		}
 	}
+
+	public String getFee() {
+		String feeData = "";
+		try {
+			query = "SELECT * FROM `fees`";
+			preStmt = myConn.prepareStatement(query);
+			
+			ResultSet rs = preStmt.executeQuery();
+			
+			while(rs.next()){
+				String fee = rs.getString("fee");
+	            String period = rs.getString("period");
+	            feeData = fee + "é" + period;
+            }
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error in validate user");
+		}
+		return feeData;
+	}
 }
 
