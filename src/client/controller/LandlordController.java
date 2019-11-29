@@ -185,6 +185,7 @@ public class LandlordController {
 						
 						landlordAddView.errorMessage("Property added");
 						landlordAddView.submitButton.setEnabled(false);
+						landlordAddView.ableToClose();
 						landlordAddView.setVisible(false);
 						landlordView.showPropertiesBtn.doClick();
 					} else {
@@ -206,6 +207,7 @@ public class LandlordController {
 					
 					landlordAddView.errorMessage("Amount $" + f + " payed for this " + p);
 //					landlordAddView.setVisible(false);
+					landlordAddView.unableToClose();
 					landlordAddView.submitButton.setEnabled(true);
 					landlordAddView.payButton.setEnabled(false);
 //					landlordView.showPropertiesBtn.doClick();
