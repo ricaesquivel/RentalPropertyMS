@@ -169,6 +169,12 @@ public class LandlordAddView extends JFrame{
         
 		setVisible(false);
 	}
+	public void unableToClose() {
+		 this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	}
+	public void ableToClose() {
+		 this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+	}
 	public void addCloseListener(WindowAdapter a){
         this.addWindowListener(a);
     }
