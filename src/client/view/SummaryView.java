@@ -30,7 +30,7 @@ import java.awt.Dimension;
 @SuppressWarnings("serial")
 public class SummaryView extends JFrame{
 
-	public boolean registered;		// true if registered renter
+	public boolean registered;
 	public String username;
 	
 	JLabel title = new JLabel("Summary Report");
@@ -65,7 +65,7 @@ public class SummaryView extends JFrame{
         
         topButtonPanel.add(total);
         
-        total.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 26));
+        total.setFont(new Font("Arial",Font.BOLD, 26));
         title2.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 20));
         title.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 26));
         title.setForeground(Color.WHITE);

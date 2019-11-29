@@ -341,5 +341,93 @@ public class PropertyDatabaseController {
 		}
 		return -1; //critical error
 	}
+	
+	public void checkProperty(int id, String houseTypeChoice, String bedroom, String bathroom, String quadChoice,
+			String furnishChoice, int landlordID, String state) {
+		int bedrooms = 0; int bathrooms = 0;
+		try {
+			bedrooms = Integer.parseInt(bedroom);
+			bathrooms = Integer.parseInt(bathroom);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		query = "SELECT * " +
+				"FROM `subscribes` ";
+		
+		boolean itMatches = true;
+
+		try {
+			preStmt = myConn.prepareStatement(query);
+            ResultSet rs = preStmt.executeQuery();
+		
+            while(rs.next()){
+            	String housetype = rs.getString("housetype");
+            	String furnish = rs.getString("furnished");
+                int beds = rs.getInt("beds");
+                int baths = rs.getInt("baths");
+                String quadrant = rs.getString("quadrant");
+                int match = rs.getInt("match");
+                
+                if(match == 1) {
+                	continue;
+                }
+                
+                if(beds != -1) {
+                	if(beds != bedrooms) {
+                		itMatches = false;
+                	}
+                }
+                if(beds != -1) {
+                	if(beds != bedrooms) {
+                		itMatches = false;
+                	}
+                }
+                if(!housetype.equals("any")) {
+                	if(!housetype.equals(houseTypeChoice)) {
+                		itMatches = false;
+                	}
+                }
+                if(!furnish.equals("any")) {
+                	if(!furnish.equals(furnishChoice)) {
+                		itMatches = false;
+                	}
+                }
+                if(!quadrant.equals("any")) {
+                	if(!quadrant.equals(quadChoice)) {
+                		itMatches = false;
+                	}
+                }
+                if(itMatches) {
+                	updateMatch(housetype, furnish, beds, baths, quadrant);
+                }
+                itMatches = true;
+            }
+            
+            
+            
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("error adding user");
+		}
+	}
+
+	private void updateMatch(String housetype, String furnish, int beds, int baths, String quadrant) {
+		String query = "UPDATE `subscribes` SET `match` = ? WHERE `housetype` = ? AND `furnished` = ? AND `beds` = ? AND `baths` = ? AND `quadrant` = ?";
+		try {
+			preStmt = myConn.prepareStatement(query);
+			preStmt.setInt(1, 1);
+			preStmt.setString(2, housetype);
+			preStmt.setString(3, furnish);
+			preStmt.setInt(4, beds);
+			preStmt.setInt(5, baths);
+			preStmt.setString(6, quadrant);
+		      
+ 			preStmt.execute();
+		      
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 }

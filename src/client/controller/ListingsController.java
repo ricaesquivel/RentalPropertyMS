@@ -339,7 +339,7 @@ public class ListingsController{
 	        		selectedSubQuadrant = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),4).toString();
 	        		matchFound = subView.textBox.getModel().getValueAt(subView.textBox.getSelectedRow(),5).toString();
 	        		
-	        		if(matchFound.equals("no")) {
+	        		if(matchFound.equals("yes!")) {
 	        			subView.viewBtn.setEnabled(true);
 	        		}
 	        		

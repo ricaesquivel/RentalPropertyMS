@@ -44,13 +44,13 @@ public class ServerCommunicator {
     public void communicateClient()throws IOException{
     	try {
 			while(true) {
-				System.out.println(" At loopTop ");
+				System.out.println(" Accepting Clients ");
                 pool = Executors.newCachedThreadPool();
                 aSocket = myServer.accept();
                 
                 Communication communicate = new Communication(propertyDatabase, userDatabase, aSocket);
                 
-                System.out.println("<< Shop app started >>");
+                System.out.println("<< RentalMS server started >>");
                 pool.execute(communicate);
                 pool.shutdown();
 			}
@@ -66,9 +66,7 @@ public class ServerCommunicator {
     public void createDatabase() {
 		try{
             myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/rental?user=root","root", "8002");
-//            propertyDatabase = new PropertyDatabaseController(myConn); 
             propertyDatabase = PropertyDatabaseController.getOnlyInstance(myConn); 
-//            userDatabase = new UserDatabaseController(myConn);
     		userDatabase = UserDatabaseController.getOnlyInstance(myConn);
         } catch(SQLException a){
         	a.printStackTrace();

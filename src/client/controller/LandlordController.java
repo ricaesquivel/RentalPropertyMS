@@ -33,9 +33,9 @@ public class LandlordController {
 	private MyListener listener;
 	private int landlordID;
 	private ClientCommunicator comms; 
-	private String houseTypeChoice;
-	private String quadChoice;
-	private String furnishChoice;
+	private String houseTypeChoice = "--choose one--";
+	private String quadChoice = "--choose one--";
+	private String furnishChoice = "--choose one--";
 	private String selected;
 	private String selected2;
 	private int rowNum;
@@ -113,6 +113,7 @@ public class LandlordController {
 						landlordView.addElementTextBox(row);
 					}
 					landlordView.autoColWidth();
+					
 				}
 				
 				else if(e.getSource() == landlordView.viewEmailButton) {
@@ -153,6 +154,8 @@ public class LandlordController {
 			
 				else if(e.getSource() == landlordView.addPropertyBtn){
 					landlordAddView.setVisible(true);
+					landlordAddView.submitButton.setEnabled(false);
+					landlordAddView.payButton.setEnabled(true);
 				}
 				else if(e.getSource() == landlordAddView.submitButton){
 					String bathroom = landlordAddView.getBathrooms();
@@ -176,9 +179,16 @@ public class LandlordController {
 						String status = "active";
 						writeSocket("9");
 						writeSocket(id + "é" + houseTypeChoice + "é" + bedroom + "é" + bathroom + "é" + quadChoice +"é" + furnishChoice + "é" + landlordID + "é" + status);
-						landlordAddView.errorMessage("Property added, please pay a fee to make your listing public");
+						
+						writeSocket("24");
+						writeSocket(id + "~" + houseTypeChoice + "~" + bedroom + "~" + bathroom + "~" + quadChoice +"~" + furnishChoice + "~" + landlordID + "~" + status);
+						
+						landlordAddView.errorMessage("Property added");
 						landlordAddView.submitButton.setEnabled(false);
-//						landlordView.showPropertiesBtn.doClick();
+						landlordAddView.setVisible(false);
+						landlordView.showPropertiesBtn.doClick();
+					} else {
+						landlordAddView.errorMessage("please select options");
 					}
 				}
 				else if(e.getSource() == landlordAddView.payButton) {
@@ -193,9 +203,12 @@ public class LandlordController {
 					else {
 						p = "year";
 					}
+					
 					landlordAddView.errorMessage("Amount $" + f + " payed for this " + p);
-					landlordAddView.setVisible(false);
-					landlordView.showPropertiesBtn.doClick();
+//					landlordAddView.setVisible(false);
+					landlordAddView.submitButton.setEnabled(true);
+					landlordAddView.payButton.setEnabled(false);
+//					landlordView.showPropertiesBtn.doClick();
 				}
 			} catch (Exception e2) {
 				e2.printStackTrace();
@@ -277,6 +290,7 @@ public class LandlordController {
 	        	if(!e.getValueIsAdjusting() && landlordEmailView.textBox.getSelectedRow() != -1){
 	        		selected = landlordEmailView.textBox.getModel().getValueAt(landlordEmailView.textBox.getSelectedRow(),0).toString();
 	        		selected2 = landlordEmailView.textBox.getModel().getValueAt(landlordEmailView.textBox.getSelectedRow(),1).toString();
+	        		
 	        		rowNum = landlordEmailView.textBox.getSelectedRow();
 	        		landlordEmailView.deleteBtn.setEnabled(true);
 	        		landlordEmailView.openBtn.setEnabled(true);

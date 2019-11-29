@@ -58,13 +58,11 @@ public class ManagerController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			try {
-				if(e.getSource()==managerView.requestSummary) {
+				if(e.getSource() == managerView.requestSummary) {
 					writeSocket("20");
 					
 					String total = readSocket();
 					summaryView.setLabels(total);
-					
-					
 					
 					String rented = readSocket();
 					summaryView.clear();
@@ -75,13 +73,9 @@ public class ManagerController {
 						summaryView.addElementTextBox(row);
 					}
 					summaryView.autoColWidth();
-					summaryView.hideLandlordCol();
 					summaryView.setVisible(true);
-					System.out.println(rented);
 				}
-				if(e.getSource()==changeView.submit) {
-					System.out.println(stateChoice);
-					System.out.println(selectedID);	
+				if(e.getSource() == changeView.submit) {
 					if(!stateChoice.equals(" ") && !stateChoice.equals("--choose one--")) {
 						String s = stateChoice+"~"+selectedID;
 	

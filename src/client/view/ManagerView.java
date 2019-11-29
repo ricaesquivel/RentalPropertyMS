@@ -159,7 +159,7 @@ public class ManagerView extends JFrame{
         add("South",southPanel);
         add("North", northPanel);
         add("Center", mainPanel);
-        
+        textBox.setDefaultEditor(Object.class, null);
         autoColWidth();
 		setVisible(false);
 	}
