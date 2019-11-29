@@ -136,8 +136,10 @@ public class UserDatabaseController {
 			ResultSet rs = preStmt.executeQuery();
 			
 			if(!rs.next()){
+				System.out.print("setting to false");
 				return false;
             }
+			System.out.print("setting to true");
 			return true;
 			
 		} catch (Exception e) {

@@ -108,9 +108,12 @@ public class SignUpController {
 					writeSocket(userName);
 					
 					String b = readSocket();
+					
 					boolean exists = Boolean.getBoolean(b);
 					
-					if(!exists) {
+					System.out.print(b + "  >><<<   yuhhh");
+					
+					if(b.equals("false")) {
 					
 					String s="";
 					if(choice.equals("Registered Renter")) {
@@ -125,10 +128,10 @@ public class SignUpController {
 					view.errorMessage("Sign up complete!");
 					view.setVisible(false);
 					loginView.setVisible(true);
+					}else{
+						view.errorMessage("Username has been taken, please try another one");
 					}
-				} else{
-					view.errorMessage("Username has been taken, please try another one");
-				}
+				} 
 			}	
 		}	
 	}
