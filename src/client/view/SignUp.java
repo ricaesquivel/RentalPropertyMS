@@ -199,4 +199,11 @@ public class SignUp extends JFrame{
 			a.printStackTrace();			
 		}
 	}
+	public void clear() {
+		Email.setText("");
+	    name.setText("");
+		userName.setText("");
+	    password.setText("");
+	    confirm.setText("");
+	}
 }

@@ -125,6 +125,9 @@ public class SignUpController {
 					writeSocket(s);					
 					view.errorMessage("Sign up complete!");
 					view.setVisible(false);
+					
+					view.clear();
+					
 					loginView.setVisible(true);
 					}else{
 						view.errorMessage("Username has been taken, please try another one");
