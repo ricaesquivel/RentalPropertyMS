@@ -105,28 +105,31 @@ public class SignUpController {
 					writeSocket(userName);
 					
 					String b = readSocket();
+					
 					boolean exists = Boolean.getBoolean(b);
 					System.err.println(exists + "yuhhh ");
 					
-					if(!exists) {
-						String s="";
-						if(choice.equals("Registered Renter")) {
-							s = userName+"~"+password+"~"+email+"~"+name+"~"+"regrenter";
-						}
-						else if(choice.equals("Landlord")) {
-							s = userName+"~"+password+"~"+email+"~"+name+"~"+"Landlord"+"~"+getNewLandLordID();
-						}
-						
-						writeSocket("6");
-						writeSocket(s);
-						view.errorMessage("Sign up complete!");
-						view.setVisible(false);
-						loginView.setVisible(true);
+					System.out.print(b + "  >><<<   yuhhh");
+					
+					if(b.equals("false")) {
+					
+					String s="";
+					if(choice.equals("Registered Renter")) {
+						s = userName+"~"+password+"~"+email+"~"+name+"~"+"regrenter";
+					}
+					else if(choice.equals("Landlord")) {
+						s = userName+"~"+password+"~"+email+"~"+name+"~"+"Landlord"+"~"+getNewLandLordID();
 					}
 					
-				} else{
-					view.errorMessage("Username has been taken, please try another one");
-				}
+					writeSocket("6");
+					writeSocket(s);					
+					view.errorMessage("Sign up complete!");
+					view.setVisible(false);
+					loginView.setVisible(true);
+					}else{
+						view.errorMessage("Username has been taken, please try another one");
+					}
+				} 
 			}	
 		}	
 	}
